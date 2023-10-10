@@ -5,20 +5,20 @@
     "Description": "Lorem eiusmod incididunt occaecat occaecat aute consequat ea sit. Sunt veniam exercitation velit Lorem deserunt do. Qui cupidatat veniam ullamco laborum in Lorem magna tempor aute mollit commodo sint. Qui ullamco laboris quis exercitation ullamco elit fugiat.\r\n",
     "Ingredients": [
       {
-        "name": "chicken meat",
-        "amount": 5
+        "Name": "chicken meat",
+        "Amount": 5
       },
       {
-        "name": "tzatziki",
-        "amount": 1
+        "Name": "tzatziki",
+        "Amount": 1
       },
       {
-        "name": "tomato",
-        "amount": 2
+        "Name": "tomato",
+        "Amount": 2
       },
       {
-        "name": "fries",
-        "amount": 2
+        "Name": "fries",
+        "Amount": 2
       }
     ]
   },
@@ -29,20 +29,44 @@
     "Description": "Reprehenderit adipisicing fugiat nulla sint sunt velit. Sunt aliquip laboris proident aliquip. Tempor occaecat sit non officia.\r\n",
     "Ingredients": [
       {
-        "name": "buns",
-        "amount": 2
+        "Name": "buns",
+        "Amount": 2
       },
       {
-        "name": "tomato",
-        "amount": 1
+        "Name": "tomato",
+        "Amount": 1
       },
       {
-        "name": "beef",
-        "amount": 2
+        "Name": "beef",
+        "Amount": 2
       },
       {
-        "name": "pickles",
-        "amount": 4
+        "Name": "pickles",
+        "Amount": 4
+      }
+    ]
+  },
+  {
+    "Name": "A sweet Crepa",
+
+    "ImageUrl": "https://imageproxy.wolt.com/menu/menu-images/5dd804175fcc482f69c89404/0c3a607c-2a7f-11eb-9d20-ce24305d99b5_crepa_bisco_banana.jpeg",
+    "Description": "Reprehenderit adipisicing fugiat nulla sint sunt velit. Sunt aliquip laboris proident aliquip. Tempor occaecat sit non officia.\r\n",
+    "Ingredients": [
+      {
+        "Name": "eggs",
+        "Amount": 4
+      },
+      {
+        "Name": "nutella",
+        "Amount": 1
+      },
+      {
+        "Name": "butter",
+        "Amount": 1
+      },
+      {
+        "Name": "bannana",
+        "Amount": 1
       }
     ]
   }
