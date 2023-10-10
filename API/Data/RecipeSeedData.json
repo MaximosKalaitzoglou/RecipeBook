@@ -1,0 +1,49 @@
+[
+  {
+    "Name": "Greek Souvlaki",
+    "ImageUrl": "https://www.seriouseats.com/thmb/qAysZs1vJYvMCSSpsHRqRlsvExQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__recipes__images__20090319-pork-souvlaki-9a80ec7534d3427c888d2d0f939540a6.jpg",
+    "Description": "Lorem eiusmod incididunt occaecat occaecat aute consequat ea sit. Sunt veniam exercitation velit Lorem deserunt do. Qui cupidatat veniam ullamco laborum in Lorem magna tempor aute mollit commodo sint. Qui ullamco laboris quis exercitation ullamco elit fugiat.\r\n",
+    "Ingredients": [
+      {
+        "name": "chicken meat",
+        "amount": 5
+      },
+      {
+        "name": "tzatziki",
+        "amount": 1
+      },
+      {
+        "name": "tomato",
+        "amount": 2
+      },
+      {
+        "name": "fries",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "Name": "A classic Burger",
+
+    "ImageUrl": "https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg",
+    "Description": "Reprehenderit adipisicing fugiat nulla sint sunt velit. Sunt aliquip laboris proident aliquip. Tempor occaecat sit non officia.\r\n",
+    "Ingredients": [
+      {
+        "name": "buns",
+        "amount": 2
+      },
+      {
+        "name": "tomato",
+        "amount": 1
+      },
+      {
+        "name": "beef",
+        "amount": 2
+      },
+      {
+        "name": "pickles",
+        "amount": 4
+      }
+    ]
+  }
+]
