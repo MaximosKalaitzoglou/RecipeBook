@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Ingredient } from '../shared/ingredient.model';
-import { ShoppingService } from './shopping.service';
+import { Ingredient } from '../_models/ingredient.model';
+import { ShoppingService } from '../_services/shopping.service';
 import { Subscription } from 'rxjs';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import {

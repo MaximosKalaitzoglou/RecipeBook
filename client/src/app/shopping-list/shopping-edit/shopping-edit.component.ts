@@ -8,8 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { Ingredient } from 'src/app/shared/ingredient.model';
-import { ShoppingService } from '../shopping.service';
+import { Ingredient } from '../../_models/ingredient.model';
+import { ShoppingService } from '../../_services/shopping.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 

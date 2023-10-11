@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Recipe } from './recipe.model';
-import { Ingredient } from '../shared/ingredient.model';
-import { ShoppingService } from '../shopping-list/shopping.service';
+import { Recipe } from '../_models/recipe.model';
+import { Ingredient } from '../_models/ingredient.model';
+import { ShoppingService } from './shopping.service';
 import { Subject, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RecipeService {
   private recipes: Recipe[] = [
     new Recipe(

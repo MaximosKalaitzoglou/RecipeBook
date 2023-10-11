@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { RecipeService } from '../recipe.service';
-import { Recipe } from '../recipe.model';
+import { RecipeService } from '../../_services/recipe.service';
+import { Recipe } from '../../_models/recipe.model';
 import {
   trigger,
   state,

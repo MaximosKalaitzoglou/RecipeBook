@@ -12,12 +12,12 @@ import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-ed
 import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownDirective } from './shared/dropdown.directive';
-import { ShoppingService } from './shopping-list/shopping.service';
+import { ShoppingService } from './_services/shopping.service';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RecipeService } from './recipes/recipe.service';
+import { RecipeService } from './_services/recipe.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
