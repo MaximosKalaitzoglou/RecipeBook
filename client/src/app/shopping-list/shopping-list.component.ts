@@ -40,7 +40,6 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   faTrash = faTrash;
   faEdit = faEdit;
-
   constructor(private shoppingService: ShoppingService) {}
 
   ngOnInit(): void {

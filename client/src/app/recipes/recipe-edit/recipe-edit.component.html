@@ -60,7 +60,14 @@
         <!-- Image preview  -->
         <div class="row">
           <div class="col-xs-12">
-            <img [src]="imagePath.value" alt="" class="img-responsive" />
+            <img
+              [src]="imagePath.value"
+              alt=""
+              class="img-responsive"
+              width="50%"
+              style="margin: auto"
+              height="300px"
+            />
           </div>
         </div>
 
@@ -83,39 +90,42 @@
         <!-- Ingredients  -->
         <div class="row" style="margin-bottom: 1rem">
           <div
-            class="col-xs-12"
+            class="col-md-12"
             style="overflow-x: hidden; transition: 0.2s height ease"
             formArrayName="ingredients"
           >
             <label style="margin-bottom: 1.2rem">Ingredients</label>
             <div
               id="ingredient-group"
-              class="row"
+              class="form-group row"
               *ngFor="let ingredient of controls; let i = index"
               [formGroupName]="i"
               style="margin-bottom: 1.2rem"
               [@fade-out]
             >
-              <div class="col-xs-8">
+              <div class="col-md-4">
                 <input
                   type="text"
                   name="name"
-                  id=""
+                  id="name"
                   class="form-control"
                   formControlName="name"
+                  placeholder="Name"
                 />
               </div>
-              <div class="col-xs-2">
+              <div class="col-md-4">
                 <input
                   type="number"
                   name="amount"
-                  id=""
+                  id="amount"
                   class="form-control"
                   formControlName="amount"
+                  placeholder="Amount"
+
                 />
               </div>
 
-              <div class="col-xs-2">
+              <div class="col-md-4">
                 <button
                   type="button"
                   class="btn btn-danger"
@@ -140,13 +150,13 @@
                 </button>
 
                 <button
-                type="button"
-                class="btn btn-danger"
-                style="margin-left: 1.2rem;"
-                (click)="onRemoveAllIngredients()"
-              >
-                Remove All
-              </button>
+                  type="button"
+                  class="btn btn-danger"
+                  style="margin-left: 1.2rem"
+                  (click)="onRemoveAllIngredients()"
+                >
+                  Remove All
+                </button>
               </div>
             </div>
           </div>

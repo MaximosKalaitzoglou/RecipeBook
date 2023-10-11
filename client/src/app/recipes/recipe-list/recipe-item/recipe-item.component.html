@@ -1,19 +1,33 @@
-<a
-  [routerLink]="[index]"
+<!-- <a
+  [routerLink]="['/recipes/' + index]"
   style="cursor: pointer"
   class="list-group-item clearfix"
   routerLinkActive="active"
 >
-  <div class="pull-left">
+  <div class="float-start">
     <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
     <p class="list-group-item-text">{{ recipe.description }}</p>
   </div>
-  <span class="pull-right">
+  <span class="float-end">
     <img
       [src]="recipe.imagePath"
       [alt]="recipe.name"
       class="img-responsive"
-      style="max-height: 50px"
+      style="max-height: 100px"
     />
   </span>
-</a>
+</a> -->
+
+<div class="card mb-2" [routerLink]="['/recipes/' + index]" style="cursor: pointer">
+  <div class="card-body">
+    <h4 class="card-title">{{ recipe.name }}</h4>
+    <p class="card-text">{{ recipe.description }}</p>
+    <img
+      [src]="recipe.imagePath"
+      [alt]="recipe.name"
+      class="img-responsive float-end"
+      style="max-height: 100px"
+    />
+  </div>
+  <div class="card-footer text-muted">2 days ago</div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Recipe } from '../../../_models/recipe.model';
 
 @Component({
@@ -8,10 +8,6 @@ import { Recipe } from '../../../_models/recipe.model';
 })
 export class RecipeItemComponent {
   @Input() recipe: Recipe = new Recipe('', '', '', []);
-  @Input() index:number = 0;
-  constructor(
-
-  ) {}
-
-
+  @Input() index: number = 0;
+  constructor() {}
 }

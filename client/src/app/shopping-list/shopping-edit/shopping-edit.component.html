@@ -1,8 +1,8 @@
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-md-12">
     <form #shoppingList="ngForm" (ngSubmit)="onSubmit(shoppingList)">
       <div class="row">
-        <div class="col-sm-5 form-group">
+        <div class="col-md-5 form-group">
           <label for="name">Name</label>
           <input
             style="max-width: 85%"
@@ -14,7 +14,7 @@
             required
           />
         </div>
-        <div class="col-sm-4 form-group">
+        <div class="col-md-4 form-group">
           <label for="amount">Amount</label>
           <input
             type="number"
@@ -28,11 +28,11 @@
           />
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
+      <div class="row mt-3">
+        <div class="col-md-12">
           <button
             class="btn btn-success"
-            style="margin-right: 2rem; padding: 0.5rem 3rem"
+            style="margin-right: 2rem; padding: 0.2rem 1.3rem"
             type="submit"
             [disabled]="!shoppingList.valid"
           >
@@ -42,6 +42,7 @@
           <button
             type="button"
             class="btn btn-danger"
+            style="padding: 0.2rem 1.3rem"
             (click)="onRemoveAll()"
           >
             Remove All
@@ -51,7 +52,7 @@
             class="btn btn-primary"
             type="button"
             (click)="onClear()"
-            style="margin-left: 2rem; padding: 0.5rem 3rem"
+            style="margin-left: 2rem; padding: 0.2rem 1.3rem"
           >
             Clear
           </button>

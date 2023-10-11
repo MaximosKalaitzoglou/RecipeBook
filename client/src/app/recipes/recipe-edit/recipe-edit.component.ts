@@ -11,6 +11,7 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -43,6 +44,7 @@ export class RecipeEditComponent implements OnInit {
   faTrash = faTrash;
   recipeForm: FormGroup | undefined;
   recipeIngredients = new FormArray<any>([]);
+  recipe: Recipe | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,12 +69,21 @@ export class RecipeEditComponent implements OnInit {
     };
 
     if (this.editMode) {
-      const editRecipe = this.recipeService.getRecipeById(this.id);
-      recipe.recipeName = editRecipe.name;
-      recipe.recipeImagePath = editRecipe.imagePath;
-      recipe.recipeDescription = editRecipe.description;
-      if (editRecipe.ingredients) {
-        for (let ing of editRecipe.ingredients) {
+      this.recipeService.getRecipeById(this.id).subscribe({
+        next: (recipe: Recipe) => {
+          this.recipe = recipe;
+        },
+      });
+      if (this.recipe === null) {
+        alert('Recipe not found');
+        return;
+      }
+
+      recipe.recipeName = this.recipe.name;
+      recipe.recipeImagePath = this.recipe.imagePath;
+      recipe.recipeDescription = this.recipe.description;
+      if (this.recipe.ingredients) {
+        for (let ing of this.recipe.ingredients) {
           const group = new FormGroup({
             name: new FormControl(ing.name, [Validators.required]),
             amount: new FormControl(ing.amount, [
