@@ -21,6 +21,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './_shared/shared.module';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { FileUploaderComponent } from './file-uploader/file-uploader.component';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     RecipeItemComponent,
     RecipeStartComponent,
     RecipeEditComponent,
+    FileUploaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +48,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     HttpClientModule,
     SharedModule,
     TabsModule.forRoot(),
+    ProgressbarModule.forRoot(),
   ],
   providers: [
     ShoppingService,

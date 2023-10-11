@@ -46,11 +46,17 @@ export class RecipeEditComponent implements OnInit {
   recipeIngredients = new FormArray<any>([]);
   recipe: Recipe | null = null;
 
+  imagePreview: string = '';
+
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router
   ) {}
+
+  onImageUploaded(imageUrl: string) {
+    this.imagePreview = imageUrl;
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {

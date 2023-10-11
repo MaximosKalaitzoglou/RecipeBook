@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-md-12" style="width: 80%;" >
+    <div *ngIf="selectedFile && imagePath">
+      <div class="d-flex flex-row" style="justify-content: space-between">
+        <!-- <img
+          [src]="imagePath"
+          alt=""
+          width="100px"
+          loading="lazy"
+          height="100px"
+          class="img-thumbnail"
+        /> -->
+        <div>
+          <label for="name">Name:</label>
+          <p id="name">
+            {{ selectedFile.name }}
+          </p>
+        </div>
+
+        <div>
+          <label for="size">Size</label>
+          <p id="size">
+            {{ sizeInMb }}
+          </p>
+        </div>
+        <div>
+          <label for="type">Type</label>
+          <p id="type">
+            {{ selectedFile.type }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-3">
+      <progressbar
+        class="progress-striped active"
+        [value]="progress"
+        [type]="type"
+        >{{ type }}</progressbar
+      >
+    </div>
+
+    <input
+      style="display: none"
+      type="file"
+      (change)="onFileChanged($event)"
+      accept="image/png, image/jpeg"
+      #fileInput
+    />
+    <button
+      class="btn btn-primary me-3"
+      type="button"
+      (click)="fileInput.click()"
+    >
+      Select File
+    </button>
+    <button class="btn btn-secondary" type="button">Upload!</button>
+  </div>
+</div>

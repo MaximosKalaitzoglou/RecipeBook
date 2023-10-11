@@ -18,7 +18,11 @@
   </span>
 </a> -->
 
-<div class="card mb-2" [routerLink]="['/recipes/' + index]" style="cursor: pointer">
+<div
+  class="card mb-2"
+  [routerLink]="['/recipes/' + index]"
+  style="cursor: pointer"
+>
   <div class="card-body">
     <h4 class="card-title">{{ recipe.name }}</h4>
     <p class="card-text">{{ recipe.description }}</p>
@@ -29,5 +33,5 @@
       style="max-height: 100px"
     />
   </div>
-  <div class="card-footer text-muted">2 days ago</div>
+  <div class="card-footer text-muted">Added 2 days ago</div>
 </div>
