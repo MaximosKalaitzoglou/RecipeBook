@@ -10,8 +10,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./recipe-list.component.css'],
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
-  recipes: Recipe[] | undefined;
+  recipes: Recipe[] | null = null;
   subscription!: Subscription;
+  isFetching = false;
 
   constructor(
     private recipeService: RecipeService,
@@ -20,6 +21,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isFetching = true;
     this.subscription = this.recipeService.recipesChanged.subscribe({
       next: (recipes: Recipe[]) => {
         this.recipes = recipes;
@@ -29,6 +31,11 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     this.recipeService.getRecipes().subscribe({
       next: (response) => {
         this.recipes = response;
+        // console.log(response);
+        this.isFetching = false;
+      },
+      error: (error) => {
+        this.isFetching = false;
       },
     });
   }
