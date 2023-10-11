@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.Data;
 using recipes_app.DTOs;
-using recipes_app.Models;
 
 namespace recipes_app.Controllers
 {
@@ -22,10 +21,17 @@ namespace recipes_app.Controllers
             var recipes = await _context.Recipes.Include(rec => rec.Ingredients).ToListAsync();
             foreach (var recipe in recipes)
             {
-                var newRec = new RecipesDto(recipe.Name, recipe.Description, recipe.ImageUrl, recipe.Ingredients);
+                var newRec = new RecipesDto(recipe.Id, recipe.Name, recipe.Description, recipe.ImageUrl, recipe.Ingredients);
                 response.Add(newRec);
             }
-            return Ok(response);
+            return response;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RecipesDto>> GetRecipeById(int id)
+        {
+            var recipe = await _context.Recipes.Include(rec => rec.Ingredients).FirstOrDefaultAsync(x => x.Id == id);
+            return new RecipesDto(recipe.Id, recipe.Name, recipe.Description, recipe.ImageUrl, recipe.Ingredients);
         }
     }
 }

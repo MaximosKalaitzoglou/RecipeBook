@@ -8,13 +8,16 @@ namespace recipes_app.DTOs
 {
     public class RecipesDto
     {
-        public RecipesDto(string name, string desc, string imagePath, List<Ingredient> ing)
+        public RecipesDto(int id,string name, string desc, string imagePath, List<Ingredient> ing)
         {
+            Id = id;
             Name = name;
             Description = desc;
             ImagePath = imagePath;
             Ingredients = ing;
         }
+
+        public int Id { get; set; }
         public string Name { get; set; } = null!;
 
         public string Description { get; set; } = null!;
