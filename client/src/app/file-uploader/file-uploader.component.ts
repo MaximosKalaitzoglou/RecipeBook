@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Recipe } from '../_models/recipe.model';
 
 @Component({
   selector: 'app-file-uploader',
@@ -11,21 +12,17 @@ export class FileUploaderComponent {
   progress = 0;
   type: 'success' | 'info' | 'warning' | 'danger' = 'info';
   imagePath: string = '';
-  @Output('preview-event') imagePreviewEvent = new EventEmitter<string>();
+
 
   onFileChanged(event: any) {
-    this.progress = 50;
     this.selectedFile = event.target.files[0];
     if (this.selectedFile === null) return;
     this.imagePath = this.fileUrl;
-    this.progress = 100;
-    this.type = 'success';
-    this.imagePreviewEvent.emit(this.imagePath);
   }
 
   get sizeInMb() {
     return this.selectedFile
-      ? this.selectedFile.size / Math.pow(10, 6) + ' Mbytes'
+      ? (this.selectedFile.size / Math.pow(10, 6)).toFixed(2) + ' MB'
       : 'null';
   }
 

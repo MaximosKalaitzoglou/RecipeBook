@@ -1,5 +1,13 @@
 <div class="row">
-  <div class="col-md-12" style="width: 80%;" >
+  <div class="col-md-12" style="width: 80%">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <h4>Photos</h4>
+        </div>
+      </div>
+    </div>
+
     <div *ngIf="selectedFile && imagePath">
       <div class="d-flex flex-row" style="justify-content: space-between">
         <!-- <img
@@ -29,6 +37,25 @@
             {{ selectedFile.type }}
           </p>
         </div>
+      </div>
+    </div>
+
+    <!-- Image url  -->
+
+    <!-- Image preview  -->
+    <div class="row">
+      <div class="col-xs-12">
+        <img
+          [src]="imagePath"
+          alt=""
+          class="img-responsive img-thumbnail"
+          width="80%"
+          [style]="
+            imagePath.length < 1 ? 'visibility: hidden' : 'visibility: visible'
+          "
+          style="margin: auto"
+          height="300px"
+        />
       </div>
     </div>
 
