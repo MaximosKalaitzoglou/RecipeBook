@@ -1,0 +1,9 @@
+.trash-bin {
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+.trash-bin:hover {
+  transform: scale(1.2);
+
+}
+

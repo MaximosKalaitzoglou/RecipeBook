@@ -1,0 +1,157 @@
+<div class="row">
+  <div class="col-xs-12">
+    <form *ngIf="recipeForm" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <!-- Buttons  -->
+        <div class="col-xs-12" style="margin-bottom: 1.5rem; margin-top: 2rem">
+          <button
+            style="margin-right: 2rem; padding: 0.5rem 2rem"
+            type="submit"
+            class="btn btn-success"
+            [disabled]="!recipeForm.valid"
+          >
+            Save
+          </button>
+          <button
+            style="padding: 0.5rem 1.5rem"
+            type="button"
+            class="btn btn-danger"
+            (click)="onCancelForm()"
+          >
+            Cancel
+          </button>
+        </div>
+
+        <!-- Recipe name  -->
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="name">Name</label>
+
+              <input
+                type="text"
+                name=""
+                id="name"
+                class="form-control"
+                formControlName="name"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Image url  -->
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="imagePath">Image Url</label>
+              <input
+                type="text"
+                name=""
+                id="imagePath"
+                class="form-control"
+                formControlName="imagePath"
+                #imagePath
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Image preview  -->
+        <div class="row">
+          <div class="col-xs-12">
+            <img [src]="imagePath.value" alt="" class="img-responsive" />
+          </div>
+        </div>
+
+        <!-- Recipe description  -->
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea
+                name=""
+                id="description"
+                rows="6"
+                class="form-control"
+                formControlName="description"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ingredients  -->
+        <div class="row" style="margin-bottom: 1rem">
+          <div
+            class="col-xs-12"
+            style="overflow-x: hidden; transition: 0.2s height ease"
+            formArrayName="ingredients"
+          >
+            <label style="margin-bottom: 1.2rem">Ingredients</label>
+            <div
+              id="ingredient-group"
+              class="row"
+              *ngFor="let ingredient of controls; let i = index"
+              [formGroupName]="i"
+              style="margin-bottom: 1.2rem"
+              [@fade-out]
+            >
+              <div class="col-xs-8">
+                <input
+                  type="text"
+                  name="name"
+                  id=""
+                  class="form-control"
+                  formControlName="name"
+                />
+              </div>
+              <div class="col-xs-2">
+                <input
+                  type="number"
+                  name="amount"
+                  id=""
+                  class="form-control"
+                  formControlName="amount"
+                />
+              </div>
+
+              <div class="col-xs-2">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onDeleteIngredient(i)"
+                >
+                  <fa-icon
+                    [icon]="faTrash"
+                    [style]="{ padding: '0 1rem' }"
+                  ></fa-icon>
+                </button>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-xs-12">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="onAddIngredient()"
+                >
+                  Add Ingredient
+                </button>
+
+                <button
+                type="button"
+                class="btn btn-danger"
+                style="margin-left: 1.2rem;"
+                (click)="onRemoveAllIngredients()"
+              >
+                Remove All
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
