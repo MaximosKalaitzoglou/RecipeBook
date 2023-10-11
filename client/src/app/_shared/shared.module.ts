@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
@@ -7,7 +8,10 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   imports: [
     NgxSpinnerModule.forRoot({ type: 'pacman' }),
     BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
   ],
-  exports: [NgxSpinnerModule, BsDropdownModule],
+  providers: [
+  ],
+  exports: [NgxSpinnerModule, BsDropdownModule, TabsModule],
 })
 export class SharedModule {}

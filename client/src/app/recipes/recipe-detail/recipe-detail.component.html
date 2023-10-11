@@ -1,68 +1,78 @@
-<div class="card mb-3" style="width: 70%; margin: auto">
-  <h3 class="card-header">{{ recipe.name }}</h3>
-  <div class="card-body">
-    <div class="btn-group" dropdown style="max-width: 200px">
-      <button
-        type="button"
-        class="btn btn-primary dropdown-toggle"
-        dropdownToggle
-      >
-        Manage Recipe
-      </button>
-      <ul class="dropdown-menu" *bsDropdownMenu>
-        <li>
-          <a
-            class="dropdown-item"
-            style="cursor: pointer"
-            (click)="onAddToShoppingList()"
-            >(+)To Shopping List</a
-          >
-          <a
-            class="dropdown-item"
-            style="cursor: pointer"
-            (click)="onEditRecipe()"
-            >Edit Recipe</a
-          >
-          <a
-            class="dropdown-item"
-            style="cursor: pointer"
-            (click)="onDeleteRecipe()"
-            >Delete Recipe</a
-          >
-        </li>
-      </ul>
+<div class="row">
+  <div class="col-6">
+    <div class="card mb-3" style="width: 100%; margin: auto">
+      <h3 class="card-header">{{ recipe.name }}</h3>
+      <div class="float-end" dropdown>
+        <fa-icon
+          [icon]="faDots"
+          size="lg"
+          style="
+            cursor: pointer;
+            position: absolute;
+            top: 0.8rem;
+            right: 0.5rem;
+            color: #333;
+          "
+          dropdownToggle
+        >
+        </fa-icon>
+        <ul class="dropdown-menu" style="position: relative" *bsDropdownMenu>
+          <li>
+            <a
+              class="dropdown-item"
+              style="cursor: pointer"
+              (click)="onAddToShoppingList()"
+              >(+)To Shopping List</a
+            >
+            <a
+              class="dropdown-item"
+              style="cursor: pointer"
+              (click)="onEditRecipe()"
+              >Edit Recipe</a
+            >
+            <a
+              class="dropdown-item"
+              style="cursor: pointer"
+              (click)="onDeleteRecipe()"
+              >Delete Recipe</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <img
+        [src]="recipe.imagePath"
+        class="card-img-top img-thumbnail"
+        [alt]="recipe.name"
+        width="100%"
+        height="100%"
+        style="font-size: 1.125rem; text-anchor: middle"
+      />
     </div>
-    <!-- <h6 class="card-subtitle text-muted">Support card subtitle</h6> -->
-  </div>
-  <img
-    [src]="recipe.imagePath"
-    class="d-block user-select-none"
-    [alt]="recipe.name"
-    width="100%"
-    height="400px"
-    style="font-size: 1.125rem; text-anchor: middle"
-  />
-  <div class="card-body">
-    <p class="card-text">
-      {{ recipe.description }}
-    </p>
-  </div>
-  <div class="card-body">
-    <h5 class="card-text">Ingredients</h5>
-    <hr />
-    <ul
-      class="list-group list-group-flush"
-      *ngFor="let ing of recipe.ingredients"
-    >
-      <li class="list-group-item" style="border-bottom: 1px solid">
-        {{ ing.name }} <span class="float-end">{{ ing.amount }}</span>
-      </li>
-    </ul>
   </div>
 
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
+  <div class="col-6">
+    <tabset>
+      <tab heading="Description">
+        <h4 class="mt-2">Description</h4>
+        <hr />
+        <p class="card-text">
+          {{ recipe.description }}
+        </p>
+      </tab>
+
+      <tab heading="Ingredients">
+        <h4 class="mt-2">Ingredients</h4>
+        <hr />
+        <ul
+          class="list-group list-group-flush"
+          *ngFor="let ing of recipe.ingredients"
+        >
+          <li class="list-group-item" style="border-bottom: 1px solid">
+            {{ ing.name }} <span class="float-end">{{ ing.amount }}</span>
+          </li>
+        </ul>
+      </tab>
+    </tabset>
   </div>
-  <div class="card-footer text-muted">2 days ago</div>
 </div>

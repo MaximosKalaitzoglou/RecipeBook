@@ -20,6 +20,7 @@ import { RecipeService } from './_services/recipe.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './_shared/shared.module';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
+    TabsModule.forRoot(),
   ],
   providers: [
     ShoppingService,

@@ -3,6 +3,8 @@ import { Recipe } from '../../_models/recipe.model';
 import { RecipeService } from '../../_services/recipe.service';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
@@ -11,6 +13,7 @@ import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 export class RecipeDetailComponent implements OnInit {
   recipe: Recipe = new Recipe('', '', '', []);
   id: number = 0;
+  faDots = faBars;
 
   constructor(
     private recipeService: RecipeService,
