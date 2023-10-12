@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-4 mb-3">
-    <h1>Your Recipe</h1>
+    <h1>{{ recipe ? "Your" : "New" }} Recipe</h1>
   </div>
 
   <div class="col-8">
@@ -12,151 +12,139 @@
     </div>
   </div>
 
-  <div class="col-4">
-    <div class="card">
-      <img
-        class="card-img-top img-thumbnail"
-        [src]="recipe ? recipe.imagePath : './assets/default.png'"
-      />
-      <div class="card-body">
-        <div>
-          <strong>Name:</strong>
-          <p>{{ recipe ? recipe.name : recipeForm?.get("name")?.value }}</p>
-        </div>
-
-        <div>
-          <strong>Description:</strong>
-          <p>
-            {{
-              recipe
-                ? recipe.description
-                : recipeForm?.get("description")?.value
-            }}
-          </p>
-        </div>
+  <div class="col-12">
+    <form *ngIf="recipeForm" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+      <!-- Name  -->
+      <div>
+        <h5 class="my-4">Name</h5>
+        <input
+          type="text"
+          name=""
+          id="name"
+          class="form-control"
+          formControlName="name"
+        />
       </div>
-      <div class="card-footer d-flex" style="justify-content: center">
-        <button
-          [disabled]="!recipeForm?.dirty"
-          form="recipeForm?"
-          (click)="onSubmit()"
-          style="width: 200px"
-          type="submit"
-          class="btn btn-success"
-        >
-          Save changes
-        </button>
-      </div>
-    </div>
-  </div>
 
-  <div class="col-8">
-    <tabset class="member-tabset">
-      <tab heading="Details">
-        <form
-          *ngIf="recipeForm"
-          [formGroup]="recipeForm"
-          (ngSubmit)="onSubmit()"
-        >
-          <h4 class="my-4">Name</h4>
-          <input
-            type="text"
-            name=""
-            id="name"
-            class="form-control"
-            formControlName="name"
-          />
-
-          <!-- Ingredients  -->
-          <div
-            style="overflow-x: hidden; transition: 0.2s height ease"
-            formArrayName="ingredients"
+      <!-- Ingredients  -->
+      <div
+        style="overflow-x: hidden; transition: 0.2s height ease"
+        formArrayName="ingredients"
+      >
+        <div class="my-5" style="display: flex; align-items: center">
+          <h5 class="me-4">Ingredients</h5>
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="width: fit-content"
+            (click)="onAddIngredient()"
           >
-            <div style="display: flex; align-items: center">
-              <h4 class="my-4 me-3">Ingredients</h4>
-              <button
-                type="button"
-                class="btn btn-primary"
-                style="width: fit-content"
-                (click)="onAddIngredient()"
-              >
-                Add Ingredient
-              </button>
+            Add Ingredient
+          </button>
 
-              <button
-                type="button"
-                class="btn btn-danger"
-                style="margin-left: 1.2rem"
-                (click)="onRemoveAllIngredients()"
-              >
-                Remove All
-              </button>
-            </div>
-            <hr />
+          <button
+            type="button"
+            class="btn btn-danger"
+            style="margin-left: 1.2rem"
+            (click)="onRemoveAllIngredients()"
+          >
+            Remove All
+          </button>
+        </div>
 
-            <div
-              id="ingredient-group"
-              class="form-group row"
-              *ngFor="let ingredient of controls; let i = index"
-              [formGroupName]="i"
-              style="margin-bottom: 1.2rem"
-              [@fade-out]
-            >
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  class="form-control"
-                  formControlName="name"
-                  placeholder="Name"
-                />
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="number"
-                  name="amount"
-                  id="amount"
-                  class="form-control"
-                  formControlName="amount"
-                  placeholder="Amount"
-                />
-              </div>
-
-              <div class="col-md-3">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  (click)="onDeleteIngredient(i)"
-                >
-                  <fa-icon
-                    [icon]="faTrash"
-                    [style]="{ padding: '0 1rem' }"
-                  ></fa-icon>
-                </button>
-              </div>
-            </div>
+        <div
+          id="ingredient-group"
+          class="d-flex flex-row"
+          *ngFor="let ingredient of controls; let i = index"
+          [formGroupName]="i"
+          style="margin-bottom: 1rem; justify-content: flex-start"
+          [@fade-out]
+        >
+          <div class="">
+            <input
+              type="text"
+              name="name"
+              id="name"
+              class="form-control"
+              formControlName="name"
+              placeholder="Name"
+            />
+          </div>
+          <div class="">
+            <input
+              type="number"
+              name="amount"
+              id="amount"
+              class="form-control"
+              formControlName="amount"
+              placeholder="Amount"
+            />
           </div>
 
-          <h4 class="my-4">Description</h4>
-          <textarea
-            name=""
-            id="description"
-            rows="6"
-            class="form-control"
-            formControlName="description"
-          ></textarea>
-        </form>
-      </tab>
-
-      <tab heading="Edit photos">
-        <div class="row">
-          <div class="col-md-6">
-            <app-file-uploader></app-file-uploader>
+          <div class="">
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="onDeleteIngredient(i)"
+            >
+              <fa-icon
+                [icon]="faTrash"
+                [style]="{ padding: '0 1rem' }"
+              ></fa-icon>
+            </button>
           </div>
         </div>
-      </tab>
-    </tabset>
+      </div>
+
+      <!-- TODO: Image Uploader -->
+      <!-- <div class="col-md-6">
+        <app-file-uploader
+          (emit-path)="getImageData($event)"
+          [imagePath]="recipe ? recipe.imagePath : ''"
+        ></app-file-uploader>
+      </div> -->
+
+      <!-- Image Url  -->
+      <h5>Image url</h5>
+      <input
+        type="text"
+        name=""
+        id="image"
+        class="form-control mb-3"
+        formControlName="imagePath"
+        #image
+      />
+
+      <!-- Image preview -->
+      <img
+        [src]="image.value.length > 0 ? image.value : './assets/default.png'"
+        [alt]=""
+        class="img-thumbnail img-responsive"
+        width="300px"
+        height="250px"
+      />
+
+      <!-- Description  -->
+
+      <h5 class="my-4">Description</h5>
+      <textarea
+        name=""
+        id="description"
+        rows="6"
+        class="form-control mb-4"
+        formControlName="description"
+      ></textarea>
+
+      <button
+        [disabled]="!(recipeForm.valid && recipeForm.touched)"
+        (click)="onSubmit()"
+        style="width: 200px"
+        type="submit"
+        class="btn btn-success mb-4"
+      >
+        Save {{ recipe ? "changes" : "recipe" }}
+      </button>
+    </form>
   </div>
 
   <div class="col-4"></div>

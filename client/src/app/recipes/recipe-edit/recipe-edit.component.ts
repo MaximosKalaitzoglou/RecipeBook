@@ -45,18 +45,17 @@ export class RecipeEditComponent implements OnInit {
   recipeForm: FormGroup | undefined;
   recipeIngredients = new FormArray<any>([]);
   recipe: Recipe | null = null;
+  imageData: File | null = null;
 
-  imagePreview: string = '';
+  getImageData(event: File) {
+    this.imageData = event;
+  }
 
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router
   ) {}
-
-  onImageUploaded(imageUrl: string) {
-    this.imagePreview = imageUrl;
-  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -120,7 +119,10 @@ export class RecipeEditComponent implements OnInit {
   onSubmit() {
     // console.log(this.recipeForm?.value);
     var { name, description, imagePath, ingredients } = this.recipeForm?.value;
+    // if (this.imageData) imagePath = URL.createObjectURL(this.imageData);
+
     const newRecipe = new Recipe(name, description, imagePath, ingredients);
+    // console.log(newRecipe);
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, newRecipe);
     } else {
