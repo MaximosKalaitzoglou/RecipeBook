@@ -12,6 +12,7 @@ import {
   transition,
 } from '@angular/animations';
 import { Observable } from 'rxjs';
+import { RecipeDto } from 'src/app/_models/recipe-dto.model';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -64,6 +65,14 @@ export class RecipeEditComponent implements OnInit {
       // console.log(this.editMode);
       this.initForm();
     });
+
+    this.recipeService.redirectEvent.subscribe({
+      next: (value) => {
+        if (value) {
+          this.navigateAway();
+        }
+      },
+    });
   }
 
   private initForm() {
@@ -85,7 +94,7 @@ export class RecipeEditComponent implements OnInit {
       }
 
       recipe.recipeName = this.recipe.name;
-      recipe.recipeImagePath = this.recipe.imagePath;
+      recipe.recipeImagePath = this.recipe.imageUrl;
       recipe.recipeDescription = this.recipe.description;
       if (this.recipe.ingredients) {
         for (let ing of this.recipe.ingredients) {
@@ -120,15 +129,28 @@ export class RecipeEditComponent implements OnInit {
     // console.log(this.recipeForm?.value);
     var { name, description, imagePath, ingredients } = this.recipeForm?.value;
     // if (this.imageData) imagePath = URL.createObjectURL(this.imageData);
-
-    const newRecipe = new Recipe(name, description, imagePath, ingredients);
-    // console.log(newRecipe);
-    if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, newRecipe);
+    var newRecipeDto;
+    var updatedRecipe;
+    if (this.editMode === false) {
+      newRecipeDto = new RecipeDto(name, description, imagePath, ingredients);
     } else {
-      this.recipeService.addRecipe(newRecipe);
+      if (!this.recipe) return;
+      updatedRecipe = new Recipe(
+        this.recipe?.id,
+        name,
+        description,
+        imagePath,
+        ingredients
+      );
     }
-    this.navigateAway();
+    // console.log(this.editMode);
+    // console.log(newRecipe);
+    if (this.editMode && updatedRecipe) {
+      this.recipeService.updateRecipe(this.id, updatedRecipe);
+    } else {
+      if (newRecipeDto) this.recipeService.addRecipe(newRecipeDto);
+    }
+    // this.navigateAway();
   }
 
   navigateAway() {

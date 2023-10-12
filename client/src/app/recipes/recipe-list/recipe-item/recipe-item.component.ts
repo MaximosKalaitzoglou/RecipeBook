@@ -7,7 +7,7 @@ import { Recipe } from '../../../_models/recipe.model';
   styleUrls: ['./recipe-item.component.css'],
 })
 export class RecipeItemComponent {
-  @Input() recipe: Recipe = new Recipe('', '', '', []);
+  @Input() recipe!: Recipe;
   @Input() index: number = 0;
   constructor() {}
 }

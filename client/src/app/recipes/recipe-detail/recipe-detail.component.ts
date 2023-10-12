@@ -4,6 +4,7 @@ import { RecipeService } from '../../_services/recipe.service';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { RecipeDto } from 'src/app/_models/recipe-dto.model';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -11,7 +12,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./recipe-detail.component.css'],
 })
 export class RecipeDetailComponent implements OnInit {
-  recipe: Recipe = new Recipe('', '', '', []);
+  recipe: RecipeDto = new RecipeDto('', '', '', []);
   id: number = 0;
   faDots = faBars;
 
@@ -33,6 +34,14 @@ export class RecipeDetailComponent implements OnInit {
         this.recipe = recipe;
       },
     });
+
+    this.recipeService.redirectEvent.subscribe({
+      next: (value) => {
+        if (value) {
+          this.router.navigate(['/recipes']);
+        }
+      },
+    });
   }
 
   onEditRecipe() {
@@ -41,6 +50,5 @@ export class RecipeDetailComponent implements OnInit {
 
   onDeleteRecipe() {
     this.recipeService.deleteRecipe(this.id);
-    this.router.navigate(['/recipes']);
   }
 }

@@ -20,14 +20,14 @@
 
 <div
   class="card mb-2"
-  [routerLink]="['/recipes/' + index]"
+  [routerLink]="['/recipes/' + recipe.id]"
   style="cursor: pointer"
 >
   <div class="card-body">
     <h4 class="card-title">{{ recipe.name }}</h4>
     <p class="card-text">{{ recipe.description }}</p>
     <img
-      [src]="recipe.imagePath"
+      [src]="recipe.imageUrl"
       [alt]="recipe.name"
       class="img-responsive float-end"
       style="max-height: 100px"

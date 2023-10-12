@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-4 mb-3">
-    <h1>{{ recipe ? "Your" : "New" }} Recipe</h1>
+    <h1>{{ editMode ? "Your" : "New" }} Recipe</h1>
   </div>
 
   <div class="col-8">
@@ -140,9 +140,18 @@
         (click)="onSubmit()"
         style="width: 200px"
         type="submit"
-        class="btn btn-success mb-4"
+        class="btn btn-success mb-3"
       >
-        Save {{ recipe ? "changes" : "recipe" }}
+        Save {{ editMode ? "changes" : "recipe" }}
+      </button>
+
+      <button
+        (click)="onCancelForm()"
+        style="width: 200px"
+        type="button"
+        class="btn btn-danger ms-4 mb-3"
+      >
+        Cancel
       </button>
     </form>
   </div>
