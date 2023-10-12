@@ -36,7 +36,7 @@ namespace recipes_app.Controllers
             return recipe;
         }
 
-        [HttpPost]
+        [HttpPost("add-recipe")]
         public async Task<ActionResult> AddRecipe(Recipes recipe)
         {
             var newRecipe = new Recipes
@@ -48,6 +48,19 @@ namespace recipes_app.Controllers
             };
             await _context.Recipes.AddAsync(newRecipe);
             return Ok(await _context.SaveChangesAsync());
+        }
+
+        [HttpPut("edit/{id}")]
+        public async Task<ActionResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id)
+        {
+            var recipe = await _context.Recipes.Include(rec => rec.Ingredients).FirstOrDefaultAsync(x => x.Id == id);
+            if (recipe == null) return NotFound();
+
+            _mapper.Map(recipeUpdateDto, recipe);
+
+            if (await _context.SaveChangesAsync() > 0) return NoContent();
+
+            return BadRequest("Something went wrong");
         }
     }
 }

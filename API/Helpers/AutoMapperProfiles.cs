@@ -10,6 +10,9 @@ namespace recipes_app.Helpers
         {
             CreateMap<Recipes, RecipesDto>();
             CreateMap<Ingredient, IngredientDto>();
+
+            CreateMap<RecipesDto, Recipes>();
+            CreateMap<IngredientDto, Ingredient>();
         }
     }
 }

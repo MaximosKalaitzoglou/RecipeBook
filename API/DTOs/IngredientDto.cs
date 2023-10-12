@@ -7,7 +7,7 @@ namespace recipes_app.DTOs
 {
     public class IngredientDto
     {
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public int Amount { get; set; }
     }
