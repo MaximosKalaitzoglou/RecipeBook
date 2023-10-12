@@ -13,7 +13,7 @@ namespace recipes_app.Models
         public int Id { get; set; }
 
         [Required]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         public int Amount { get; set; }
