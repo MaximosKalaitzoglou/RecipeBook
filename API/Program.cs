@@ -1,14 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using recipes_app.Data;
+using recipes_app.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAplicationServices(builder.Configuration);
 
-builder.Services.AddDbContext<DataContext>(options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-});
 
 // Add services to the container.
 

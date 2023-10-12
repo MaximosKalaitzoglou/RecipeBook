@@ -11,7 +11,7 @@ networks:
 services:
   mariadb:
     image: mariadb:latest
-    restart: always
+    restart: "no"
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER:  root
@@ -27,7 +27,7 @@ services:
               
   phpmyadmin:
     image: phpmyadmin:latest
-    restart: always
+    restart: "no"
     expose:
       - "4000"
     ports:
