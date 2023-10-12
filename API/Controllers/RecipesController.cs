@@ -20,7 +20,7 @@ namespace recipes_app.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<RecipesDto>>> GetRecipes()
         {
             var recipes = await _context.Recipes.Include(rec => rec.Ingredients).ToListAsync();
@@ -36,21 +36,24 @@ namespace recipes_app.Controllers
             return recipe;
         }
 
-        [HttpPost("add-recipe")]
-        public async Task<ActionResult> AddRecipe(Recipes recipe)
+        [HttpPost("save-recipe")]
+        public async Task<ActionResult<Object>> AddRecipe(RecipesDto recipe)
         {
             var newRecipe = new Recipes
             {
-                Name = recipe.Name,
-                Description = recipe.Description,
-                ImageUrl = recipe.ImageUrl,
-                Ingredients = recipe.Ingredients
+
             };
+            _mapper.Map(recipe, newRecipe);
             await _context.Recipes.AddAsync(newRecipe);
-            return Ok(await _context.SaveChangesAsync());
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetRecipeById), new
+            {
+                Id = newRecipe.Id
+            }, _mapper.Map<RecipesDto>(newRecipe));
         }
 
-        [HttpPut("edit/{id}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id)
         {
             var recipe = await _context.Recipes.Include(rec => rec.Ingredients).FirstOrDefaultAsync(x => x.Id == id);
@@ -62,5 +65,17 @@ namespace recipes_app.Controllers
 
             return BadRequest("Something went wrong");
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteRecipe(int id)
+        {
+            var recipe = new Recipes
+            {
+                Id = id
+            };
+            _context.Recipes.Remove(recipe);
+            return Ok(await _context.SaveChangesAsync());
+        }
+
     }
 }
