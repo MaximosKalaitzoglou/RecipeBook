@@ -12,5 +12,7 @@ namespace recipes_app.Data
         }
 
         public DbSet<Recipes> Recipes { get; set; }
+        public DbSet<AppUser> Users { get; set; }
+
     }
 }
