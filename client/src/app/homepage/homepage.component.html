@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <figure class="mb-5">
+  <figure class="mb-0">
     <blockquote class="blockquote">
       <p class="mb-0">Explore The <strong>Cook</strong> Side Of You!</p>
       <rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly"></rating>
@@ -47,7 +47,7 @@
       >
         Register
       </button>
-      <button class="btn btn-primary btn-info btn-lg">Learn more</button>
+      <button class="btn btn-primary btn-info btn-lg" (click)="get500Error()">Learn more</button>
     </div>
   </div>
 </div>

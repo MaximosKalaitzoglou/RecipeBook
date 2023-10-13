@@ -7,6 +7,8 @@ import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component
 import { RegisterComponent } from './register/register.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { authGuard } from './_guards/auth.guard';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
 
 const routes: Routes = [
   {
@@ -47,7 +49,18 @@ const routes: Routes = [
     path: 'shopping-list',
     component: ShoppingListComponent,
   },
-  
+  {
+    path: 'not-found',
+    component: NotFoundComponent,
+  },
+  {
+    path: 'server-error',
+    component: ServerErrorComponent,
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({

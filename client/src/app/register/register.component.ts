@@ -23,9 +23,6 @@ export class RegisterComponent {
       next: (response) => {
         this.cancel();
       },
-      error: (err) => {
-        this.toastr.error(err.error);
-      },
     });
     registerForm.resetForm();
   }
