@@ -11,6 +11,12 @@ namespace recipes_app.DTOs
 
         public string ImageUrl { get; set; } = null!;
 
+        public string PreparationSteps { get; set; } = null!;
+
+        public string Category { get; set; } = null!;
+
+        public DateTime DateAdded { get; set; } = DateTime.UtcNow;
+
         public List<IngredientDto> Ingredients { get; set; }
     }
 }

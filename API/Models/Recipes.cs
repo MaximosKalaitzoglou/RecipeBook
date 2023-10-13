@@ -21,6 +21,14 @@ namespace recipes_app.Models
         [Required]
         public string ImageUrl { get; set; } = null!;
 
+        [Required]
+        public string PreparationSteps { get; set; } = null!;
+
+        [Required]
+        public string Category { get; set; } = null!;
+
+        [Required]
+        public DateTime DateAdded { get; set; } = DateTime.UtcNow;
 
         public List<Ingredient> Ingredients { get; set; } = new();
 
