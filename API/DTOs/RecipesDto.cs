@@ -4,7 +4,6 @@ namespace recipes_app.DTOs
 {
     public class RecipesDto
     {
-        public int Id { get; set; }
         public string Name { get; set; } = null!;
 
         public string Description { get; set; } = null!;
