@@ -45,6 +45,7 @@ import { RegisterComponent } from './register/register.component';
     AppRoutingModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,

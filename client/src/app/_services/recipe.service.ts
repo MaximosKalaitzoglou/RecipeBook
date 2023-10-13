@@ -38,7 +38,8 @@ export class RecipeService {
   }
 
   getRecipeById(id: number) {
-    const recipe = this.recipes.filter((x) => x.id === id)[0];
+    const recipe = this.recipes.find((rec) => rec.id === id);
+    // console.log(recipe);
     if (recipe) return of(recipe);
     return this.http.get<Recipe>(this.apiUrl + 'recipes/' + id);
   }

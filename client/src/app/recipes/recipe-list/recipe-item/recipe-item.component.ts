@@ -32,9 +32,11 @@ export class RecipeItemComponent implements OnInit {
     months = +dateArray[1] - +dateArrayItem[1];
     days = +dateArray[2] - +dateArrayItem[2];
     if (years > 0) {
-      this.timeStamp = `${years} years ago`;
+      if (years === 1) this.timeStamp = `${years} year ago`;
+      else this.timeStamp = `${years} years ago`;
     } else if (months > 0) {
-      this.timeStamp = `${months} months ago`;
+      if (months === 1) this.timeStamp = `${months} month ago`;
+      else this.timeStamp = `${months} months ago`;
     } else {
       if (days === 0) {
         this.timeStamp = `Today`;
