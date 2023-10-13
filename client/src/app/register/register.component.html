@@ -1,0 +1,36 @@
+<form
+  autocomplete="off"
+  class="d-flex flex-column"
+  style="justify-content: center"
+>
+  <h2 class="text-center text-primary">Sign up</h2>
+  <hr />
+
+  <div class="form-group mb-5" style="max-width: 300px; margin: auto">
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        placeholder="username"
+      />
+      <label for="username">Username</label>
+    </div>
+    <div class="form-floating">
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        placeholder="Password"
+        autocomplete="off"
+      />
+      <label for="password">Password</label>
+    </div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-success me-4" type="submit">Register</button>
+    <button class="btn btn-secondary ms-4" type="button" (click)="cancel()">
+      Cancel
+    </button>
+  </div>
+</form>

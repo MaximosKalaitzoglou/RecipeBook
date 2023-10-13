@@ -23,6 +23,8 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { HomepageComponent } from './homepage/homepage.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
     RecipeStartComponent,
     RecipeEditComponent,
     FileUploaderComponent,
+    HomepageComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,7 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
     SharedModule,
     TabsModule.forRoot(),
     ProgressbarModule.forRoot(),
+    CarouselModule.forRoot(),
   ],
   providers: [
     ShoppingService,

@@ -6,21 +6,19 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
+import { RegisterComponent } from './register/register.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'recipes',
+    component: HomepageComponent,
     pathMatch: 'full',
   },
   {
     path: 'recipes',
-    // component: RecipesComponent,
+    component: RecipeListComponent,
     children: [
-      {
-        path: '',
-        component: RecipeListComponent,
-      },
       {
         path: 'new',
         component: RecipeEditComponent,
@@ -34,6 +32,10 @@ const routes: Routes = [
         component: RecipeEditComponent,
       },
     ],
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   {
     path: 'shopping-list',

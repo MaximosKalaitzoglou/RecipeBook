@@ -4,6 +4,7 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FilterRecipesPipe } from './filter-recipes.pipe';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @NgModule({
   declarations: [FilterRecipesPipe],
@@ -12,6 +13,7 @@ import { FilterRecipesPipe } from './filter-recipes.pipe';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ProgressbarModule.forRoot(),
+    CarouselModule.forRoot(),
   ],
   providers: [],
   exports: [
@@ -20,6 +22,7 @@ import { FilterRecipesPipe } from './filter-recipes.pipe';
     TabsModule,
     ProgressbarModule,
     FilterRecipesPipe,
+    CarouselModule,
   ],
 })
 export class SharedModule {}
