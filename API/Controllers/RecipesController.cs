@@ -1,5 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.Data;
@@ -35,7 +36,8 @@ namespace recipes_app.Controllers
             var recipe = await _context.Recipes.Include(rec => rec.Ingredients).FirstOrDefaultAsync(x => x.Id == id);
             return recipe;
         }
-
+        
+        [Authorize]
         [HttpPost("save-recipe")]
         public async Task<ActionResult<Object>> AddRecipe(RecipesDto recipe)
         {
@@ -52,7 +54,7 @@ namespace recipes_app.Controllers
                 Id = newRecipe.Id
             }, newRecipe);
         }
-
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id)
         {
@@ -66,6 +68,7 @@ namespace recipes_app.Controllers
             return BadRequest("Something went wrong");
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRecipe(int id)
         {

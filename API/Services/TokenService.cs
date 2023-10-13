@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using recipes_app.Interfaces;
 using recipes_app.Models;
@@ -21,7 +17,7 @@ namespace recipes_app.Services
         public string CreateToken(AppUser user)
         {
             var claims = new List<Claim>{
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
+                new(JwtRegisteredClaimNames.NameId, user.UserName),
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
