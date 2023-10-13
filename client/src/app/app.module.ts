@@ -23,6 +23,7 @@ import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { RegisterComponent } from './register/register.component';
     ShoppingService,
     RecipeService,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

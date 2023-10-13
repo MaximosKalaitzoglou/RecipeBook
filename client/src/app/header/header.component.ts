@@ -13,6 +13,11 @@ export class HeaderComponent {
   model: any = {};
   login(loginForm: NgForm) {
     console.log(this.model);
+    this.accountService.login(this.model).subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+    });
   }
 
   logout() {

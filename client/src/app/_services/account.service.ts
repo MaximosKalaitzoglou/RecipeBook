@@ -28,7 +28,14 @@ export class AccountService {
   }
 
   login(model: any) {
-    
+    return this.http.post<User>(this.apiUrl + 'account/login', model).pipe(
+      map((res) => {
+        const user = res;
+        if (user) {
+          this.setCurrentUser(user);
+        }
+      })
+    );
   }
 
   logout() {

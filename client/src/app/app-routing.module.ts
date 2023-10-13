@@ -6,6 +6,7 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
 import { RegisterComponent } from './register/register.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { authGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -15,6 +16,8 @@ const routes: Routes = [
   },
   {
     path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [authGuard],
     children: [
       {
         path: 'recipes',
@@ -44,6 +47,7 @@ const routes: Routes = [
     path: 'shopping-list',
     component: ShoppingListComponent,
   },
+  
 ];
 
 @NgModule({
