@@ -14,6 +14,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   recipes$: Observable<Recipe[]> | null = null;
   subscription!: Subscription;
   isFetching = false;
+  filterCategory: string = 'all';
 
   constructor(
     private recipeService: RecipeService,
@@ -42,6 +43,10 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     //     this.isFetching = false;
     //   },
     // });
+  }
+
+  onCategoryChange(event: any) {
+    this.filterCategory = event?.target.value;
   }
 
   ngOnDestroy(): void {

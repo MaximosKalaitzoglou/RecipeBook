@@ -12,7 +12,7 @@ import { RecipeDto } from 'src/app/_models/recipe-dto.model';
   styleUrls: ['./recipe-detail.component.css'],
 })
 export class RecipeDetailComponent implements OnInit {
-  recipe: RecipeDto = new RecipeDto('', '', '', []);
+  recipe: RecipeDto = new RecipeDto('', '', '', new Date(), '', '', []);
   id: number = 0;
   faDots = faBars;
 

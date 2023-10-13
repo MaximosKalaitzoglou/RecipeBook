@@ -49,6 +49,9 @@ export class RecipeService {
 
     const bodyData = new RecipeDto(
       recipe.name,
+      '',
+      '',
+      new Date(),
       recipe.description,
       recipe.imageUrl,
       recipe.ingredients
@@ -64,6 +67,7 @@ export class RecipeService {
   }
 
   updateRecipe(idx: number, recipe: Recipe) {
+    console.log(recipe);
     this.http.put(this.apiUrl + 'recipes/' + recipe.id, recipe).subscribe({
       next: (response) => {
         this.recipes = this.recipes.map((rec) => {

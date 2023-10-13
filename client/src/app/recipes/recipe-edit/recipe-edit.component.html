@@ -25,6 +25,15 @@
           formControlName="name"
         />
       </div>
+      <!-- Categories  -->
+      <div class="form-group" style="width: 470px;">
+        <h5 class="my-4">Category</h5>
+        <select  id="categories" formControlName="category" class="form-control">
+          <option *ngFor="let category of categories" [ngValue]="category.value">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
 
       <!-- Ingredients  -->
       <div
@@ -133,6 +142,15 @@
         rows="6"
         class="form-control mb-4"
         formControlName="description"
+      ></textarea>
+
+      <h5 class="my-4">Preparation</h5>
+      <textarea
+        name=""
+        id="perparation"
+        rows="6"
+        class="form-control mb-4"
+        formControlName="preparation"
       ></textarea>
 
       <button

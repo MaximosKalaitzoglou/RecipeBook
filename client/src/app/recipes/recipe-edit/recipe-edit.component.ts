@@ -48,6 +48,21 @@ export class RecipeEditComponent implements OnInit {
   recipe: Recipe | null = null;
   imageData: File | null = null;
 
+  categories = [
+    {
+      name: 'Breakfast',
+      value: 'Breakfast',
+    },
+    {
+      name: 'Lunch',
+      value: 'Lunch',
+    },
+    {
+      name: 'Desert',
+      value: 'Desert',
+    },
+  ];
+
   getImageData(event: File) {
     this.imageData = event;
   }
@@ -80,6 +95,9 @@ export class RecipeEditComponent implements OnInit {
       recipeName: '',
       recipeImagePath: '',
       recipeDescription: '',
+      recipePreparation: '',
+      recipeCategory: '',
+      recipeDate: new Date(),
     };
 
     if (this.editMode) {
@@ -96,6 +114,10 @@ export class RecipeEditComponent implements OnInit {
       recipe.recipeName = this.recipe.name;
       recipe.recipeImagePath = this.recipe.imageUrl;
       recipe.recipeDescription = this.recipe.description;
+      recipe.recipePreparation = this.recipe.preparationSteps;
+      recipe.recipeCategory = this.recipe.category;
+      recipe.recipeDate = this.recipe.dateAdded;
+
       if (this.recipe.ingredients) {
         for (let ing of this.recipe.ingredients) {
           const group = new FormGroup({
@@ -116,7 +138,12 @@ export class RecipeEditComponent implements OnInit {
       description: new FormControl(recipe.recipeDescription, [
         Validators.required,
       ]),
+      preparation: new FormControl(
+        recipe.recipePreparation,
+        Validators.required
+      ),
       ingredients: this.recipeIngredients,
+      category: new FormControl(this.categories[0].value),
     });
   }
 
@@ -127,16 +154,29 @@ export class RecipeEditComponent implements OnInit {
 
   onSubmit() {
     // console.log(this.recipeForm?.value);
-    var { name, description, imagePath, ingredients } = this.recipeForm?.value;
+    var { name, category, preparation, description, imagePath, ingredients } =
+      this.recipeForm?.value;
     // if (this.imageData) imagePath = URL.createObjectURL(this.imageData);
     var newRecipeDto;
     var updatedRecipe;
+
     if (this.editMode === false) {
-      newRecipeDto = new RecipeDto(name, description, imagePath, ingredients);
+      newRecipeDto = new RecipeDto(
+        name,
+        category,
+        preparation,
+        new Date(),
+        description,
+        imagePath,
+        ingredients
+      );
     } else {
       if (!this.recipe) return;
       updatedRecipe = new Recipe(
         this.recipe?.id,
+        category,
+        preparation,
+        new Date(),
         name,
         description,
         imagePath,

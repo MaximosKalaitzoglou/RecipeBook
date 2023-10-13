@@ -3,9 +3,10 @@ import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { FilterRecipesPipe } from './filter-recipes.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [FilterRecipesPipe],
   imports: [
     NgxSpinnerModule.forRoot({ type: 'pacman' }),
     BsDropdownModule.forRoot(),
@@ -13,6 +14,12 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ProgressbarModule.forRoot(),
   ],
   providers: [],
-  exports: [NgxSpinnerModule, BsDropdownModule, TabsModule, ProgressbarModule],
+  exports: [
+    NgxSpinnerModule,
+    BsDropdownModule,
+    TabsModule,
+    ProgressbarModule,
+    FilterRecipesPipe,
+  ],
 })
 export class SharedModule {}
