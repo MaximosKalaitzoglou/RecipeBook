@@ -21,7 +21,7 @@
 <div
   class="card mb-2"
   [routerLink]="['/recipes/' + recipe.id]"
-  style="cursor: pointer; max-width: 80%;"
+  style="cursor: pointer; max-width: 80%"
 >
   <div class="card-body">
     <h4 class="card-title">{{ recipe.name }}</h4>
@@ -33,5 +33,5 @@
       style="max-height: 100px"
     />
   </div>
-  <div class="card-footer text-muted">Added 2 days ago</div>
+  <div class="card-footer text-muted">Added {{ timeStamp }}</div>
 </div>

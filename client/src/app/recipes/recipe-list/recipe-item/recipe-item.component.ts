@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Recipe } from '../../../_models/recipe.model';
 
 @Component({
@@ -6,8 +6,43 @@ import { Recipe } from '../../../_models/recipe.model';
   templateUrl: './recipe-item.component.html',
   styleUrls: ['./recipe-item.component.css'],
 })
-export class RecipeItemComponent {
+export class RecipeItemComponent implements OnInit {
   @Input() recipe!: Recipe;
   @Input() index: number = 0;
+
+  timeStamp: string = '';
+  date: string = new Date().toISOString();
+
+  ngOnInit(): void {
+    this.calculateTimeStamp();
+  }
   constructor() {}
+
+  calculateTimeStamp() {
+    var newDateNow = this.date.split('T')[0];
+    var newDateItem = new Date(this.recipe.dateAdded)
+      .toISOString()
+      .split('T')[0];
+    // console.log(newDateNow);
+    // console.log(newDateItem);
+    var dateArray = newDateNow.split('-');
+    var dateArrayItem = newDateItem.split('-');
+    let years, months, days;
+    years = +dateArray[0] - +dateArrayItem[0];
+    months = +dateArray[1] - +dateArrayItem[1];
+    days = +dateArray[2] - +dateArrayItem[2];
+    if (years > 0) {
+      this.timeStamp = `${years} years ago`;
+    } else if (months > 0) {
+      this.timeStamp = `${months} months ago`;
+    } else {
+      if (days === 0) {
+        this.timeStamp = `Today`;
+      } else if (days === 1) {
+        this.timeStamp = `Yesterday`;
+      } else {
+        this.timeStamp = `${days} days ago`;
+      }
+    }
+  }
 }

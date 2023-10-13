@@ -44,24 +44,13 @@ export class RecipeService {
   }
 
   addRecipe(recipe: RecipeDto) {
-    // this.recipes.push(recipe);
-    // this.recipesChanged.next(this.recipes.slice());
-
-    const bodyData = new RecipeDto(
-      recipe.name,
-      '',
-      '',
-      new Date(),
-      recipe.description,
-      recipe.imageUrl,
-      recipe.ingredients
-    );
-
     this.http
-      .post<Recipe>(this.apiUrl + 'recipes/save-recipe/', bodyData)
+      .post<Recipe>(this.apiUrl + 'recipes/save-recipe', recipe)
       .subscribe({
         next: (response: Recipe) => {
-          // console.log(response);
+          console.log(response);
+          this.recipes.push(response);
+          this.redirectEvent.next(true);
         },
       });
   }

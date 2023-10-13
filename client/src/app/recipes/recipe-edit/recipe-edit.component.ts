@@ -183,11 +183,10 @@ export class RecipeEditComponent implements OnInit {
         ingredients
       );
     }
-    // console.log(this.editMode);
-    // console.log(newRecipe);
     if (this.editMode && updatedRecipe) {
       this.recipeService.updateRecipe(this.id, updatedRecipe);
     } else {
+      console.log('Executing this post request....');
       if (newRecipeDto) this.recipeService.addRecipe(newRecipeDto);
     }
     // this.navigateAway();
