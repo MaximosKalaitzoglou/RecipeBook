@@ -9,7 +9,10 @@
 
     <!-- TODO: Implement this button toggle on small screens-->
     <!-- Navbar items  -->
-    <div class="row collapse navbar-collapse">
+    <div
+      class="row collapse navbar-collapse"
+      *ngIf="accountService.currentUser$ | async"
+    >
       <div class="col-md-6">
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -32,9 +35,9 @@
       </div>
     </div>
 
-    
     <!-- Dropdown  -->
-    <div class="row">
+    <!-- If user is logged In  -->
+    <div class="row" *ngIf="accountService.currentUser$ | async as user">
       <div class="col-md-2 me-5">
         <div class="collapse navbar-collapse">
           <div class="dropdown me-3" dropdown>
@@ -45,12 +48,44 @@
               >Welcome
             </a>
             <div class="dropdown-menu mt-2" *dropdownMenu>
-              <a routerLink="/login" class="dropdown-item">Login</a>
-              <a class="dropdown-item" routerLink="/register">Register</a>
+              <a routerLink="/" class="dropdown-item">Edit</a>
+              <a class="dropdown-item" (click)="logout()">Logout</a>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Login Form  -->
+    <!-- If user is not logged in  -->
+    <form
+      *ngIf="!(accountService.currentUser$ | async)"
+      #loginForm="ngForm"
+      class="d-flex"
+      autocomplete="off"
+      (ngSubmit)="login(loginForm)"
+    >
+      <input
+        name="username"
+        style="width: 200px"
+        class="form-control me-2"
+        type="text"
+        placeholder="Username"
+        [(ngModel)]="model.username"
+      />
+      <input
+        name="password"
+        style="width: 200px"
+        class="form-control me-2"
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="model.password"
+
+      />
+
+      <button class="btn btn-dark" style="width: 100px" type="submit">
+        Login
+      </button>
+    </form>
   </div>
 </nav>

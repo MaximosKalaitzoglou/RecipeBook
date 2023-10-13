@@ -5,6 +5,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FilterRecipesPipe } from './filter-recipes.pipe';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [FilterRecipesPipe],
@@ -14,6 +16,12 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     TabsModule.forRoot(),
     ProgressbarModule.forRoot(),
     CarouselModule.forRoot(),
+    RatingModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [],
   exports: [
@@ -23,6 +31,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     ProgressbarModule,
     FilterRecipesPipe,
     CarouselModule,
+    RatingModule,
+    ToastrModule,
   ],
 })
 export class SharedModule {}

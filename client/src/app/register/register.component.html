@@ -2,18 +2,31 @@
   autocomplete="off"
   class="d-flex flex-column"
   style="justify-content: center"
+  #registerForm="ngForm"
+  (ngSubmit)="register(registerForm)"
 >
   <h2 class="text-center text-primary">Sign up</h2>
   <hr />
 
-  <div class="form-group mb-5" style="max-width: 300px; margin: auto">
+  <div class="form-group mb-5" style="width: 400px; margin: auto">
     <div class="form-floating mb-3">
       <input
         type="text"
         class="form-control"
         id="username"
         placeholder="username"
+        name="username"
+        minlength="4"
+        required
+        [(ngModel)]="model.username"
+        #name="ngModel"
       />
+      <div *ngIf="name.invalid && name.touched" class="text-danger">
+        <div *ngIf="name.errors?.['required']">Name is required.</div>
+        <div *ngIf="name.errors?.['minlength']">
+          Name must be at least 4 characters long.
+        </div>
+      </div>
       <label for="username">Username</label>
     </div>
     <div class="form-floating">
@@ -23,13 +36,36 @@
         id="password"
         placeholder="Password"
         autocomplete="off"
+        required
+        minlength="8"
+        name="password"
+        [(ngModel)]="model.password"
+        #pass="ngModel"
       />
+      <div *ngIf="pass.invalid && pass.touched" class="text-danger">
+        <div *ngIf="pass.errors?.['required']">Password is required.</div>
+        <div *ngIf="pass.errors?.['minlength']">
+          Password must be at least 8 characters long.
+        </div>
+      </div>
       <label for="password">Password</label>
     </div>
   </div>
   <div class="text-center">
-    <button class="btn btn-success me-4" type="submit">Register</button>
-    <button class="btn btn-secondary ms-4" type="button" (click)="cancel()">
+    <button
+      class="btn btn-success me-4"
+      type="submit"
+      style="padding: 0.5rem 2rem"
+      [disabled]="!registerForm.valid"
+    >
+      Register
+    </button>
+    <button
+      class="btn btn-secondary ms-4"
+      type="button"
+      (click)="cancel()"
+      style="padding: 0.5rem 2rem"
+    >
       Cancel
     </button>
   </div>
