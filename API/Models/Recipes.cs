@@ -32,5 +32,9 @@ namespace recipes_app.Models
 
         public List<Ingredient> Ingredients { get; set; } = new();
 
+        [ForeignKey("AppUserId")]
+        public int AppUserId { get; set; }
+
+
     }
 }

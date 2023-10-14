@@ -1,89 +1,124 @@
 [
   {
-    "Name": "souvlaki",
-    "Category": "lunch",
-    "ImageUrl": "https://www.seriouseats.com/thmb/qAysZs1vJYvMCSSpsHRqRlsvExQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__recipes__images__20090319-pork-souvlaki-9a80ec7534d3427c888d2d0f939540a6.jpg",
-    "PreparationSteps": "Esse culpa nostrud proident sunt. Tempor elit dolore incididunt velit ullamco nisi enim consequat ipsum culpa. Magna reprehenderit aute sit dolore labore cillum quis ad duis. Voluptate consectetur anim dolore adipisicing ipsum. Excepteur pariatur irure nulla laboris velit. Lorem nulla do Lorem quis aute pariatur aliqua occaecat occaecat nisi in anim voluptate qui. Ipsum consequat dolore culpa Lorem exercitation ut veniam eu cupidatat fugiat quis sit enim.\r\n",
-    "Description": "Nulla ex aliqua dolor velit cillum enim in nisi velit laborum. Dolor fugiat nulla laboris quis ut consequat nisi. Aute amet laboris in veniam tempor aliquip ex culpa. Mollit et veniam Lorem quis non excepteur et consequat duis occaecat. Qui reprehenderit labore et pariatur eu aute dolore esse commodo veniam minim sit. Ut velit ea ullamco irure quis esse.\r\n",
-    "DateAdded": "2023-09-18",
-    "Ingredients": [
+    "UserName": "Lisa",
+    "Gender": "female",
+    "DateOfBirth": "1956-07-22",
+    "Alias": "Lisa",
+    "MemberSince": "2020-06-24",
+    "Introduction": "Sunt esse aliqua ullamco in incididunt consequat commodo. Nisi ad esse elit ipsum commodo fugiat est ad. Incididunt nostrud incididunt nostrud sit excepteur occaecat.\r\n",
+    "Interests": "Sit sit incididunt proident velit.",
+    "Country": "Martinique",
+    "Photos": [
       {
-        "Name": "beef",
-        "Amount": 6
+        "Url": "https://randomuser.me/api/portraits/women/54.jpg",
+        "IsMain": true
+      }
+    ],
+    "Recipes": [
+      {
+        "Name": "souvlaki",
+        "Category": "lunch",
+        "ImageUrl": "https://www.seriouseats.com/thmb/qAysZs1vJYvMCSSpsHRqRlsvExQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__recipes__images__20090319-pork-souvlaki-9a80ec7534d3427c888d2d0f939540a6.jpg",
+        "PreparationSteps": "Esse culpa nostrud proident sunt. Tempor elit dolore incididunt velit ullamco nisi enim consequat ipsum culpa. Magna reprehenderit aute sit dolore labore cillum quis ad duis. Voluptate consectetur anim dolore adipisicing ipsum. Excepteur pariatur irure nulla laboris velit. Lorem nulla do Lorem quis aute pariatur aliqua occaecat occaecat nisi in anim voluptate qui. Ipsum consequat dolore culpa Lorem exercitation ut veniam eu cupidatat fugiat quis sit enim.\r\n",
+        "Description": "Nulla ex aliqua dolor velit cillum enim in nisi velit laborum. Dolor fugiat nulla laboris quis ut consequat nisi. Aute amet laboris in veniam tempor aliquip ex culpa. Mollit et veniam Lorem quis non excepteur et consequat duis occaecat. Qui reprehenderit labore et pariatur eu aute dolore esse commodo veniam minim sit. Ut velit ea ullamco irure quis esse.\r\n",
+        "DateAdded": "2023-09-18",
+        "Ingredients": [
+          {
+            "Name": "beef",
+            "Amount": 6
+          },
+          {
+            "Name": "beef",
+            "Amount": 7
+          },
+          {
+            "Name": "beef",
+            "Amount": 0
+          }
+        ]
       },
       {
-        "Name": "beef",
-        "Amount": 7
-      },
-      {
-        "Name": "beef",
-        "Amount": 0
+        "Name": "burger",
+        "Category": "breakfast",
+        "ImageUrl": "https://natashaskitchen.com/wp-content/uploads/2023/06/Cheeseburger.jpg",
+        "PreparationSteps": "Deserunt irure ad aliquip nisi ipsum nulla aute et. Ea fugiat excepteur nulla reprehenderit. Anim aliqua qui reprehenderit laboris do elit qui laborum quis. Adipisicing esse est ex nostrud aliquip id laborum laboris. Cupidatat anim qui minim adipisicing aliqua minim ad anim mollit anim.\r\n",
+        "Description": "Lorem ipsum dolor elit eu eiusmod labore in aute veniam non esse ea eiusmod incididunt. Ut cillum culpa et mollit. Duis do eiusmod duis culpa ut laborum voluptate. Velit esse magna officia eiusmod Lorem tempor eu dolore esse. Esse commodo ex aliqua ea excepteur aliqua reprehenderit sit velit laboris.\r\n",
+        "DateAdded": "2020-06-10",
+        "Ingredients": [
+          {
+            "Name": "bread",
+            "Amount": 7
+          },
+          {
+            "Name": "bread",
+            "Amount": 5
+          },
+          {
+            "Name": "fries",
+            "Amount": 3
+          }
+        ]
       }
     ]
   },
   {
-    "Name": "burger",
-    "Category": "breakfast",
-    "ImageUrl": "https://natashaskitchen.com/wp-content/uploads/2023/06/Cheeseburger.jpg",
-    "PreparationSteps": "Deserunt irure ad aliquip nisi ipsum nulla aute et. Ea fugiat excepteur nulla reprehenderit. Anim aliqua qui reprehenderit laboris do elit qui laborum quis. Adipisicing esse est ex nostrud aliquip id laborum laboris. Cupidatat anim qui minim adipisicing aliqua minim ad anim mollit anim.\r\n",
-    "Description": "Lorem ipsum dolor elit eu eiusmod labore in aute veniam non esse ea eiusmod incididunt. Ut cillum culpa et mollit. Duis do eiusmod duis culpa ut laborum voluptate. Velit esse magna officia eiusmod Lorem tempor eu dolore esse. Esse commodo ex aliqua ea excepteur aliqua reprehenderit sit velit laboris.\r\n",
-    "DateAdded": "2020-06-10",
-    "Ingredients": [
+    "UserName": "Karen",
+    "Gender": "female",
+    "DateOfBirth": "1995-10-12",
+    "MemberSince": "2019-12-09",
+    "Introduction": "Laborum dolore aliquip voluptate sunt cupidatat fugiat. Aliqua cillum deserunt do sunt ullamco aute Lorem nisi irure velit esse excepteur ex qui. Aliquip cupidatat officia ullamco duis veniam quis elit dolore nisi proident exercitation id cillum ullamco. In exercitation aliqua commodo veniam culpa duis commodo mollit et sint culpa.\r\n",
+    "Interests": "Dolor aliquip velit amet aliqua minim labore sit laboris non aliquip cillum.",
+    "Country": "Grenada",
+    "Photos": [
       {
-        "Name": "bread",
-        "Amount": 7
-      },
-      {
-        "Name": "bread",
-        "Amount": 5
-      },
-      {
-        "Name": "fries",
-        "Amount": 3
+        "Url": "https://randomuser.me/api/portraits/women/50.jpg",
+        "IsMain": true
       }
-    ]
-  },
-  {
-    "Name": "crepa",
-    "Category": "breakfast",
-    "ImageUrl": "https://imageproxy.wolt.com/menu/menu-images/5dd804175fcc482f69c89404/0c3a607c-2a7f-11eb-9d20-ce24305d99b5_crepa_bisco_banana.jpeg",
-    "PreparationSteps": "Occaecat eiusmod et excepteur ullamco commodo magna dolore irure ex fugiat qui. Officia nulla velit eu reprehenderit reprehenderit nostrud ea. Tempor commodo irure aliquip fugiat aliquip laboris consequat nostrud non. Ipsum incididunt sint id qui do occaecat non. Lorem ullamco ut officia in ea ad nulla exercitation ex culpa veniam sint. Ut qui ipsum nostrud pariatur aute duis quis esse cupidatat.\r\n",
-    "Description": "Aute do nulla duis aute labore aliqua ullamco culpa magna dolor ad adipisicing. Exercitation enim voluptate sint veniam ipsum nisi. Mollit eu ipsum aliquip cupidatat fugiat. Deserunt consequat magna tempor mollit quis culpa laboris cillum amet exercitation commodo est amet. Quis ea nisi irure veniam et reprehenderit esse. Pariatur ex reprehenderit dolore reprehenderit magna excepteur Lorem laborum ullamco enim pariatur eu magna Lorem.\r\n",
-    "DateAdded": "2018-06-04",
-    "Ingredients": [
+    ],
+    "Recipes": [
       {
-        "Name": "bread",
-        "Amount": 10
+        "Name": "crepa",
+        "Category": "breakfast",
+        "ImageUrl": "https://imageproxy.wolt.com/menu/menu-images/5dd804175fcc482f69c89404/0c3a607c-2a7f-11eb-9d20-ce24305d99b5_crepa_bisco_banana.jpeg",
+        "PreparationSteps": "Occaecat eiusmod et excepteur ullamco commodo magna dolore irure ex fugiat qui. Officia nulla velit eu reprehenderit reprehenderit nostrud ea. Tempor commodo irure aliquip fugiat aliquip laboris consequat nostrud non. Ipsum incididunt sint id qui do occaecat non. Lorem ullamco ut officia in ea ad nulla exercitation ex culpa veniam sint. Ut qui ipsum nostrud pariatur aute duis quis esse cupidatat.\r\n",
+        "Description": "Aute do nulla duis aute labore aliqua ullamco culpa magna dolor ad adipisicing. Exercitation enim voluptate sint veniam ipsum nisi. Mollit eu ipsum aliquip cupidatat fugiat. Deserunt consequat magna tempor mollit quis culpa laboris cillum amet exercitation commodo est amet. Quis ea nisi irure veniam et reprehenderit esse. Pariatur ex reprehenderit dolore reprehenderit magna excepteur Lorem laborum ullamco enim pariatur eu magna Lorem.\r\n",
+        "DateAdded": "2018-06-04",
+        "Ingredients": [
+          {
+            "Name": "bread",
+            "Amount": 10
+          },
+          {
+            "Name": "beef",
+            "Amount": 4
+          },
+          {
+            "Name": "bread",
+            "Amount": 9
+          }
+        ]
       },
       {
-        "Name": "beef",
-        "Amount": 4
-      },
-      {
-        "Name": "bread",
-        "Amount": 9
-      }
-    ]
-  },
-  {
-    "Name": "crepa",
-    "Category": "desert",
-    "ImageUrl": "https://imageproxy.wolt.com/menu/menu-images/5dd804175fcc482f69c89404/0c3a607c-2a7f-11eb-9d20-ce24305d99b5_crepa_bisco_banana.jpeg",
-    "PreparationSteps": "Excepteur minim quis duis est qui non adipisicing non excepteur reprehenderit eiusmod. Do sint id do reprehenderit sint ad officia cillum dolore do deserunt. Id do non ad ea commodo incididunt incididunt est ex aute incididunt pariatur veniam magna. Sint adipisicing aliquip duis duis nostrud dolor ipsum est eu irure duis id in. Cupidatat duis enim dolor labore laborum aliqua. Quis qui irure id commodo occaecat duis anim nostrud est. Consectetur proident quis deserunt dolor in dolore.\r\n",
-    "Description": "Anim id id nisi ipsum Lorem velit incididunt ut do laboris consequat nisi. Dolor duis adipisicing voluptate nulla cillum in deserunt nulla culpa nisi esse. Nisi velit incididunt veniam id laborum.\r\n",
-    "DateAdded": "2016-11-18",
-    "Ingredients": [
-      {
-        "Name": "beef",
-        "Amount": 7
-      },
-      {
-        "Name": "beef",
-        "Amount": 4
-      },
-      {
-        "Name": "bread",
-        "Amount": 2
+        "Name": "crepa",
+        "Category": "desert",
+        "ImageUrl": "https://imageproxy.wolt.com/menu/menu-images/5dd804175fcc482f69c89404/0c3a607c-2a7f-11eb-9d20-ce24305d99b5_crepa_bisco_banana.jpeg",
+        "PreparationSteps": "Excepteur minim quis duis est qui non adipisicing non excepteur reprehenderit eiusmod. Do sint id do reprehenderit sint ad officia cillum dolore do deserunt. Id do non ad ea commodo incididunt incididunt est ex aute incididunt pariatur veniam magna. Sint adipisicing aliquip duis duis nostrud dolor ipsum est eu irure duis id in. Cupidatat duis enim dolor labore laborum aliqua. Quis qui irure id commodo occaecat duis anim nostrud est. Consectetur proident quis deserunt dolor in dolore.\r\n",
+        "Description": "Anim id id nisi ipsum Lorem velit incididunt ut do laboris consequat nisi. Dolor duis adipisicing voluptate nulla cillum in deserunt nulla culpa nisi esse. Nisi velit incididunt veniam id laborum.\r\n",
+        "DateAdded": "2016-11-18",
+        "Ingredients": [
+          {
+            "Name": "beef",
+            "Amount": 7
+          },
+          {
+            "Name": "beef",
+            "Amount": 4
+          },
+          {
+            "Name": "bread",
+            "Amount": 2
+          }
+        ]
       }
     ]
   }

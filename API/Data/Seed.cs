@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +17,22 @@ namespace recipes_app.Data
             // if the database has data return
             if (await context.Recipes.AnyAsync()) return;
 
-            var recipeData = await File.ReadAllTextAsync("Data/RecipeSeedData.json");
+            var userData = await File.ReadAllTextAsync("Data/RecipeSeedData.json");
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            var recipes = JsonSerializer.Deserialize<List<Recipes>>(recipeData);
-            if (recipes == null) return;
-            foreach (var recipe in recipes)
+            var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
+            if (users == null) return;
+            foreach (var user in users)
             {
-                context.Recipes.Add(recipe);
+                using var hmac = new HMACSHA512();
+
+                user.UserName = user.UserName.ToLower();
+
+                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("password"));
+                user.PasswordSalt = hmac.Key;
+
+                context.Users.Add(user);
 
             }
 

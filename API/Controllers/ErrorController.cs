@@ -38,7 +38,7 @@ namespace recipes_app.Controllers
         [HttpGet("server-error")]
         public ActionResult<string> GetServerError()
         {
-            return StatusCode(500);
+            return StatusCode(500, "Something went wrong");
         }
     }
 }
