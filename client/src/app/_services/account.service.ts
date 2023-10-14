@@ -16,6 +16,7 @@ export class AccountService {
 
   constructor(private http: HttpClient) {}
 
+
   register(model: any) {
     return this.http.post<User>(this.apiUrl + 'account/register', model).pipe(
       map((response) => {
@@ -44,6 +45,7 @@ export class AccountService {
   }
 
   setCurrentUser(user: User) {
+
     localStorage.setItem('user', JSON.stringify(user));
 
     this.currentUserSource.next(user);

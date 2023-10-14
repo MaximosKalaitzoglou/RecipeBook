@@ -36,22 +36,26 @@
 
     <!-- Dropdown  -->
     <!-- If user is logged In  -->
-    <div class="row" *ngIf="accountService.currentUser$ | async as user">
-      <div class="col-md-2 me-5">
-        <div class="collapse navbar-collapse">
-          <div class="dropdown me-3" dropdown>
-            <a
-              class="dropdown-toggle text-white text-decoration-none"
-              style="cursor: pointer"
-              dropdownToggle
-              >Welcome
-            </a>
-            <div class="dropdown-menu mt-2" *dropdownMenu>
-              <a routerLink="/" class="dropdown-item">Edit</a>
-              <a class="dropdown-item" (click)="logout()">Logout</a>
-            </div>
-          </div>
-        </div>
+    <div
+      class="dropdown me-4"
+      *ngIf="accountService.currentUser$ | async as user"
+      dropdown
+    >
+      <img
+        [src]="'./assets/default.png'"
+        alt="user photo"
+        class="rounded-circle"
+        style="width: 50px"
+      />
+      <a
+        class="dropdown-toggle text-light text-decoration-none ms-2"
+        style="cursor: pointer;"
+        dropdownToggle
+        >Welcome {{ user.userName | titlecase }}</a
+      >
+      <div class="dropdown-menu mt-2" *dropdownMenu>
+        <a routerLink="/member/edit" class="dropdown-item">Edit Profile</a>
+        <a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Logout</a>
       </div>
     </div>
 
