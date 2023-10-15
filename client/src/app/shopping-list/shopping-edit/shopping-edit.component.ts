@@ -8,10 +8,10 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { Ingredient } from '../../_models/ingredient.model';
 import { ShoppingService } from '../../_services/shopping.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Ingredient } from 'src/app/_models/ingredient';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -67,7 +67,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     const value = form.value;
-    const newIngredient = new Ingredient(value.name, value.amount);
+    const newIngredient = { name: value.name, amount: value.amount };
     if (this.editMode) {
       this.shoppingService.updateIngredient(
         this.editedItemIndex,

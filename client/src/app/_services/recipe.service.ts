@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Recipe } from '../_models/recipe.model';
-import { Ingredient } from '../_models/ingredient.model';
 import { ShoppingService } from './shopping.service';
 import { Subject, map, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { RecipeDto } from '../_models/recipe-dto.model';
 import { environment } from 'src/environments/environment.development';
+import { Recipe } from '../_models/recipe';
+import { Ingredient } from '../_models/ingredient';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +43,7 @@ export class RecipeService {
     return this.http.get<Recipe>(this.apiUrl + 'recipes/' + id);
   }
 
-  addRecipe(recipe: RecipeDto) {
+  addRecipe(recipe: Recipe) {
     this.http
       .post<Recipe>(this.apiUrl + 'recipes/save-recipe', recipe)
       .subscribe({

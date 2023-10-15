@@ -19,7 +19,6 @@ import { RecipeService } from './_services/recipe.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './_shared/shared.module';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
-import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
@@ -39,7 +38,6 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
     RecipeItemComponent,
     RecipeStartComponent,
     RecipeEditComponent,
-    FileUploaderComponent,
     HomepageComponent,
     RegisterComponent,
     NotFoundComponent,

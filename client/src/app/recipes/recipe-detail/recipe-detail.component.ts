@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Recipe } from '../../_models/recipe.model';
 import { RecipeService } from '../../_services/recipe.service';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { RecipeDto } from 'src/app/_models/recipe-dto.model';
+import { Recipe } from 'src/app/_models/recipe';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -12,7 +11,7 @@ import { RecipeDto } from 'src/app/_models/recipe-dto.model';
   styleUrls: ['./recipe-detail.component.css'],
 })
 export class RecipeDetailComponent implements OnInit {
-  recipe: RecipeDto = new RecipeDto('', '', '', new Date(), '', '', []);
+  recipe: Recipe | null = null;
   id: number = 0;
   faDots = faBars;
 
@@ -22,7 +21,8 @@ export class RecipeDetailComponent implements OnInit {
     private router: Router
   ) {}
   onAddToShoppingList() {
-    this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
+    if (this.recipe)
+      this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
   }
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {

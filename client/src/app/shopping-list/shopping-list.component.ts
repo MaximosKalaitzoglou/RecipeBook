@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Ingredient } from '../_models/ingredient.model';
 import { ShoppingService } from '../_services/shopping.service';
 import { Subscription } from 'rxjs';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +9,7 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+import { Ingredient } from '../_models/ingredient';
 
 @Component({
   selector: 'app-shopping-list',

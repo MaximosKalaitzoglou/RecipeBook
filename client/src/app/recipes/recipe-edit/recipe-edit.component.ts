@@ -3,7 +3,6 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { RecipeService } from '../../_services/recipe.service';
-import { Recipe } from '../../_models/recipe.model';
 import {
   trigger,
   state,
@@ -11,8 +10,8 @@ import {
   animate,
   transition,
 } from '@angular/animations';
-import { Observable } from 'rxjs';
-import { RecipeDto } from 'src/app/_models/recipe-dto.model';
+import { Recipe } from 'src/app/_models/recipe';
+import { MemberService } from 'src/app/_services/member.service';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -70,7 +69,8 @@ export class RecipeEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private router: Router
+    private router: Router,
+    private memberService: MemberService
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +97,7 @@ export class RecipeEditComponent implements OnInit {
       recipeDescription: '',
       recipePreparation: '',
       recipeCategory: '',
-      recipeDate: new Date(),
+      recipeDate: '',
     };
 
     if (this.editMode) {
@@ -156,38 +156,26 @@ export class RecipeEditComponent implements OnInit {
     // console.log(this.recipeForm?.value);
     var { name, category, preparation, description, imagePath, ingredients } =
       this.recipeForm?.value;
-    // if (this.imageData) imagePath = URL.createObjectURL(this.imageData);
-    var newRecipeDto;
-    var updatedRecipe;
 
-    if (this.editMode === false) {
-      newRecipeDto = new RecipeDto(
-        name,
-        category,
-        preparation,
-        new Date(),
-        description,
-        imagePath,
-        ingredients
-      );
-    } else {
-      if (!this.recipe) return;
-      updatedRecipe = new Recipe(
-        this.recipe?.id,
-        category,
-        preparation,
-        new Date(),
-        name,
-        description,
-        imagePath,
-        ingredients
-      );
-    }
-    if (this.editMode && updatedRecipe) {
-      this.recipeService.updateRecipe(this.id, updatedRecipe);
+    //TODO: Add appUserId by using current logged In user
+    var recipeLoad = {
+      id: -1,
+      name: name,
+      category: category,
+      preparationSteps: preparation,
+      dateAdded: new Date().toString(),
+      description: description,
+      imageUrl: imagePath,
+      ingredients: ingredients,
+      appUserId: this.memberService.getMemberId(),
+    };
+    console.log('RECIPE LOAD: ' + recipeLoad);
+
+    if (this.editMode) {
+      this.recipeService.updateRecipe(this.id, recipeLoad);
     } else {
       console.log('Executing this post request....');
-      if (newRecipeDto) this.recipeService.addRecipe(newRecipeDto);
+      this.recipeService.addRecipe(recipeLoad);
     }
     // this.navigateAway();
   }

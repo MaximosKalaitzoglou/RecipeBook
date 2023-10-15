@@ -1,15 +1,20 @@
-import { Ingredient } from '../_models/ingredient.model';
 import { Subject } from 'rxjs';
+import { Ingredient } from '../_models/ingredient';
 
 export class ShoppingService {
   ingredientsChanged = new Subject<Ingredient[]>();
   startedEditing = new Subject<number>();
   deletedIngredient = new Subject<number>();
 
-  private ingredients = [
-    new Ingredient('Steak', 1),
-    new Ingredient('Tomatoes', 5),
-    new Ingredient('Bread', 5),
+  private ingredients: Ingredient[] = [
+    {
+      name: 'Steak',
+      amount: 1,
+    },
+    {
+      name: 'Tomatoes',
+      amount: 5,
+    },
   ];
 
   getIngredients() {
