@@ -27,9 +27,6 @@ namespace recipes_app.DTOs
         [Required]
         public List<IngredientDto> Ingredients { get; set; }
 
-        [Required]
-        public int AppUserId { get; set; }
-
         public string AppUserPhotoUrl { get; set; }
 
         public string AppUserName { get; set; }
