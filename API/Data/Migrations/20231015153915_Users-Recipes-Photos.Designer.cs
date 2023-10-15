@@ -11,7 +11,7 @@ using recipes_app.Data;
 namespace recipes_app.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231015125808_Users-Recipes-Photos")]
+    [Migration("20231015153915_Users-Recipes-Photos")]
     partial class UsersRecipesPhotos
     {
         /// <inheritdoc />
@@ -172,11 +172,13 @@ namespace recipes_app.Migrations
 
             modelBuilder.Entity("recipes_app.Models.Recipes", b =>
                 {
-                    b.HasOne("recipes_app.Models.AppUser", null)
+                    b.HasOne("recipes_app.Models.AppUser", "AppUser")
                         .WithMany("Recipes")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("recipes_app.Models.AppUser", b =>

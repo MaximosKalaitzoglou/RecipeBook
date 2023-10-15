@@ -9,6 +9,7 @@ using recipes_app.Models;
 
 namespace recipes_app.Controllers
 {
+    //TODO: Need to change other Http controllers to include AppUser Photo and username on the response
     public class RecipesController : BaseApiController
     {
         private readonly DataContext _context;
@@ -24,7 +25,11 @@ namespace recipes_app.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<RecipesDto>>> GetRecipes()
         {
-            var recipes = await _context.Recipes.Include(rec => rec.Ingredients).ToListAsync();
+            var recipes = await _context.Recipes
+            .Include(rec => rec.Ingredients)
+            .Include(rec => rec.AppUser)
+            .ThenInclude(u => u.Photos)
+            .ToListAsync();
 
             var recipesToReturn = _mapper.Map<IEnumerable<RecipesDto>>(recipes);
 
@@ -37,7 +42,7 @@ namespace recipes_app.Controllers
             var recipeDto = _mapper.Map<Recipes, RecipesDto>(recipe);
             return recipeDto;
         }
-        
+
         [Authorize]
         [HttpPost("save-recipe")]
         public async Task<ActionResult<Object>> AddRecipe(RecipesDto recipe)

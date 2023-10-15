@@ -34,6 +34,7 @@ namespace recipes_app.Models
 
         [ForeignKey("AppUserId")]
         public int AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
 
 
     }

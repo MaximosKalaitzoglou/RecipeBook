@@ -169,11 +169,13 @@ namespace recipes_app.Migrations
 
             modelBuilder.Entity("recipes_app.Models.Recipes", b =>
                 {
-                    b.HasOne("recipes_app.Models.AppUser", null)
+                    b.HasOne("recipes_app.Models.AppUser", "AppUser")
                         .WithMany("Recipes")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("recipes_app.Models.AppUser", b =>
