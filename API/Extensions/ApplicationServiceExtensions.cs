@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using recipes_app.Data.Repositories;
 using recipes_app.Interfaces;
 using recipes_app.Services;
 
@@ -25,6 +26,10 @@ namespace recipes_app.Extensions
             services.AddCors();
 
             services.AddScoped<ITokenService, TokenService>();
+
+            services.AddScoped<IRecipesRepository, RecipesRepository>();
+            
+            services.AddScoped<IMemberRepository, MemberRepository>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
