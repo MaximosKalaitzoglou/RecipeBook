@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RecipeService } from '../../_services/recipe.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, Subscription, map, of } from 'rxjs';
 import { Recipe } from 'src/app/_models/recipe';
 
 @Component({
@@ -32,7 +32,6 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     });
 
     this.recipes$ = this.recipeService.getRecipes();
-
     // this.recipeService.getRecipes().subscribe({
     //   next: (response) => {
     //     this.recipes = response;

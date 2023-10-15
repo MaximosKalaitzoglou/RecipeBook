@@ -10,4 +10,7 @@ export interface Recipe {
   dateAdded: string;
   ingredients: Ingredient[];
   appUserId: number;
+  appUserPhotoUrl: string;
+  appUserName: string;
+
 }

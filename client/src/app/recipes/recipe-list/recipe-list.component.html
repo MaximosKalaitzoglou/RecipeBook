@@ -27,14 +27,17 @@
 
 <hr />
 
-<div class="d-flex flex-column" style="justify-content: center; margin: auto">
+<div class="d-flex flex-column" style="justify-content: center; margin: auto" *ngIf="recipes$">
   <div
     class="list-group"
     *ngFor="
-      let item of recipes$ | async | filterRecipes : filterCategory;
+      let recipe of recipes$ | async | filterRecipes : filterCategory;
       let i = index
     "
   >
-    <app-recipe-item [recipe]="item" [index]="i"></app-recipe-item>
+    <app-recipe-item
+      [recipe]="recipe"
+      [index]="i"
+    ></app-recipe-item>
   </div>
 </div>

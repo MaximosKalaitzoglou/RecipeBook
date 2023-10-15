@@ -9,7 +9,6 @@ import { Recipe } from 'src/app/_models/recipe';
 export class RecipeItemComponent implements OnInit {
   @Input() recipe!: Recipe;
   @Input() index: number = 0;
-
   timeStamp: string = '';
   date: string = new Date().toISOString();
 
@@ -46,5 +45,11 @@ export class RecipeItemComponent implements OnInit {
         this.timeStamp = `${days} days ago`;
       }
     }
+  }
+
+  get memberPhoto() {
+    var photo = this.recipe.appUserPhotoUrl;
+    if (photo) return photo;
+    return './assets/default.png';
   }
 }

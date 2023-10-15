@@ -168,6 +168,8 @@ export class RecipeEditComponent implements OnInit {
       imageUrl: imagePath,
       ingredients: ingredients,
       appUserId: this.memberService.getMemberId(),
+      appUserPhotoUrl: '',
+      appUserName: '',
     };
     console.log('RECIPE LOAD: ' + recipeLoad);
 
