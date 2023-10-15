@@ -10,6 +10,12 @@ namespace recipes_app.Helpers
         {
             CreateMap<Recipes, RecipesDto>();
             CreateMap<Ingredient, IngredientDto>();
+            CreateMap<AppUser, MemberDto>()
+            .ForMember(dest => dest.RecipeIds, opt => opt.MapFrom(src => src.Recipes.Select(r => r.Id)))
+            .ReverseMap();
+
+            
+            CreateMap<Photos, PhotoDto>();
 
             CreateMap<RecipesDto, Recipes>();
             CreateMap<IngredientDto, Ingredient>();

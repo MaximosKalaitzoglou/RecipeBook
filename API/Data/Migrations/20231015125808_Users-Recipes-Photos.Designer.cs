@@ -11,8 +11,8 @@ using recipes_app.Data;
 namespace recipes_app.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231014231537_Users-Recipes")]
-    partial class UsersRecipes
+    [Migration("20231015125808_Users-Recipes-Photos")]
+    partial class UsersRecipesPhotos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -5,7 +5,7 @@
 namespace recipes_app.Migrations
 {
     /// <inheritdoc />
-    public partial class UsersRecipes : Migration
+    public partial class UsersRecipesPhotos : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

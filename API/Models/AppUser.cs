@@ -11,6 +11,7 @@ namespace recipes_app.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        
         [Required]
         public string UserName { get; set; }
 

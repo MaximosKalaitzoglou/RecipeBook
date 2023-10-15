@@ -22,19 +22,20 @@ namespace recipes_app.Controllers
 
 
         [HttpGet("list")]
-        public async Task<ActionResult<IEnumerable<Recipes>>> GetRecipes()
+        public async Task<ActionResult<IEnumerable<RecipesDto>>> GetRecipes()
         {
             var recipes = await _context.Recipes.Include(rec => rec.Ingredients).ToListAsync();
 
-            var recipesToReturn = _mapper.Map<IEnumerable<Recipes>>(recipes);
+            var recipesToReturn = _mapper.Map<IEnumerable<RecipesDto>>(recipes);
 
             return Ok(recipesToReturn);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<Recipes>> GetRecipeById(int id)
+        public async Task<ActionResult<RecipesDto>> GetRecipeById(int id)
         {
             var recipe = await _context.Recipes.Include(rec => rec.Ingredients).FirstOrDefaultAsync(x => x.Id == id);
-            return recipe;
+            var recipeDto = _mapper.Map<Recipes, RecipesDto>(recipe);
+            return recipeDto;
         }
         
         [Authorize]
