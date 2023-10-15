@@ -10,22 +10,18 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   faBars = faBars;
-
   constructor(public accountService: AccountService, private router: Router) {}
-
   model: any = {};
-
   login(loginForm: NgForm) {
     // console.log(this.model);
     this.accountService.login(this.model).subscribe({
       next: (_) => {
-        // this.router.navigateByUrl('/recipes');
+        this.router.navigateByUrl('/recipes');
       },
     });
   }
 
   logout() {
     this.accountService.logout();
-    this.router.navigateByUrl('/');
   }
 }

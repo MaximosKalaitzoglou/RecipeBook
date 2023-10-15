@@ -20,7 +20,7 @@ export class RecipeService {
 
   constructor(
     private shoppingService: ShoppingService,
-    private http: HttpClient,
+    private http: HttpClient
   ) {}
 
   getRecipes() {
