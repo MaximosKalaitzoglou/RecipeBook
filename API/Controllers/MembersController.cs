@@ -25,10 +25,30 @@ namespace recipes_app.Controllers
             return Ok(await _memberRep.GetMembersAsync());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MemberDto>> GetMemberById(int id)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<MemberDto>> GetMemberByUserName(string username)
         {
-            return Ok(await _memberRep.GetMemberByIdAsync(id));
+            return Ok(await _memberRep.GetMemberByUserNameAsync(username));
+        }
+
+        [HttpPut("{username}")]
+        public async Task<ActionResult> UpdateMemberById(MemberDto memberDto, string username)
+        {
+            var result = await _memberRep.UpdateMemberAsync(memberDto);
+            if (result == false){
+                return NotFound("user not found");
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("{username}")]
+        public async Task<ActionResult> DeleteMember(string username){
+            var result = await _memberRep.DeleteMemberAsync(username);
+            if (result == false){
+                return NotFound("User not Found");
+            }
+
+            return Ok("Deleted succesfully");
         }
     }
 }

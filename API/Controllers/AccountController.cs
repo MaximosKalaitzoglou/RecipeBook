@@ -53,7 +53,7 @@ namespace recipes_app.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _context.Users
-            .Include(u => u.Photos)
+            .Include(u => u.Photo)
             .SingleOrDefaultAsync(x => x.UserName == loginDto.UserName);
             if (user == null) return Unauthorized("Invalid username");
 
@@ -70,7 +70,7 @@ namespace recipes_app.Controllers
             {
                 UserName = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.Find(p => p.IsMain).Url
+                PhotoUrl = user.Photo.Url
             };
 
         }

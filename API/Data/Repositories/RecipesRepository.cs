@@ -43,7 +43,7 @@ namespace recipes_app.Data.Repositories
             return _context.Recipes.Where(rec => rec.Id == id)
                 .Include(rec => rec.Ingredients)
                 .Include(rec => rec.AppUser)
-                .ThenInclude(u => u.Photos)
+                .ThenInclude(u => u.Photo)
                 .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
         }
@@ -53,7 +53,7 @@ namespace recipes_app.Data.Repositories
             return await _context.Recipes
                     .Include(rec => rec.Ingredients)
                     .Include(rec => rec.AppUser)
-                    .ThenInclude(u => u.Photos)
+                    .ThenInclude(u => u.Photo)
                     .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
         }
@@ -119,13 +119,15 @@ namespace recipes_app.Data.Repositories
         }
 
 
-        public async Task<bool> DeleteRecipe(int id){
+        public async Task<bool> DeleteRecipe(int id)
+        {
             var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe == null){
+            if (recipe == null)
+            {
                 return false;
             }
             _context.Recipes.Remove(recipe);
-            
+
             return await SaveAllAsync();
         }
         public async Task<bool> SaveAllAsync()
@@ -137,7 +139,6 @@ namespace recipes_app.Data.Repositories
         {
             _context.Entry(recipe).State = EntityState.Modified;
         }
-
 
 
     }

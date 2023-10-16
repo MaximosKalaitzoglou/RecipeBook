@@ -20,9 +20,22 @@ namespace recipes_app.Data.Repositories
             _context = context;
             _mapper = mapper;
         }
-        public async Task<MemberDto> GetMemberByIdAsync(int id)
+
+        public async Task<bool> DeleteMemberAsync(string username)
         {
-            return await _context.Users.Where(x => x.Id == id)
+            var member = await _context.Users.SingleOrDefaultAsync(m => m.UserName == username);
+            if (member == null)
+            {   
+                return false;
+            }
+
+            _context.Users.Remove(member);
+            return await SaveAllAsync();
+        }
+
+        public async Task<MemberDto> GetMemberByUserNameAsync(string username)
+        {
+            return await _context.Users.Where(x => x.UserName == username)
                     .ProjectTo<MemberDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
         }
 
@@ -40,6 +53,20 @@ namespace recipes_app.Data.Repositories
         public void Update(AppUser user)
         {
             _context.Entry(user).State = EntityState.Modified;
+        }
+
+        public async Task<bool> UpdateMemberAsync(MemberDto memberDto)
+        {
+            var member = await _context.Users.FirstOrDefaultAsync(m => m.UserName == memberDto.UserName);
+
+            if (member == null)
+            {
+                return false;
+            }
+            _mapper.Map(memberDto, member);
+
+            return await SaveAllAsync();
+
         }
     }
 }

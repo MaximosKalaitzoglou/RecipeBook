@@ -11,34 +11,21 @@ namespace recipes_app.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        
         [Required]
         public string UserName { get; set; }
 
+        public string Alias { get; set; }
 
-        //Extended --------------------------------------------------------->
-
-        public string Interests { get; set; }
-
-        public string Introduction { get; set; }
-
-        [Required]
         public string Gender { get; set; }
-
-        [Required]
-        public string Country { get; set; }
-
 
         public DateTime MemberSince { get; set; } = DateTime.UtcNow;
 
-        [Required]
         public DateOnly DateOfBirth { get; set; }
 
-        public List<Photos> Photos { get; set; } = new();
+        public Photo Photo { get; set; }
 
         public List<Recipes> Recipes { get; set; } = new();
 
-        //----------------------------------------------------------------->
 
         [Required]
         [MinLength(8)]

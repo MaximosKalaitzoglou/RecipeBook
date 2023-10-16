@@ -17,14 +17,14 @@ namespace recipes_app.Helpers
             CreateMap<Recipes, RecipesDto>()
             .ForMember(
                 dest => dest.AppUserPhotoUrl,
-                opt => opt.MapFrom(src => src.AppUser.Photos.FirstOrDefault(p => p.IsMain).Url)
+                opt => opt.MapFrom(src => src.AppUser.Photo.Url)
             )
             .ForMember(
                 dest => dest.AppUserName,
                 opt => opt.MapFrom(src => src.AppUser.UserName)
             );
 
-            CreateMap<Photos, PhotoDto>();
+            CreateMap<Photo, PhotoDto>();
 
             CreateMap<RecipesDto, Recipes>();
             CreateMap<IngredientDto, Ingredient>();

@@ -5,15 +5,10 @@
     "DateOfBirth": "1956-07-22",
     "Alias": "Lisa",
     "MemberSince": "2020-06-24",
-    "Introduction": "Sunt esse aliqua ullamco in incididunt consequat commodo. Nisi ad esse elit ipsum commodo fugiat est ad. Incididunt nostrud incididunt nostrud sit excepteur occaecat.\r\n",
-    "Interests": "Sit sit incididunt proident velit.",
-    "Country": "Martinique",
-    "Photos": [
-      {
-        "Url": "https://randomuser.me/api/portraits/women/54.jpg",
-        "IsMain": true
-      }
-    ],
+    "Photo": {
+      "Url": "https://randomuser.me/api/portraits/women/54.jpg",
+      "IsMain": true
+    },
     "Recipes": [
       {
         "Name": "souvlaki",
@@ -64,17 +59,13 @@
   {
     "UserName": "Karen",
     "Gender": "female",
+    "Alias": "Karen_flou",
     "DateOfBirth": "1995-10-12",
     "MemberSince": "2019-12-09",
-    "Introduction": "Laborum dolore aliquip voluptate sunt cupidatat fugiat. Aliqua cillum deserunt do sunt ullamco aute Lorem nisi irure velit esse excepteur ex qui. Aliquip cupidatat officia ullamco duis veniam quis elit dolore nisi proident exercitation id cillum ullamco. In exercitation aliqua commodo veniam culpa duis commodo mollit et sint culpa.\r\n",
-    "Interests": "Dolor aliquip velit amet aliqua minim labore sit laboris non aliquip cillum.",
-    "Country": "Grenada",
-    "Photos": [
-      {
-        "Url": "https://randomuser.me/api/portraits/women/50.jpg",
-        "IsMain": true
-      }
-    ],
+    "Photo": {
+      "Url": "https://randomuser.me/api/portraits/women/50.jpg",
+      "IsMain": true
+    },
     "Recipes": [
       {
         "Name": "crepa",
@@ -117,6 +108,41 @@
           {
             "Name": "bread",
             "Amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "UserName": "Mary",
+    "Alias": "Maria_S",
+    "Gender": "female",
+    "DateOfBirth": "2000-03-22",
+    "MemberSince": "2018-06-24",
+    "Photo": {
+      "Url": "https://randomuser.me/api/portraits/women/82.jpg",
+      "IsMain": true
+    },
+    "Recipes": [
+      {
+        "Name": "Mary's Fantastical Crepa",
+        "Category": "desert",
+        "ImageUrl": "https://imageproxy.wolt.com/menu/menu-images/5dd804175fcc482f69c89404/8d9d51e2-2a7f-11eb-9c36-ce24305d99b5_crepa_crispy_caramel__1_.jpeg",
+        "PreparationSteps": "Deserunt irure ad aliquip nisi ipsum nulla aute et. Ea fugiat excepteur nulla reprehenderit. Anim aliqua qui reprehenderit laboris do elit qui laborum quis. Adipisicing esse est ex nostrud aliquip id laborum laboris. Cupidatat anim qui minim adipisicing aliqua minim ad anim mollit anim.\r\n",
+        "Description": "Lorem ipsum dolor elit eu eiusmod labore in aute veniam non esse ea eiusmod incididunt. Ut cillum culpa et mollit. Duis do eiusmod duis culpa ut laborum voluptate. Velit esse magna officia eiusmod Lorem tempor eu dolore esse. Esse commodo ex aliqua ea excepteur aliqua reprehenderit sit velit laboris.\r\n",
+        "DateAdded": "2021-06-10",
+        "Ingredients": [
+          {
+            "Name": "eggs",
+            "Amount": 4
+          },
+          {
+            "Name": "butter",
+            "Amount": 1
+          },
+          {
+            "Name": "nuttella",
+            "Amount": 1
           }
         ]
       }

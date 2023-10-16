@@ -11,8 +11,8 @@ using recipes_app.Data;
 namespace recipes_app.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231015153915_Users-Recipes-Photos")]
-    partial class UsersRecipesPhotos
+    [Migration("20231016173118_Restructure-Users")]
+    partial class RestructureUsers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,21 +28,13 @@ namespace recipes_app.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
+                    b.Property<string>("Alias")
                         .HasColumnType("longtext");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Interests")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Introduction")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("MemberSince")
@@ -88,7 +80,7 @@ namespace recipes_app.Migrations
                     b.ToTable("Ingredient");
                 });
 
-            modelBuilder.Entity("recipes_app.Models.Photos", b =>
+            modelBuilder.Entity("recipes_app.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,9 +98,10 @@ namespace recipes_app.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
 
-                    b.ToTable("Photos");
+                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("recipes_app.Models.Recipes", b =>
@@ -121,7 +114,6 @@ namespace recipes_app.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Category")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateAdded")
@@ -140,7 +132,6 @@ namespace recipes_app.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("PreparationSteps")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -159,11 +150,11 @@ namespace recipes_app.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("recipes_app.Models.Photos", b =>
+            modelBuilder.Entity("recipes_app.Models.Photo", b =>
                 {
                     b.HasOne("recipes_app.Models.AppUser", "AppUser")
-                        .WithMany("Photos")
-                        .HasForeignKey("AppUserId")
+                        .WithOne("Photo")
+                        .HasForeignKey("recipes_app.Models.Photo", "AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -183,7 +174,7 @@ namespace recipes_app.Migrations
 
             modelBuilder.Entity("recipes_app.Models.AppUser", b =>
                 {
-                    b.Navigation("Photos");
+                    b.Navigation("Photo");
 
                     b.Navigation("Recipes");
                 });

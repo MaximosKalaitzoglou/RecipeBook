@@ -1,22 +1,28 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using recipes_app.Data;
 using recipes_app.DTOs;
+using recipes_app.Extensions;
 using recipes_app.Interfaces;
-using recipes_app.Models;
 
 namespace recipes_app.Controllers
 {
+
+    public class IsValidResponse
+    {
+        public bool Success { get; set; }
+        public string Type { get; set; }
+    }
     //TODO: Need to change other Http controllers to include AppUser Photo and username on the response
     public class RecipesController : BaseApiController
     {
         private readonly IRecipesRepository _recRepository;
+        private readonly IMemberRepository _memberRep;
 
-        public RecipesController(IRecipesRepository recRepository)
+
+        public RecipesController(IRecipesRepository recRepository, IMemberRepository memberRep)
         {
             _recRepository = recRepository;
+            _memberRep = memberRep;
         }
 
 
@@ -36,6 +42,8 @@ namespace recipes_app.Controllers
         [HttpPost("save-recipe")]
         public async Task<ActionResult<RecipesDto>> AddRecipe(RecipesDto recipe)
         {
+            recipe.AppUserName = User.GetUsername();
+
             var response = await _recRepository.AddRecipeAsync(recipe);
 
             if (response == null) return NotFound("User not Found");
@@ -47,6 +55,18 @@ namespace recipes_app.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id)
         {
+
+            recipeUpdateDto.AppUserName = User.GetUsername();
+            recipeUpdateDto.Id = id;
+
+            var isValid = await ValidateAuthority(recipeUpdateDto.AppUserName, id);
+
+            if (!isValid.Success)
+            {
+                if (isValid.Type == "not-found") return NotFound("User not Found");
+                else return Unauthorized("You have no priviledges to edit this recipe");
+            }
+
             var result = await _recRepository.UpdateRecipe(recipeUpdateDto, id);
 
             if (result.Success)
@@ -67,12 +87,51 @@ namespace recipes_app.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRecipe(int id)
         {
+
+            var isValid = await ValidateAuthority(User.GetUsername(), id);
+
+            if (!isValid.Success)
+            {
+                if (isValid.Type == "not-found") return NotFound("User not Found");
+                else return Unauthorized("You have no priviledges to delete this recipe");
+            }
+
             var result = await _recRepository.DeleteRecipe(id);
             if (result)
             {
-                return Ok("Succesfull");
+                return Ok();
             }
             return BadRequest("Something went wrong");
+        }
+
+        public async Task<IsValidResponse> ValidateAuthority(string username, int id)
+        {
+            var member = await _memberRep.GetMemberByUserNameAsync(username);
+
+            if (member == null)
+            {
+                return new IsValidResponse
+                {
+                    Success = false,
+                    Type = "not-found"
+                };
+            }
+
+            if (!member.RecipeIds.Contains(id))
+            {
+                return new IsValidResponse
+                {
+                    Success = false,
+                    Type = "not-authorized",
+                };
+            }
+
+            return new IsValidResponse
+            {
+                Success = true,
+                Type = ""
+            };
+
         }
 
     }
