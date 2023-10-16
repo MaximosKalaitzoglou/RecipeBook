@@ -4,34 +4,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.Data;
 using recipes_app.DTOs;
+using recipes_app.Interfaces;
 
 namespace recipes_app.Controllers
 {
     public class MembersController : BaseApiController
     {
 
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
+        private readonly IMemberRepository _memberRep;
 
-        public MembersController(DataContext context, IMapper mapper)
+
+        public MembersController(IMemberRepository memberRep)
         {
-            _context = context;
-            _mapper = mapper;
+            _memberRep = memberRep;
         }
 
         [HttpGet("list")]
         public async Task<ActionResult<MemberDto>> GetMembers()
         {
-            return Ok(await _context.Users.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).ToListAsync());
+            return Ok(await _memberRep.GetMembersAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<MemberDto>> GetMemberById(int id)
         {
-            return await _context.Users
-                        .Where(x => x.Id == id)
-                        .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                        .SingleOrDefaultAsync();
+            return Ok(await _memberRep.GetMemberByIdAsync(id));
         }
     }
 }

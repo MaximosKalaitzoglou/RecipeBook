@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.DTOs;
 using recipes_app.Interfaces;
@@ -11,6 +13,18 @@ using recipes_app.Models;
 
 namespace recipes_app.Data.Repositories
 {
+
+    public class UpdateResult
+    {
+        public bool Success { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class AddRecipeResult
+    {
+        public RecipesDto Recipe { get; set; }
+        public bool Success { get; set; }
+    }
 
 
     public class RecipesRepository : IRecipesRepository
@@ -22,17 +36,6 @@ namespace recipes_app.Data.Repositories
         {
             _context = context;
             _mapper = mapper;
-        }
-
-        public async Task<Recipes> AddRecipe(RecipesDto recipesDto)
-        {
-            var newRecipe = new Recipes
-            {
-            };
-            _mapper.Map(recipesDto, newRecipe);
-            await _context.Recipes.AddAsync(newRecipe);
-            return newRecipe;
-
         }
 
         public Task<RecipesDto> GetRecipeByIdAsync(int id)
@@ -55,7 +58,76 @@ namespace recipes_app.Data.Repositories
                     .ToListAsync();
         }
 
+        public async Task<AddRecipeResult> AddRecipeAsync(RecipesDto recipesDto)
+        {
+            var user = _context.Users.SingleOrDefault(user => user.UserName == recipesDto.AppUserName);
 
+            if (user == null)
+            {
+                return null;
+            }
+            var newRecipe = _mapper.Map<Recipes>(recipesDto);
+            newRecipe.AppUserId = user.Id;
+
+            await _context.Recipes.AddAsync(newRecipe);
+            if (await SaveAllAsync())
+            {
+                return new AddRecipeResult { Recipe = _mapper.Map<RecipesDto>(newRecipe), Success = true };
+
+            }
+
+            return new AddRecipeResult
+            {
+                Recipe = null,
+                Success = false
+            };
+
+        }
+
+
+        public async Task<UpdateResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id)
+        {
+            var recipe = await _context.Recipes.Include(rec => rec.Ingredients).FirstOrDefaultAsync(x => x.Id == id);
+            if (recipe == null)
+            {
+                return new UpdateResult
+                {
+                    Success = false,
+                    Error = "Not Found"
+                };
+            }
+
+            _mapper.Map(recipeUpdateDto, recipe);
+
+            if (await SaveAllAsync())
+            {
+                return new UpdateResult
+                {
+                    Success = true,
+                    Error = ""
+                };
+            }
+            else
+            {
+                return new UpdateResult
+                {
+                    Success = false,
+                    Error = "Bad Request"
+                };
+            }
+
+        }
+
+
+        public async Task<bool> DeleteRecipe(int id){
+            var recipe = await _context.Recipes.FindAsync(id);
+            if (recipe == null){
+                return false;
+            }
+            _context.Recipes.Remove(recipe);
+            
+            return await SaveAllAsync();
+        }
         public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;
@@ -65,6 +137,8 @@ namespace recipes_app.Data.Repositories
         {
             _context.Entry(recipe).State = EntityState.Modified;
         }
+
+
 
     }
 }

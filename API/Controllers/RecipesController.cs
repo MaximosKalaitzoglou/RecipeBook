@@ -12,14 +12,10 @@ namespace recipes_app.Controllers
     //TODO: Need to change other Http controllers to include AppUser Photo and username on the response
     public class RecipesController : BaseApiController
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
         private readonly IRecipesRepository _recRepository;
 
-        public RecipesController(IRecipesRepository recRepository, DataContext context, IMapper mapper)
+        public RecipesController(IRecipesRepository recRepository)
         {
-            _mapper = mapper;
-            _context = context;
             _recRepository = recRepository;
         }
 
@@ -29,6 +25,7 @@ namespace recipes_app.Controllers
         {
             return Ok(await _recRepository.GetRecipesAsync());
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<RecipesDto>> GetRecipeById(int id)
         {
@@ -37,52 +34,45 @@ namespace recipes_app.Controllers
 
         [Authorize]
         [HttpPost("save-recipe")]
-        public async Task<ActionResult<Object>> AddRecipe(RecipesDto recipe)
+        public async Task<ActionResult<RecipesDto>> AddRecipe(RecipesDto recipe)
         {
-            var user = _context.Users.SingleOrDefault(user => user.UserName == recipe.AppUserName);
+            var response = await _recRepository.AddRecipeAsync(recipe);
 
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-
-            var newRecipe = _mapper.Map<Recipes>(recipe);
-            newRecipe.AppUserId = user.Id;
-
-            await _context.Recipes.AddAsync(newRecipe);
-            await _context.SaveChangesAsync();
-
-
-
-            return CreatedAtAction(nameof(GetRecipeById), new
-            {
-                Id = newRecipe.Id
-            }, _mapper.Map<RecipesDto>(newRecipe));
+            if (response == null) return NotFound("User not Found");
+            else if (response.Success == false) return BadRequest("Something went wrong");
+            return response.Recipe;
         }
+
         [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id)
         {
-            var recipe = await _context.Recipes.Include(rec => rec.Ingredients).FirstOrDefaultAsync(x => x.Id == id);
-            if (recipe == null) return NotFound();
+            var result = await _recRepository.UpdateRecipe(recipeUpdateDto, id);
 
-            _mapper.Map(recipeUpdateDto, recipe);
-
-            if (await _context.SaveChangesAsync() > 0) return NoContent();
-
-            return BadRequest("Something went wrong");
+            if (result.Success)
+            {
+                return NoContent();
+            }
+            else if (result.Error == "Not Found")
+            {
+                return NotFound("Recipe not found"); // or BadRequest("Something went wrong")
+            }
+            else
+            {
+                return BadRequest("Something went wrong");
+            }
         }
 
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRecipe(int id)
         {
-            var recipe = new Recipes
+            var result = await _recRepository.DeleteRecipe(id);
+            if (result)
             {
-                Id = id
-            };
-            _context.Recipes.Remove(recipe);
-            return Ok(await _context.SaveChangesAsync());
+                return Ok("Succesfull");
+            }
+            return BadRequest("Something went wrong");
         }
 
     }
