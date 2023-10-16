@@ -21,30 +21,25 @@
 <div
   class="card mb-2"
   [routerLink]="['/recipes/' + recipe.id]"
-  style="cursor: pointer; max-width: 80%"
+  style="cursor: pointer; max-width: 50%; margin: auto"
 >
   <div class="card-body">
-    <h4 class="card-title mb-3">{{ recipe.name }}</h4>
-    <a
-      [routerLink]="'/members/' + recipe.appUserName"
-      class="text-decoration-none"
-    >
-      <img
-        [src]="memberPhoto"
-        alt=""
-        loading="lazy"
-        class="rounded-circle"
-        style="width: 60px; position: absolute; top: 0.5rem; right: 1.5rem"
-      />
-    </a>
+    <app-recipe-header
+      [memberPhoto]="memberPhoto"
+      [timeStamp]="recipe.dateAdded"
+      [username]="recipe.appUserName ? recipe.appUserName : 'Unknown'"
+    ></app-recipe-header>
 
-    <p class="card-text">{{ recipe.description }}</p>
-    <img
-      [src]="recipe.imageUrl"
-      [alt]="recipe.name"
-      class="img-responsive float-end"
-      style="max-height: 100px"
-    />
+    <h4 class="card-title mb-3 text-center">{{ recipe.name }}</h4>
   </div>
-  <div class="card-footer text-muted">Added {{ timeStamp }}</div>
+  <img
+    [src]="recipe.imageUrl"
+    [alt]="recipe.name"
+    class="img-responsive d-block user-select-none"
+    style="height: 70%; width: 70%; margin: auto"
+  />
+  <div class="card-body">
+    <p class="card-text">{{ recipe.description | truncate }}</p>
+  </div>
+  <app-recipe-footer></app-recipe-footer>
 </div>

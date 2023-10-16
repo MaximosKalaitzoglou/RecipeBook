@@ -11,11 +11,8 @@
           >
         </li>
         <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/shopping-list"
-            routerLinkActive="active"
-            >Shopping</a
+          <a class="nav-link" routerLink="/explore" routerLinkActive="active"
+            >Explore</a
           >
         </li>
         <!-- <li class="nav-item">
@@ -47,7 +44,9 @@
       >
       <!-- TODO: Implement components for links -->
       <div class="dropdown-menu mt-2" *dropdownMenu>
-        <a routerLink="/" class="dropdown-item">My Recipes</a>
+        <a [routerLink]="'/users/' + currentUser" class="dropdown-item"
+          >My Recipes</a
+        >
 
         <a routerLink="/" class="dropdown-item">Edit Profile</a>
         <a routerLink="/" class="dropdown-item" (click)="logout()">Logout</a>

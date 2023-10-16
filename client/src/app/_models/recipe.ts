@@ -1,7 +1,7 @@
 import { Ingredient } from './ingredient';
 
 export interface Recipe {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   imageUrl: string;
@@ -9,8 +9,8 @@ export interface Recipe {
   category: string;
   dateAdded: string;
   ingredients: Ingredient[];
-  appUserId: number;
-  appUserPhotoUrl: string;
-  appUserName: string;
+  appUserId?: number;
+  appUserPhotoUrl?: string;
+  appUserName?: string;
 
 }

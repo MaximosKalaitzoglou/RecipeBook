@@ -1,8 +1,13 @@
 <div class="row" *ngIf="recipe">
   <div class="col-md-6">
     <div class="card mb-3" style="width: 100%; margin: auto">
+      <app-recipe-header
+        [memberPhoto]="recipe.appUserPhotoUrl || './assets/default.png'"
+        [username]="recipe.appUserName || 'unknown'"
+        [timeStamp]="recipe.dateAdded"
+      ></app-recipe-header>
       <h3 class="card-header">{{ recipe.name }}</h3>
-      <div class="float-end" dropdown>
+      <!-- <div class="float-end" dropdown>
         <fa-icon
           [icon]="faDots"
           size="lg"
@@ -38,7 +43,7 @@
             >
           </li>
         </ul>
-      </div>
+      </div> -->
 
       <img
         [src]="recipe.imageUrl"
@@ -48,6 +53,21 @@
         height="100%"
         style="font-size: 1.125rem; text-anchor: middle"
       />
+      <app-recipe-footer></app-recipe-footer>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <img
+            src="https://randomuser.me/api/portraits/men/3.jpg"
+            alt=""
+            class="img-responsive rounded-circle me-1"
+            style="width: 40px"
+          />
+          <p style="display: inline-block" class="me-3">
+            <strong> Maximos </strong>
+          </p>
+          <span style="display: inline-block"> Nice one! </span>
+        </li>
+      </ul>
     </div>
   </div>
 

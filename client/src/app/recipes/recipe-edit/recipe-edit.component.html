@@ -13,7 +13,7 @@
   </div>
 
   <div class="col-12">
-    <form *ngIf="recipeForm" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <form *ngIf="recipeForm" [formGroup]="recipeForm" (ngSubmit)="onSubmit()" autocomplete="on">
       <!-- Name  -->
       <div>
         <h5 class="my-4">Name</h5>
@@ -73,7 +73,6 @@
             <input
               type="text"
               name="name"
-              id="name"
               class="form-control"
               formControlName="name"
               placeholder="Name"
@@ -83,7 +82,6 @@
             <input
               type="number"
               name="amount"
-              id="amount"
               class="form-control"
               formControlName="amount"
               placeholder="Amount"

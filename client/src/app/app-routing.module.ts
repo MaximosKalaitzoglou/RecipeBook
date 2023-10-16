@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
@@ -9,6 +8,8 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { authGuard } from './_guards/auth.guard';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { UsersComponent } from './users/users.component';
+import { UserPageComponent } from './users/user-page/user-page.component';
 
 const routes: Routes = [
   {
@@ -42,12 +43,20 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'register',
-    component: RegisterComponent,
+    path: 'users',
+    runGuardsAndResolvers: 'always',
+    canActivate: [authGuard],
+    component: UsersComponent,
+    children: [
+      {
+        path: ':username',
+        component: UserPageComponent,
+      },
+    ],
   },
   {
-    path: 'shopping-list',
-    component: ShoppingListComponent,
+    path: 'register',
+    component: RegisterComponent,
   },
   {
     path: 'not-found',
@@ -59,8 +68,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: NotFoundComponent
-  }
+    component: NotFoundComponent,
+  },
 ];
 
 @NgModule({

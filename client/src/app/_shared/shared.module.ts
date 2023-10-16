@@ -7,9 +7,11 @@ import { FilterRecipesPipe } from './filter-recipes.pipe';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ToastrModule } from 'ngx-toastr';
+import { TimestampPipe } from './timestamp.pipe';
+import { TruncatePipe } from './truncate.pipe';
 
 @NgModule({
-  declarations: [FilterRecipesPipe],
+  declarations: [FilterRecipesPipe, TimestampPipe, TruncatePipe],
   imports: [
     NgxSpinnerModule.forRoot({ type: 'pacman' }),
     BsDropdownModule.forRoot(),
@@ -33,6 +35,8 @@ import { ToastrModule } from 'ngx-toastr';
     CarouselModule,
     RatingModule,
     ToastrModule,
+    TimestampPipe,
+    TruncatePipe,
   ],
 })
 export class SharedModule {}

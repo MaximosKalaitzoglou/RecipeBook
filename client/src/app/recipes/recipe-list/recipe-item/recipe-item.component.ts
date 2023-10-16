@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/_models/recipe';
-
 @Component({
   selector: 'app-recipe-item',
   templateUrl: './recipe-item.component.html',
@@ -9,11 +8,12 @@ import { Recipe } from 'src/app/_models/recipe';
 export class RecipeItemComponent implements OnInit {
   @Input() recipe!: Recipe;
   @Input() index: number = 0;
+
   timeStamp: string = '';
   date: string = new Date().toISOString();
 
   ngOnInit(): void {
-    this.calculateTimeStamp();
+    // this.calculateTimeStamp();
   }
   constructor() {}
 

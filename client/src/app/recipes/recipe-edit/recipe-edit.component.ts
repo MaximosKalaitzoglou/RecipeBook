@@ -12,6 +12,7 @@ import {
 } from '@angular/animations';
 import { Recipe } from 'src/app/_models/recipe';
 import { MemberService } from 'src/app/_services/member.service';
+import { User } from 'src/app/_models/user';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -152,32 +153,48 @@ export class RecipeEditComponent implements OnInit {
     return (<FormArray>this.recipeForm?.get('ingredients')).controls;
   }
 
+  getCurrentUser(): User | null {
+    const userString = localStorage.getItem('user');
+    if (userString) return JSON.parse(userString);
+    else return null;
+  }
+
   onSubmit() {
     // console.log(this.recipeForm?.value);
     var { name, category, preparation, description, imagePath, ingredients } =
       this.recipeForm?.value;
-
+    var user = this.getCurrentUser();
     //TODO: Add appUserId by using current logged In user
-    var recipeLoad = {
-      id: -1,
+    var recipeUpdateLoad = {
+      id: this.recipe?.id,
       name: name,
       category: category,
       preparationSteps: preparation,
-      dateAdded: new Date().toString(),
+      dateAdded: new Date().toISOString(),
       description: description,
       imageUrl: imagePath,
       ingredients: ingredients,
-      appUserId: this.memberService.getMemberId(),
-      appUserPhotoUrl: '',
-      appUserName: '',
+      appUserId: this.recipe?.appUserId,
+      appUserPhotoUrl: user ? user.photoUrl : '',
     };
-    console.log('RECIPE LOAD: ' + recipeLoad);
+
+    var newRecipeLoad = {
+      name: name,
+      category: category,
+      preparationSteps: preparation,
+      dateAdded: new Date().toISOString(),
+      description: description,
+      imageUrl: imagePath,
+      ingredients: ingredients,
+      appUserName: user ? user.userName : '',
+      appUserPhotoUrl: user ? user.photoUrl : '',
+    };
+    // console.log('RECIPE LOAD: ' + recipeLoad);
 
     if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, recipeLoad);
+      this.recipeService.updateRecipe(this.id, recipeUpdateLoad);
     } else {
-      console.log('Executing this post request....');
-      this.recipeService.addRecipe(recipeLoad);
+      this.recipeService.addRecipe(newRecipeLoad);
     }
     // this.navigateAway();
   }

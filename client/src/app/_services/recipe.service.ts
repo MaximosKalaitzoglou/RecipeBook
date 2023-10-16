@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ShoppingService } from './shopping.service';
 import { Subject, map, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Recipe } from '../_models/recipe';
-import { Ingredient } from '../_models/ingredient';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +15,7 @@ export class RecipeService {
 
   redirectEvent = new Subject<Boolean>();
 
-  constructor(
-    private shoppingService: ShoppingService,
-    private http: HttpClient
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getRecipes() {
     if (this.recipes.length > 0) return of(this.recipes);
@@ -32,10 +27,6 @@ export class RecipeService {
     );
   }
 
-  addIngredientsToShoppingList(ingredients: Ingredient[]) {
-    this.shoppingService.addIngredient(ingredients);
-  }
-
   getRecipeById(id: number) {
     const recipe = this.recipes.find((rec) => rec.id === id);
     // console.log(recipe);
@@ -45,10 +36,14 @@ export class RecipeService {
 
   addRecipe(recipe: Recipe) {
     this.http
-      .post<Recipe>(this.apiUrl + 'recipes/save-recipe', recipe)
+      .post<Recipe>(
+        this.apiUrl + 'recipes/save-recipe',
+        recipe,
+        this.getHttpOptions()
+      )
       .subscribe({
         next: (response: Recipe) => {
-          console.log(response);
+          response.appUserPhotoUrl = recipe.appUserPhotoUrl;
           this.recipes.push(response);
           this.redirectEvent.next(true);
         },
@@ -56,29 +51,44 @@ export class RecipeService {
   }
 
   updateRecipe(idx: number, recipe: Recipe) {
-    console.log(recipe);
-    this.http.put(this.apiUrl + 'recipes/' + recipe.id, recipe).subscribe({
-      next: (response) => {
-        this.recipes = this.recipes.map((rec) => {
-          if (rec.id === idx) {
-            rec = recipe;
-          }
-          return rec;
-        });
-        this.recipesChanged.next(this.recipes);
-        this.redirectEvent.next(true);
-      },
-    });
+    this.http
+      .put(this.apiUrl + 'recipes/' + recipe.id, recipe, this.getHttpOptions())
+      .subscribe({
+        next: (response) => {
+          this.recipes = this.recipes.map((rec) => {
+            if (rec.id === idx) {
+              rec = recipe;
+            }
+            return rec;
+          });
+          this.recipesChanged.next(this.recipes);
+          this.redirectEvent.next(true);
+        },
+      });
   }
 
   deleteRecipe(id: number) {
-    this.http.delete(this.apiUrl + 'recipes/' + id).subscribe({
-      next: (response) => {
-        // console.log(response);
-        this.recipes = this.recipes.filter((rec, i) => rec.id !== id);
-        this.recipesChanged.next(this.recipes.slice());
-        this.redirectEvent.next(true);
-      },
-    });
+    this.http
+      .delete(this.apiUrl + 'recipes/' + id, this.getHttpOptions())
+      .subscribe({
+        next: (response) => {
+          // console.log(response);
+          this.recipes = this.recipes.filter((rec, i) => rec.id !== id);
+          this.recipesChanged.next(this.recipes.slice());
+          this.redirectEvent.next(true);
+        },
+      });
+  }
+
+  getHttpOptions() {
+    const userString = localStorage.getItem('user');
+    if (!userString) return;
+
+    const user = JSON.parse(userString);
+    return {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + user.token,
+      }),
+    };
   }
 }
