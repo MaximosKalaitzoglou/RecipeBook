@@ -18,6 +18,8 @@ namespace recipes_app.Models
 
         public string Gender { get; set; }
 
+        public string Description { get; set; }
+
         public DateTime MemberSince { get; set; } = DateTime.UtcNow;
 
         public DateOnly DateOfBirth { get; set; }
@@ -26,6 +28,7 @@ namespace recipes_app.Models
 
         public List<Recipes> Recipes { get; set; } = new();
 
+        
 
         [Required]
         [MinLength(8)]

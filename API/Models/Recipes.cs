@@ -27,6 +27,8 @@ namespace recipes_app.Models
 
         public DateTime DateAdded { get; set; } = DateTime.UtcNow;
 
+        // Contains reference to the user
+        public List<Like> Likes { get; set; } = new();
         public List<Ingredient> Ingredients { get; set; } = new();
 
         [ForeignKey("AppUserId")]

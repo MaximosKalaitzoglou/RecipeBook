@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using recipes_app.Data;
 
@@ -10,9 +11,11 @@ using recipes_app.Data;
 namespace recipes_app.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231017130529_Updated-User")]
+    partial class UpdatedUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,33 +81,6 @@ namespace recipes_app.Migrations
                     b.HasIndex("RecipesId");
 
                     b.ToTable("Ingredient");
-                });
-
-            modelBuilder.Entity("recipes_app.Models.Like", b =>
-                {
-                    b.Property<int>("LikeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AppUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RecipesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LikeId");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("RecipesId");
-
-                    b.ToTable("Like");
                 });
 
             modelBuilder.Entity("recipes_app.Models.Photo", b =>
@@ -177,21 +153,6 @@ namespace recipes_app.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("recipes_app.Models.Like", b =>
-                {
-                    b.HasOne("recipes_app.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("recipes_app.Models.Recipes", "Recipes")
-                        .WithMany("Likes")
-                        .HasForeignKey("RecipesId");
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Recipes");
-                });
-
             modelBuilder.Entity("recipes_app.Models.Photo", b =>
                 {
                     b.HasOne("recipes_app.Models.AppUser", "AppUser")
@@ -224,8 +185,6 @@ namespace recipes_app.Migrations
             modelBuilder.Entity("recipes_app.Models.Recipes", b =>
                 {
                     b.Navigation("Ingredients");
-
-                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }

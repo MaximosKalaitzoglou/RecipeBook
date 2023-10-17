@@ -9,6 +9,13 @@ namespace recipes_app.Interfaces
 
         Task<bool> SaveAllAsync();
 
+        Task<IEnumerable<RecipesDto>> GetUserRecipesAsync(string username);
+
+        Task<IEnumerable<AppUser>> GetUsersAsync();
+
+
+        Task<AppUser> GetUserByUserNameAsync(string username);
+
         Task<IEnumerable<MemberDto>> GetMembersAsync();
 
         Task<MemberDto> GetMemberByUserNameAsync(string username);

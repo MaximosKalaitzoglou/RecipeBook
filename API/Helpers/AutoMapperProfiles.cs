@@ -8,10 +8,8 @@ namespace recipes_app.Helpers
     {
         public AutoMapperProfiles()
         {
-            // CreateMap<Recipes, RecipesDto>();
             CreateMap<Ingredient, IngredientDto>();
             CreateMap<AppUser, MemberDto>()
-            .ForMember(dest => dest.RecipeIds, opt => opt.MapFrom(src => src.Recipes.Select(r => r.Id)))
             .ReverseMap();
 
             CreateMap<Recipes, RecipesDto>()
@@ -22,11 +20,16 @@ namespace recipes_app.Helpers
             .ForMember(
                 dest => dest.AppUserName,
                 opt => opt.MapFrom(src => src.AppUser.UserName)
+            )
+            .ForMember(
+                dest => dest.AppUserId,
+                opt => opt.MapFrom(src => src.AppUser.Id)
             );
+
+            CreateMap<RecipesDto, Recipes>();
 
             CreateMap<Photo, PhotoDto>();
 
-            CreateMap<RecipesDto, Recipes>();
             CreateMap<IngredientDto, Ingredient>();
         }
     }

@@ -25,7 +25,7 @@ namespace recipes_app.Data.Repositories
         {
             var member = await _context.Users.SingleOrDefaultAsync(m => m.UserName == username);
             if (member == null)
-            {   
+            {
                 return false;
             }
 
@@ -36,13 +36,41 @@ namespace recipes_app.Data.Repositories
         public async Task<MemberDto> GetMemberByUserNameAsync(string username)
         {
             return await _context.Users.Where(x => x.UserName == username)
-                    .ProjectTo<MemberDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+                    .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                    .SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<MemberDto>> GetMembersAsync()
         {
             return await _context.Users.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).ToListAsync();
 
+        }
+
+        public async Task<AppUser> GetUserByUserNameAsync(string username)
+        {
+            return await _context.Users
+            .Include(u => u.Recipes)
+            .Include(u => u.Photo)
+            .SingleOrDefaultAsync(u => u.UserName == username);
+        }
+
+        public async Task<IEnumerable<RecipesDto>> GetUserRecipesAsync(string username)
+        {
+            var user = await _context.Users
+            .Include(u => u.Photo)
+            .Include(u => u.Recipes)
+            .ThenInclude(rec => rec.Ingredients)
+            .SingleOrDefaultAsync(u => u.UserName == username);
+            var userRecipes = _mapper.Map<IEnumerable<RecipesDto>>(user.Recipes);
+            return userRecipes;
+        }
+
+        public async Task<IEnumerable<AppUser>> GetUsersAsync()
+        {
+            return await _context.Users
+            .Include(u => u.Recipes)
+            .Include(u => u.Photo)
+            .ToListAsync();
         }
 
         public async Task<bool> SaveAllAsync()

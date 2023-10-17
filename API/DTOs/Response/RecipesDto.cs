@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using recipes_app.Models;
 
 namespace recipes_app.DTOs
 {
@@ -27,8 +28,13 @@ namespace recipes_app.DTOs
         [Required]
         public List<IngredientDto> Ingredients { get; set; }
 
+
+        public int LikeCount { get; set; }
+
+        public bool UserLiked { get; set; }
         public string AppUserPhotoUrl { get; set; }
 
+        public int AppUserId { get; set; }
         public string AppUserName { get; set; }
     }
 }

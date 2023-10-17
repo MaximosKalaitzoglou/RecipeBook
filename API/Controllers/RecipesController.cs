@@ -106,9 +106,9 @@ namespace recipes_app.Controllers
 
         public async Task<IsValidResponse> ValidateAuthority(string username, int id)
         {
-            var member = await _memberRep.GetMemberByUserNameAsync(username);
+            var user = await _memberRep.GetUserByUserNameAsync(username);
 
-            if (member == null)
+            if (user == null)
             {
                 return new IsValidResponse
                 {
@@ -117,7 +117,7 @@ namespace recipes_app.Controllers
                 };
             }
 
-            if (!member.RecipeIds.Contains(id))
+            if (user.Recipes.DistinctBy(x => x.Id == id).Any() == false)
             {
                 return new IsValidResponse
                 {
