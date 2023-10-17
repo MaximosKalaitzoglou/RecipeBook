@@ -9,6 +9,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { ToastrModule } from 'ngx-toastr';
 import { TimestampPipe } from './timestamp.pipe';
 import { TruncatePipe } from './truncate.pipe';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [FilterRecipesPipe, TimestampPipe, TruncatePipe],
@@ -24,6 +25,7 @@ import { TruncatePipe } from './truncate.pipe';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    ModalModule.forRoot(),
   ],
   providers: [],
   exports: [
@@ -37,6 +39,7 @@ import { TruncatePipe } from './truncate.pipe';
     ToastrModule,
     TimestampPipe,
     TruncatePipe,
+    ModalModule,
   ],
 })
 export class SharedModule {}

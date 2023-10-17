@@ -28,6 +28,7 @@ import { UsersComponent } from './users/users.component';
 import { UserPageComponent } from './users/user-page/user-page.component';
 import { MemberService } from './_services/member.service';
 import { UserRecipeCardComponent } from './users/user-page/user-recipe-card/user-recipe-card.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { UserRecipeCardComponent } from './users/user-page/user-recipe-card/user
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    ModalModule.forRoot(),
   ],
   providers: [
     RecipeService,

@@ -20,16 +20,20 @@ export class RecipeItemComponent implements OnInit {
   constructor(private recipeService: RecipeService) {}
 
   onLikeRecipe() {
-    if (this.recipe && this.recipe.appUserId && this.recipe.id) {
-      var newRecipe = this.recipe;
-
-      let newLikes: Like = {
-        userId: this.recipe.appUserId,
-        recipeId: this.recipe.id,
-      };
-      newRecipe.likes.push(newLikes);
-      console.log(newRecipe);
-      this.recipeService.updateRecipe(this.index, newRecipe);
+    if (this.recipe && this.recipe.id) {
+      var userString = localStorage.getItem('user');
+      if (userString) {
+        var user = JSON.parse(userString);
+        this.recipeService
+          .likeRecipe({
+            userName: user.userName,
+            recipeId: this.recipe.id,
+          })
+          .subscribe({
+            next: (_) => {
+            },
+          });
+      }
     }
   }
 

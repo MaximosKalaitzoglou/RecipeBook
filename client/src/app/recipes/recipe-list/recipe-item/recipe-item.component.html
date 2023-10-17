@@ -40,5 +40,10 @@
       <p class="card-text">{{ recipe.description | truncate : 200 }}</p>
     </div>
   </div>
-  <app-recipe-footer (on-like)="onLikeRecipe()" [likes]="recipe.likes"></app-recipe-footer>
+  <app-recipe-footer
+    (on-like)="onLikeRecipe()"
+    [likes]="recipe.likes"
+    [likeCount]="recipe.likeCount || 0"
+    [hasLiked]="recipe.hasLiked || false"
+  ></app-recipe-footer>
 </div>

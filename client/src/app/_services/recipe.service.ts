@@ -19,19 +19,24 @@ export class RecipeService {
 
   getRecipes() {
     if (this.recipes.length > 0) return of(this.recipes);
-    return this.http.get<Recipe[]>(this.apiUrl + 'recipes/list/', {}).pipe(
-      map((recipes) => {
-        this.recipes = recipes;
-        return recipes;
-      })
-    );
+    return this.http
+      .get<Recipe[]>(this.apiUrl + 'recipes/list/', this.getHttpOptions())
+      .pipe(
+        map((recipes) => {
+          this.recipes = recipes;
+          return recipes;
+        })
+      );
   }
 
   getRecipeById(id: number) {
     const recipe = this.recipes.find((rec) => rec.id === id);
     // console.log(recipe);
     if (recipe) return of(recipe);
-    return this.http.get<Recipe>(this.apiUrl + 'recipes/' + id);
+    return this.http.get<Recipe>(
+      this.apiUrl + 'recipes/' + id,
+      this.getHttpOptions()
+    );
   }
 
   addRecipe(recipe: Recipe) {
@@ -90,5 +95,13 @@ export class RecipeService {
         Authorization: 'Bearer ' + user.token,
       }),
     };
+  }
+
+  likeRecipe(likeRequest: { userName: string; recipeId: number }) {
+    return this.http.post(
+      this.apiUrl + 'like',
+      likeRequest,
+      this.getHttpOptions()
+    );
   }
 }

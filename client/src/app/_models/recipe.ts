@@ -11,6 +11,8 @@ export interface Recipe {
   dateAdded: string;
   ingredients: Ingredient[];
   likes: Like[];
+  hasLiked?: boolean;
+  likeCount?: number;
   appUserId?: number;
   appUserPhotoUrl?: string;
   appUserName?: string;
