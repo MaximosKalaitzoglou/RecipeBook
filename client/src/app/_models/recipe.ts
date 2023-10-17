@@ -1,4 +1,5 @@
 import { Ingredient } from './ingredient';
+import { Like } from './like';
 
 export interface Recipe {
   id?: number;
@@ -9,8 +10,8 @@ export interface Recipe {
   category: string;
   dateAdded: string;
   ingredients: Ingredient[];
+  likes: Like[];
   appUserId?: number;
   appUserPhotoUrl?: string;
   appUserName?: string;
-
 }

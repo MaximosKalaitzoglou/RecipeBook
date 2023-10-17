@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Member } from 'src/app/_models/member';
+import { Recipe } from 'src/app/_models/recipe';
 import { MemberService } from 'src/app/_services/member.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { MemberService } from 'src/app/_services/member.service';
 })
 export class UserPageComponent implements OnInit {
   member: Member | undefined;
+  recipes: Recipe[] = [];
   username = '';
   constructor(
     private memberService: MemberService,
@@ -22,6 +24,12 @@ export class UserPageComponent implements OnInit {
         this.memberService.getMemberUsername(this.username).subscribe({
           next: (member) => {
             this.member = member;
+          },
+        });
+
+        this.memberService.getMemberRecipes(this.username).subscribe({
+          next: (recipes) => {
+            this.recipes = recipes;
           },
         });
       },

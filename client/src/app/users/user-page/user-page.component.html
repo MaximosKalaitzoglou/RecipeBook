@@ -1,5 +1,5 @@
-<div class="container" *ngIf="member">
-  <div class="row">
+<div class="container">
+  <div class="row" *ngIf="member">
     <div class="col-md-3">
       <img
         [src]="member.photo.url"
@@ -40,8 +40,8 @@
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-2">
-        <strong>
-          {{ member.recipes.length }}
+        <strong *ngIf="recipes.length > 0">
+          {{ recipes.length }}
         </strong>
         recipes
       </div>
@@ -51,7 +51,7 @@
   </div>
 
   <app-user-recipe-card
-    *ngIf="member"
-    [recipes]="member.recipes"
+    *ngIf="recipes.length > 0"
+    [recipes]="recipes"
   ></app-user-recipe-card>
 </div>

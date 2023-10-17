@@ -1,5 +1,4 @@
 import { Photo } from './photo';
-import { Recipe } from './recipe';
 
 export interface Member {
   id: number;
@@ -11,5 +10,4 @@ export interface Member {
   memberSince: string;
   dateOfBirth: string;
   photo: Photo;
-  recipes: Recipe[];
 }

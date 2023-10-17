@@ -3,6 +3,7 @@ import { Member } from '../_models/member';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Observable, catchError, map, of } from 'rxjs';
+import { Recipe } from '../_models/recipe';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,12 @@ export class MemberService {
         console.error('Error fetching members data:', error);
         return of([]); // You can return a default value or an error indicator here
       })
+    );
+  }
+
+  getMemberRecipes(username: string) {
+    return this.http.get<Recipe[]>(
+      this.apiUrl + 'members/' + username + '/recipes'
     );
   }
 

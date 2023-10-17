@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/_models/recipe';
+import { RecipeService } from 'src/app/_services/recipe.service';
+import { Like } from 'src/app/_models/like';
 @Component({
   selector: 'app-recipe-item',
   templateUrl: './recipe-item.component.html',
@@ -15,7 +17,21 @@ export class RecipeItemComponent implements OnInit {
   ngOnInit(): void {
     // this.calculateTimeStamp();
   }
-  constructor() {}
+  constructor(private recipeService: RecipeService) {}
+
+  onLikeRecipe() {
+    if (this.recipe && this.recipe.appUserId && this.recipe.id) {
+      var newRecipe = this.recipe;
+
+      let newLikes: Like = {
+        userId: this.recipe.appUserId,
+        recipeId: this.recipe.id,
+      };
+      newRecipe.likes.push(newLikes);
+      console.log(newRecipe);
+      this.recipeService.updateRecipe(this.index, newRecipe);
+    }
+  }
 
   calculateTimeStamp() {
     var newDateNow = this.date.split('T')[0];

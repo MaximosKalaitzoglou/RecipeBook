@@ -174,6 +174,7 @@ export class RecipeEditComponent implements OnInit {
       description: description,
       imageUrl: imagePath,
       ingredients: ingredients,
+      likes: this.recipe?.likes || [],
       appUserId: this.recipe?.appUserId,
       appUserPhotoUrl: user ? user.photoUrl : '',
     };
@@ -186,6 +187,7 @@ export class RecipeEditComponent implements OnInit {
       description: description,
       imageUrl: imagePath,
       ingredients: ingredients,
+      likes: [],
       appUserName: user ? user.userName : '',
       appUserPhotoUrl: user ? user.photoUrl : '',
     };

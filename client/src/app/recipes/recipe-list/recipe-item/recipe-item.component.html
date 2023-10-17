@@ -18,11 +18,7 @@
   </span>
 </a> -->
 
-<div
-  class="card mb-2"
-  [routerLink]="['/recipes/' + recipe.id]"
-  style="cursor: pointer; max-width: 50%; margin: auto"
->
+<div class="card mb-2" style="max-width: 50%; margin: auto">
   <div class="card-body">
     <app-recipe-header
       [memberPhoto]="memberPhoto"
@@ -33,14 +29,16 @@
 
     <h4 class="card-title mb-3 text-center">{{ recipe.name }}</h4>
   </div>
-  <img
-    [src]="recipe.imageUrl"
-    [alt]="recipe.name"
-    class="img-responsive d-block user-select-none"
-    style="height: 70%; width: 70%; margin: auto"
-  />
-  <div class="card-body">
-    <p class="card-text">{{ recipe.description | truncate : 200 }}</p>
+  <div [routerLink]="['/recipes/' + recipe.id]" style="cursor: pointer">
+    <img
+      [src]="recipe.imageUrl"
+      [alt]="recipe.name"
+      class="img-responsive d-block user-select-none"
+      style="height: 70%; width: 70%; margin: auto"
+    />
+    <div class="card-body">
+      <p class="card-text">{{ recipe.description | truncate : 200 }}</p>
+    </div>
   </div>
-  <app-recipe-footer></app-recipe-footer>
+  <app-recipe-footer (on-like)="onLikeRecipe()" [likes]="recipe.likes"></app-recipe-footer>
 </div>
