@@ -12,6 +12,7 @@ export class BusyService {
     this.busyRequestCount++;
     this.spinnerService.show(undefined, {
       bdColor: 'rgba(255, 255, 255, 0.1)',
+      fullScreen: false,
       size: 'medium',
       color: '#333',
       type: 'pacman',

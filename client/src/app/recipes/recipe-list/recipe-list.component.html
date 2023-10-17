@@ -1,3 +1,4 @@
+
 <div class="container-fluid row">
   <div class="col-md-5">
     <button class="btn btn-success" (click)="navigateToNewRecipe()">
@@ -27,7 +28,11 @@
 
 <hr />
 
-<div class="d-flex flex-column" style="justify-content: center; margin: auto" *ngIf="recipes$">
+<div
+  class="d-flex flex-column"
+  style="justify-content: center; margin: auto"
+  *ngIf="recipes$"
+>
   <div
     class="list-group"
     *ngFor="
@@ -35,9 +40,6 @@
       let i = index
     "
   >
-    <app-recipe-item
-      [recipe]="recipe"
-      [index]="i"
-    ></app-recipe-item>
+    <app-recipe-item [recipe]="recipe" [index]="i"></app-recipe-item>
   </div>
 </div>

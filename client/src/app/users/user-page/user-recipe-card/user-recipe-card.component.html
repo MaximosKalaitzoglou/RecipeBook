@@ -1,7 +1,11 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4" *ngFor="let recipe of recipes">
-      <a class="card" [routerLink]="'/recipes/' + recipe.id" style="text-decoration: none;">
+      <a
+        class="card"
+        [routerLink]="'/recipes/' + recipe.id"
+        style="text-decoration: none"
+      >
         <img
           [src]="recipe.imageUrl"
           class="card-img-top img-responsive"

@@ -79,7 +79,12 @@ export class RecipeEditComponent implements OnInit {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       // console.log(this.editMode);
-      this.initForm();
+      this.recipeService.getRecipeById(this.id).subscribe({
+        next: (recipe) => {
+          this.recipe = recipe;
+          this.initForm();
+        },
+      });
     });
 
     this.recipeService.redirectEvent.subscribe({
@@ -102,13 +107,8 @@ export class RecipeEditComponent implements OnInit {
     };
 
     if (this.editMode) {
-      this.recipeService.getRecipeById(this.id).subscribe({
-        next: (recipe: Recipe) => {
-          this.recipe = recipe;
-        },
-      });
       if (this.recipe === null) {
-        alert('Recipe not found');
+        // alert('Recipe not found');
         return;
       }
 
@@ -144,7 +144,15 @@ export class RecipeEditComponent implements OnInit {
         Validators.required
       ),
       ingredients: this.recipeIngredients,
-      category: new FormControl(this.categories[0].value),
+
+      category: new FormControl(
+        this.recipe
+          ? this.recipe.category.replace(
+              this.recipe.category[0],
+              this.recipe.category[0].toUpperCase()
+            )
+          : this.categories[0].value
+      ),
     });
   }
 
