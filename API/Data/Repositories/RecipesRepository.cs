@@ -42,6 +42,7 @@ namespace recipes_app.Data.Repositories
         {
             return _context.Recipes.Where(rec => rec.Id == id)
                 .Include(rec => rec.Ingredients)
+                .Include(rec => rec.Likes)
                 .Include(rec => rec.AppUser)
                 .ThenInclude(u => u.Photo)
                 .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider)
@@ -52,6 +53,7 @@ namespace recipes_app.Data.Repositories
         {
             return await _context.Recipes
                     .Include(rec => rec.Ingredients)
+                    .Include(rec => rec.Likes)
                     .Include(rec => rec.AppUser)
                     .ThenInclude(u => u.Photo)
                     .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider)
@@ -140,6 +142,16 @@ namespace recipes_app.Data.Repositories
             _context.Entry(recipe).State = EntityState.Modified;
         }
 
+        public async Task<bool> UserHasLikedRecipe(string username, int recipeId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == username);
 
+            var userId = user.Id;
+            var like = await _context.Likes
+            .FirstOrDefaultAsync(l => l.UserId == userId && l.RecipeId == recipeId);
+
+            // If like is not null, the user has liked the recipe; otherwise, they haven't
+            return like != null;
+        }
     }
 }

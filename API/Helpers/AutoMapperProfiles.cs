@@ -1,5 +1,6 @@
 using AutoMapper;
 using recipes_app.DTOs;
+using recipes_app.DTOs.Response;
 using recipes_app.Models;
 
 namespace recipes_app.Helpers
@@ -24,6 +25,9 @@ namespace recipes_app.Helpers
             .ForMember(
                 dest => dest.AppUserId,
                 opt => opt.MapFrom(src => src.AppUser.Id)
+            ).ForMember(
+                dest => dest.LikeCount,
+                opt => opt.MapFrom(src => src.Likes.Count)
             );
 
             CreateMap<RecipesDto, Recipes>();
@@ -31,6 +35,16 @@ namespace recipes_app.Helpers
             CreateMap<Photo, PhotoDto>();
 
             CreateMap<IngredientDto, Ingredient>();
+
+            CreateMap<Likes, LikesDto>()
+            .ForMember(
+                dest => dest.UserName,
+                opt => opt.MapFrom(src => src.AppUser.UserName)
+            )
+            .ForMember(
+                dest => dest.UserPhotoUrl,
+                opt => opt.MapFrom(src => src.AppUser.Photo.Url)
+            );
         }
     }
 }

@@ -80,19 +80,13 @@ namespace recipes_app.Migrations
                     b.ToTable("Ingredient");
                 });
 
-            modelBuilder.Entity("recipes_app.Models.Like", b =>
+            modelBuilder.Entity("recipes_app.Models.Likes", b =>
                 {
                     b.Property<int>("LikeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("AppUserId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RecipesId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -100,11 +94,11 @@ namespace recipes_app.Migrations
 
                     b.HasKey("LikeId");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("RecipeId");
 
-                    b.HasIndex("RecipesId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Like");
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("recipes_app.Models.Photo", b =>
@@ -177,19 +171,23 @@ namespace recipes_app.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("recipes_app.Models.Like", b =>
+            modelBuilder.Entity("recipes_app.Models.Likes", b =>
                 {
+                    b.HasOne("recipes_app.Models.Recipes", "Recipe")
+                        .WithMany("Likes")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("recipes_app.Models.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("recipes_app.Models.Recipes", "Recipes")
-                        .WithMany("Likes")
-                        .HasForeignKey("RecipesId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AppUser");
 
-                    b.Navigation("Recipes");
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("recipes_app.Models.Photo", b =>

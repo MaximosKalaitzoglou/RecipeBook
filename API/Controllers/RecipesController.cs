@@ -13,6 +13,7 @@ namespace recipes_app.Controllers
         public string Type { get; set; }
     }
     //TODO: Need to change other Http controllers to include AppUser Photo and username on the response
+    [Authorize]
     public class RecipesController : BaseApiController
     {
         private readonly IRecipesRepository _recRepository;
@@ -29,16 +30,24 @@ namespace recipes_app.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<RecipesDto>>> GetRecipes()
         {
-            return Ok(await _recRepository.GetRecipesAsync());
+            var recipes = await _recRepository.GetRecipesAsync();
+            var authUser = User.GetUsername();
+            foreach (var recipe in recipes)
+            {
+                // Check if the authenticated user has liked this recipe
+                var hasLiked = await _recRepository.UserHasLikedRecipe(authUser, recipe.Id);
+                recipe.HasLiked = hasLiked;
+            }
+            return Ok(recipes);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<RecipesDto>> GetRecipeById(int id)
         {
+
             return Ok(await _recRepository.GetRecipeByIdAsync(id));
         }
 
-        [Authorize]
         [HttpPost("save-recipe")]
         public async Task<ActionResult<RecipesDto>> AddRecipe(RecipesDto recipe)
         {
@@ -51,7 +60,6 @@ namespace recipes_app.Controllers
             return response.Recipe;
         }
 
-        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id)
         {
@@ -84,7 +92,6 @@ namespace recipes_app.Controllers
             }
         }
 
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRecipe(int id)
         {

@@ -10,6 +10,7 @@ namespace recipes_app.Interfaces
     {
         void Update(Recipes recipe);
 
+        Task<bool> UserHasLikedRecipe(string username, int recipeId);
         Task<bool> SaveAllAsync();
 
         Task<IEnumerable<RecipesDto>> GetRecipesAsync();
