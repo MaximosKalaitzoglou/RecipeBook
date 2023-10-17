@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Member } from '../_models/member';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
-import { map, of } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,34 +12,40 @@ export class MemberService {
   private members: Member[] = [];
   constructor(private http: HttpClient) {}
 
-  getMemberId(): number {
-    if (this.members.length < 1) return -1;
-    var user = localStorage.getItem('user');
+  getMemberUsername(username: string): Observable<Member> {
+    const member = this.members.find((m) => m.userName === username);
 
-    if (user) {
-      let userObj = JSON.parse(user);
-      console.log(userObj);
-      let member = this.members.find(
-        (member) => member.userName == userObj.userName
-      );
-      console.log(member);
-      if (member) {
-        return member.id;
-      } else {
-        return -1;
-      }
+    if (member) {
+      return of(member);
     }
 
-    return 0;
+    return this.http.get<Member>(this.apiUrl + 'members/' + username).pipe(
+      map((fetchedMember) => {
+        this.members.push(fetchedMember); // Cache the member data
+        return fetchedMember;
+      }),
+      catchError((error) => {
+        // Handle the error appropriately
+        console.error('Error fetching member data:', error);
+        throw error;
+      })
+    );
   }
 
-  getMembers() {
-    if (this.members.length > 0) return of(this.members.slice());
+  getMembers(): Observable<Member[]> {
+    if (this.members.length > 0) {
+      return of(this.members);
+    }
 
     return this.http.get<Member[]>(this.apiUrl + 'members/list').pipe(
       map((members) => {
         this.members = members;
         return members;
+      }),
+      catchError((error) => {
+        // Handle the error appropriately
+        console.error('Error fetching members data:', error);
+        return of([]); // You can return a default value or an error indicator here
       })
     );
   }

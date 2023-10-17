@@ -1,0 +1,32 @@
+#heart {
+  color: #968787;
+  font-size: 1.5rem;
+
+  outline: #333;
+  transition: all 0.3s ease;
+}
+#heart:hover {
+  color: crimson;
+}
+
+#comment {
+  color: #968787;
+  outline: #333;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+#comment:hover {
+  color: #333;
+}
+
+#star {
+  color: #968787;
+  outline: #333;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+#star:hover {
+  color: rgb(255, 170, 0);
+}

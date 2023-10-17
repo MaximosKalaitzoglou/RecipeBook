@@ -39,7 +39,7 @@
     style="height: 70%; width: 70%; margin: auto"
   />
   <div class="card-body">
-    <p class="card-text">{{ recipe.description | truncate }}</p>
+    <p class="card-text">{{ recipe.description | truncate:200 }}</p>
   </div>
   <app-recipe-footer></app-recipe-footer>
 </div>

@@ -26,6 +26,8 @@ import { RecipeFooterComponent } from './recipes/recipe-footer/recipe-footer.com
 import { RecipeHeaderComponent } from './recipes/recipe-header/recipe-header.component';
 import { UsersComponent } from './users/users.component';
 import { UserPageComponent } from './users/user-page/user-page.component';
+import { MemberService } from './_services/member.service';
+import { UserRecipeCardComponent } from './users/user-page/user-recipe-card/user-recipe-card.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,7 @@ import { UserPageComponent } from './users/user-page/user-page.component';
     RecipeHeaderComponent,
     UsersComponent,
     UserPageComponent,
-    
+    UserRecipeCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +62,7 @@ import { UserPageComponent } from './users/user-page/user-page.component';
   ],
   providers: [
     RecipeService,
+    MemberService,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],

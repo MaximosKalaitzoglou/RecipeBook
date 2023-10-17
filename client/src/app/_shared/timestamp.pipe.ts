@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'timestamp',
 })
 export class TimestampPipe implements PipeTransform {
-  transform(value: string, ...args: unknown[]): unknown {
+  transform(value: string, ...args: unknown[]): string {
     var timeStamp = '';
     var date = new Date().toISOString();
     var newDateNow = date.split('T')[0];

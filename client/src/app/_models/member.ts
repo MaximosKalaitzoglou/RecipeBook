@@ -1,14 +1,15 @@
 import { Photo } from './photo';
+import { Recipe } from './recipe';
 
 export interface Member {
   id: number;
   userName: string;
-  interests: string;
-  introduction: string;
+  alias: string;
+  description: string;
   gender: string;
   country: string;
   memberSince: string;
   dateOfBirth: string;
-  photos: Photo[];
-  recipeIds: number[];
+  photo: Photo;
+  recipes: Recipe[];
 }
