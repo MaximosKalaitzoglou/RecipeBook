@@ -56,16 +56,17 @@ namespace recipes_app.Controllers
         public async Task<ActionResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id)
         {
 
-            recipeUpdateDto.AppUserName = User.GetUsername();
+            var username = User.GetUsername();
             recipeUpdateDto.Id = id;
 
-            var isValid = await ValidateAuthority(recipeUpdateDto.AppUserName, id);
+            var isValid = await ValidateAuthority(username, id);
 
             if (!isValid.Success)
             {
                 if (isValid.Type == "not-found") return NotFound("User not Found");
                 else return Unauthorized("You have no priviledges to edit this recipe");
             }
+            recipeUpdateDto.AppUserName = User.GetUsername();
 
             var result = await _recRepository.UpdateRecipe(recipeUpdateDto, id);
 
@@ -117,7 +118,7 @@ namespace recipes_app.Controllers
                 };
             }
 
-            if (user.Recipes.DistinctBy(x => x.Id == id).Any() == false)
+            if (user.Recipes.FirstOrDefault(x => x.Id == id) == null)
             {
                 return new IsValidResponse
                 {

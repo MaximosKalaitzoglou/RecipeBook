@@ -29,9 +29,7 @@ namespace recipes_app.DTOs
         public List<IngredientDto> Ingredients { get; set; }
 
 
-        public int LikeCount { get; set; }
 
-        public bool UserLiked { get; set; }
         public string AppUserPhotoUrl { get; set; }
 
         public int AppUserId { get; set; }
