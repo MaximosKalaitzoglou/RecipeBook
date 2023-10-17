@@ -28,7 +28,7 @@
       *ngIf="accountService.currentUser$ | async as user"
       dropdown
     >
-      <a routerLink="/" class="text-decoration-none">
+      <a [routerLink]="'/users/' + user.userName" class="text-decoration-none">
         <img
           [src]="user.photoUrl"
           alt="user photo"

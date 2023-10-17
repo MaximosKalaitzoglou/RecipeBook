@@ -28,6 +28,7 @@
       [memberPhoto]="memberPhoto"
       [timeStamp]="recipe.dateAdded"
       [username]="recipe.appUserName ? recipe.appUserName : 'Unknown'"
+      [category]="recipe.category"
     ></app-recipe-header>
 
     <h4 class="card-title mb-3 text-center">{{ recipe.name }}</h4>
@@ -39,7 +40,7 @@
     style="height: 70%; width: 70%; margin: auto"
   />
   <div class="card-body">
-    <p class="card-text">{{ recipe.description | truncate:200 }}</p>
+    <p class="card-text">{{ recipe.description | truncate : 200 }}</p>
   </div>
   <app-recipe-footer></app-recipe-footer>
 </div>
