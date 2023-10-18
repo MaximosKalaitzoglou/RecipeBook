@@ -10,6 +10,7 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { UsersComponent } from './users/users.component';
 import { UserPageComponent } from './users/user-page/user-page.component';
+import { RecipeCreateComponent } from './recipes/recipe-create/recipe-create.component';
 
 const routes: Routes = [
   {
@@ -28,17 +29,15 @@ const routes: Routes = [
       },
       {
         path: 'recipes/new',
-        pathMatch: 'full',
+        component: RecipeCreateComponent,
+      },
+      {
+        path: 'recipes/:id/edit',
         component: RecipeEditComponent,
       },
       {
         path: 'recipes/:id',
         component: RecipeDetailComponent,
-      },
-
-      {
-        path: 'recipes/:id/edit',
-        component: RecipeEditComponent,
       },
     ],
   },

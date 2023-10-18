@@ -1,0 +1,170 @@
+<div class="col-8">
+  <div class="alert alert-info pb-0" *ngIf="recipeForm?.dirty">
+    <p>
+      <strong>Information: </strong>You have unsaved changes. Any unsaved
+      changes will be lost
+    </p>
+  </div>
+</div>
+
+<div class="col-md-8">
+  <form
+    *ngIf="recipeForm"
+    [formGroup]="recipeForm"
+    (ngSubmit)="onSubmit()"
+    autocomplete="on"
+  >
+    <!-- Name  -->
+    <div>
+      <h5 class="my-4">Name</h5>
+      <input
+        type="text"
+        name=""
+        id="name"
+        class="form-control"
+        formControlName="name"
+        style="width: 470px"
+      />
+    </div>
+    <!-- Categories  -->
+    <div class="form-group" style="width: 470px">
+      <h5 class="my-4">Category</h5>
+      <select id="categories" formControlName="category" class="form-control">
+        <option *ngFor="let category of categories" [ngValue]="category.value">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Ingredients  -->
+    <div
+      style="overflow-x: hidden; transition: 0.2s height ease"
+      formArrayName="ingredients"
+    >
+      <div class="my-5" style="display: flex; align-items: center">
+        <h5 class="me-4">Ingredients</h5>
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="width: fit-content"
+          (click)="onAddIngredient()"
+        >
+          Add Ingredient
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          style="margin-left: 1.2rem"
+          (click)="onRemoveAllIngredients()"
+        >
+          Remove All
+        </button>
+      </div>
+
+      <div
+        id="ingredient-group"
+        class="d-flex flex-row"
+        *ngFor="let ingredient of controls; let i = index"
+        [formGroupName]="i"
+        style="margin-bottom: 1rem; justify-content: flex-start"
+        [@fade-out]
+      >
+        <div class="me-3">
+          <input
+            type="text"
+            name="name"
+            class="form-control"
+            formControlName="name"
+            placeholder="Name"
+          />
+        </div>
+        <div class="me-3">
+          <input
+            type="number"
+            name="amount"
+            class="form-control"
+            formControlName="amount"
+            placeholder="Amount"
+          />
+        </div>
+
+        <div class="">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="onDeleteIngredient(i)"
+          >
+            <fa-icon [icon]="faTrash" [style]="{ padding: '0 1rem' }"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODO: Image Uploader -->
+    <!-- <div class="col-md-6">
+        <app-file-uploader
+          (emit-path)="getImageData($event)"
+          [imagePath]="recipe ? recipe.imagePath : ''"
+        ></app-file-uploader>
+      </div> -->
+
+    <!-- Image Url  -->
+    <h5>Image url</h5>
+    <input
+      type="text"
+      name=""
+      id="image"
+      class="form-control mb-3"
+      formControlName="imagePath"
+      #image
+    />
+
+    <!-- Image preview -->
+    <img
+      [src]="image.value.length > 0 ? image.value : './assets/default.png'"
+      [alt]=""
+      class="img-thumbnail img-responsive"
+      width="300px"
+      height="250px"
+    />
+
+    <!-- Description  -->
+
+    <h5 class="my-4">Description</h5>
+    <textarea
+      name=""
+      id="description"
+      rows="6"
+      class="form-control mb-4"
+      formControlName="description"
+    ></textarea>
+
+    <h5 class="my-4">Preparation</h5>
+    <textarea
+      name=""
+      id="perparation"
+      rows="6"
+      class="form-control mb-4"
+      formControlName="preparation"
+    ></textarea>
+
+    <button
+      [disabled]="!(recipeForm.valid && recipeForm.touched)"
+      style="width: 200px"
+      type="submit"
+      class="btn btn-success mb-3"
+    >
+      Save changes
+    </button>
+
+    <button
+      (click)="onCancelForm()"
+      style="width: 200px"
+      type="button"
+      class="btn btn-danger ms-4 mb-3"
+    >
+      Cancel
+    </button>
+  </form>
+</div>

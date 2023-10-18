@@ -48,4 +48,14 @@ export class AccountService {
 
     this.currentUserSource.next(user);
   }
+
+  getCurrentUser(): User | null {
+    let user: User;
+    var userString = localStorage.getItem('user');
+    if (userString) {
+      user = JSON.parse(userString);
+      return user;
+    }
+    return null;
+  }
 }

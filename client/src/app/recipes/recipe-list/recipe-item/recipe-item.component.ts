@@ -19,23 +19,7 @@ export class RecipeItemComponent implements OnInit {
   }
   constructor(private recipeService: RecipeService) {}
 
-  onLikeRecipe() {
-    if (this.recipe && this.recipe.id) {
-      var userString = localStorage.getItem('user');
-      if (userString) {
-        var user = JSON.parse(userString);
-        this.recipeService
-          .likeRecipe({
-            userName: user.userName,
-            recipeId: this.recipe.id,
-          })
-          .subscribe({
-            next: (_) => {
-            },
-          });
-      }
-    }
-  }
+
 
   calculateTimeStamp() {
     var newDateNow = this.date.split('T')[0];

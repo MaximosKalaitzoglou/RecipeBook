@@ -57,7 +57,7 @@ export class RecipeService {
 
   updateRecipe(idx: number, recipe: Recipe) {
     this.http
-      .put(this.apiUrl + 'recipes/' + recipe.id, recipe, this.getHttpOptions())
+      .put(this.apiUrl + 'recipes/' + idx, recipe, this.getHttpOptions())
       .subscribe({
         next: (response) => {
           this.recipes = this.recipes.map((rec) => {

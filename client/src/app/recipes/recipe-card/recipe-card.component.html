@@ -1,0 +1,17 @@
+<div class="card mb-3" [style]="customCardStyle" *ngIf="recipe">
+  <app-recipe-header
+    [memberPhoto]="recipe.appUserPhotoUrl || './assets/default.png'"
+    [username]="recipe.appUserName || 'unknown'"
+    [timeStamp]="recipe.dateAdded"
+    [category]="recipe.category"
+  ></app-recipe-header>
+  <ng-content select="[card-body]"></ng-content>
+  <app-recipe-footer
+    *ngIf="recipe.likes"
+    (on-like)="onLikeRecipe()"
+    [likes]="recipe.likes"
+    [likeCount]="recipe.likeCount || 0"
+    [hasLiked]="recipe.hasLiked || false"
+  ></app-recipe-footer>
+  <ng-content select="[card-extras]"></ng-content>
+</div>

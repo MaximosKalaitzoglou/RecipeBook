@@ -57,9 +57,4 @@ export class MemberService {
     );
   }
 
-  getMemberById(memberId: number) {
-    if (this.members.length > 0)
-      return of(this.members.find((member) => member.id === memberId));
-    return this.http.get<Member>(this.apiUrl + 'members/' + memberId);
-  }
 }
