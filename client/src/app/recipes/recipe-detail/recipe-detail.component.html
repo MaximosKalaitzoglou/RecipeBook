@@ -13,22 +13,22 @@
         />
       </div>
 
-      <div card-extras>
+      <!-- <div card-extras *ngIf="recipe.comments">
         <ul class="list-group">
-          <li class="list-group-item">
+          <li class="list-group-item" *ngFor="let comment of recipe.comments">
             <img
-              src="https://randomuser.me/api/portraits/men/3.jpg"
+              [src]="comment.userPhotoUrl"
               alt=""
               class="img-responsive rounded-circle me-1"
               style="width: 40px"
             />
             <p style="display: inline-block" class="me-3">
-              <strong> Maximos </strong>
+              <strong> {{ comment.userName }} </strong>
             </p>
-            <span style="display: inline-block"> Nice one! </span>
+            <span style="display: inline-block"> {{ comment.comment }} </span>
           </li>
         </ul>
-      </div>
+      </div> -->
     </app-recipe-card>
   </div>
 

@@ -1,5 +1,6 @@
 import { Ingredient } from './ingredient';
 import { Like } from './like';
+import { Comment } from './comment';
 
 export interface Recipe {
   id?: number;
@@ -13,6 +14,7 @@ export interface Recipe {
   likeCount: number;
   hasLiked: boolean;
   likes: Like[];
+  comments: Comment[];
   appUserPhotoUrl?: string;
   appUserName?: string;
 }

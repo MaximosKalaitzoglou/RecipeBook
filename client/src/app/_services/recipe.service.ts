@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Recipe } from '../_models/recipe';
 import { Like } from '../_models/like';
+import { Comment } from '../_models/comment';
 
 @Injectable({
   providedIn: 'root',
@@ -107,6 +108,7 @@ export class RecipeService {
           if (like !== null && recipe) {
             recipe.likes.push(like);
             recipe.likeCount++;
+            recipe.hasLiked = true;
           }
         }),
         catchError((error) => {
@@ -136,12 +138,72 @@ export class RecipeService {
               (l) => l.userName !== likeRequest.userName
             );
             recipe.likeCount--;
+            recipe.hasLiked = false;
           }
         }),
         catchError((error) => {
           // Handle errors, e.g., show an error message
           console.error('Error unliking recipe:', error);
           throw error;
+        })
+      )
+      .subscribe({
+        next: (_) => {},
+      });
+  }
+
+  postComment(commentRequest: {
+    userName: string;
+    recipeId: number;
+    comment: string;
+    dateCommented: string;
+  }) {
+    this.http
+      .post<Comment>(
+        this.apiUrl + 'comment',
+        commentRequest,
+        this.getHttpOptions()
+      )
+      .pipe(
+        tap((comment) => {
+          var recipe = this.recipes.find(
+            (r) => r.id === commentRequest.recipeId
+          );
+          if (comment !== null && recipe) {
+            recipe.comments.push(comment);
+          }
+        }),
+        catchError((error) => {
+          console.log('Error liking recipe');
+          throw error;
+        })
+      )
+      .subscribe({
+        next: (response) => {},
+      });
+  }
+
+  deleteComment(commentRequest: {
+    userName: string;
+    recipeId: number;
+    commentId: number;
+  }) {
+    const url =
+      this.apiUrl +
+      `comment?username=${commentRequest.userName}&recipeId=${commentRequest.recipeId}&commentId=${commentRequest.commentId}`;
+
+    this.http
+      .delete(url, this.getHttpOptions())
+      .pipe(
+        tap(() => {
+          const recipe = this.recipes.find(
+            (r) => r.id == commentRequest.recipeId
+          );
+          if (recipe) {
+            recipe.comments = recipe.comments.filter(
+              (c) => c.commentId !== commentRequest.commentId
+            );
+          }
         })
       )
       .subscribe({

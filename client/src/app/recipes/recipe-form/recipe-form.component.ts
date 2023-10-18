@@ -143,12 +143,14 @@ export class RecipeFormComponent implements OnInit {
       dateAdded: new Date().toISOString(),
       likeCount: 0,
       likes: [],
+      comments: [],
       hasLiked: false,
     };
     if (type === 'update' && this.recipe) {
       payload.hasLiked = this.recipe.hasLiked;
       payload.likes = this.recipe.likes;
       payload.likeCount = this.recipe.likeCount;
+      payload.comments = this.recipe.comments;
       return payload;
     } else {
       var user = this.accountService.getCurrentUser();

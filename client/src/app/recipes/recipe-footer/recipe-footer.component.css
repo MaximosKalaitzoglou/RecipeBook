@@ -22,6 +22,19 @@
   color: #333;
 }
 
+#comment-btn {
+  color: #333;
+  position: relative;
+  top: -2.3rem;
+  right: -23rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+#comment-btn:hover{
+  color: rgb(66, 173, 82);
+
+}
 #star {
   color: #968787;
   outline: #333;
