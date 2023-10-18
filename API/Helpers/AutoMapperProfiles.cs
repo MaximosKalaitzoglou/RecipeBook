@@ -23,9 +23,6 @@ namespace recipes_app.Helpers
                 opt => opt.MapFrom(src => src.AppUser.UserName)
             )
             .ForMember(
-                dest => dest.AppUserId,
-                opt => opt.MapFrom(src => src.AppUser.Id)
-            ).ForMember(
                 dest => dest.LikeCount,
                 opt => opt.MapFrom(src => src.Likes.Count)
             );

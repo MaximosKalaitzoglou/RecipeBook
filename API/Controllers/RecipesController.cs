@@ -31,7 +31,11 @@ namespace recipes_app.Controllers
         public async Task<ActionResult<IEnumerable<RecipesDto>>> GetRecipes()
         {
             var recipes = await _recRepository.GetRecipesAsync();
+            
+            if (!recipes.Any()) return NotFound("No found Recipes");
             var authUser = User.GetUsername();
+            if (authUser == null) return Unauthorized("Uknown user");
+
             foreach (var recipe in recipes)
             {
                 // Check if the authenticated user has liked this recipe
@@ -45,7 +49,9 @@ namespace recipes_app.Controllers
         public async Task<ActionResult<RecipesDto>> GetRecipeById(int id)
         {
 
-            return Ok(await _recRepository.GetRecipeByIdAsync(id));
+            var result = await _recRepository.GetRecipeByIdAsync(id);
+            if (result == null) return NotFound("Recipe doesn't exist");
+            return Ok(result);
         }
 
         [HttpPost("save-recipe")]
@@ -75,6 +81,7 @@ namespace recipes_app.Controllers
                 else return Unauthorized("You have no priviledges to edit this recipe");
             }
             recipeUpdateDto.AppUserName = User.GetUsername();
+
 
             var result = await _recRepository.UpdateRecipe(recipeUpdateDto, id);
 

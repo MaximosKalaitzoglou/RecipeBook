@@ -36,7 +36,6 @@ namespace recipes_app.DTOs
 
         public string AppUserPhotoUrl { get; set; }
 
-        public int AppUserId { get; set; }
         public string AppUserName { get; set; }
     }
 }
