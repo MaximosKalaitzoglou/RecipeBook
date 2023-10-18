@@ -9,6 +9,7 @@
   <app-recipe-footer
     *ngIf="recipe.likes"
     (on-like)="onLikeRecipe()"
+    (on-unlike)="onUnlikeRecipe()"
     [likes]="recipe.likes"
     [likeCount]="recipe.likeCount || 0"
     [hasLiked]="recipe.hasLiked || false"

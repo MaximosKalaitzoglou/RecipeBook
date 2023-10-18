@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Subject, map, of } from 'rxjs';
+import { Subject, catchError, map, of, tap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Recipe } from '../_models/recipe';
+import { Like } from '../_models/like';
 
 @Injectable({
   providedIn: 'root',
@@ -98,10 +99,53 @@ export class RecipeService {
   }
 
   likeRecipe(likeRequest: { userName: string; recipeId: number }) {
-    return this.http.post(
-      this.apiUrl + 'like',
-      likeRequest,
-      this.getHttpOptions()
-    );
+    this.http
+      .post<Like>(this.apiUrl + 'like', likeRequest, this.getHttpOptions())
+      .pipe(
+        tap((like) => {
+          var recipe = this.recipes.find((r) => r.id === likeRequest.recipeId);
+          if (like !== null && recipe) {
+            recipe.likes.push(like);
+            recipe.likeCount++;
+          }
+        }),
+        catchError((error) => {
+          console.log('Error liking recipe');
+          throw error;
+        })
+      )
+      .subscribe({
+        next: (response) => {},
+      });
+  }
+
+  unlikeRecipe(likeRequest: { userName: string; recipeId: number }) {
+    const url =
+      this.apiUrl +
+      `like?username=${likeRequest.userName}&recipeId=${likeRequest.recipeId}`;
+
+    this.http
+      .delete(url, this.getHttpOptions())
+      .pipe(
+        tap(() => {
+          const recipe = this.recipes.find(
+            (r) => r.id === likeRequest.recipeId
+          );
+          if (recipe?.likes && recipe.likeCount) {
+            recipe.likes = recipe.likes.filter(
+              (l) => l.userName !== likeRequest.userName
+            );
+            recipe.likeCount--;
+          }
+        }),
+        catchError((error) => {
+          // Handle errors, e.g., show an error message
+          console.error('Error unliking recipe:', error);
+          throw error;
+        })
+      )
+      .subscribe({
+        next: (_) => {},
+      });
   }
 }

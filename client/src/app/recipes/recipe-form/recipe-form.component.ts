@@ -141,8 +141,14 @@ export class RecipeFormComponent implements OnInit {
       imageUrl: imagePath,
       ingredients: ingredients,
       dateAdded: new Date().toISOString(),
+      likeCount: 0,
+      likes: [],
+      hasLiked: false,
     };
-    if (type === 'update') {
+    if (type === 'update' && this.recipe) {
+      payload.hasLiked = this.recipe.hasLiked;
+      payload.likes = this.recipe.likes;
+      payload.likeCount = this.recipe.likeCount;
       return payload;
     } else {
       var user = this.accountService.getCurrentUser();

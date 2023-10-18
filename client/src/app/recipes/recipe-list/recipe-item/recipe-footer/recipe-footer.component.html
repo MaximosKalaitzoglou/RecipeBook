@@ -25,7 +25,11 @@
     style="color: #333"
     (click)="showUsers(template)"
   >
-    {{ likeCount }} likes
+    <span
+      ><strong
+        >{{ likeCount }} {{ likeCount === 1 ? "like" : "likes" }}</strong
+      ></span
+    >
   </button>
 </div>
 

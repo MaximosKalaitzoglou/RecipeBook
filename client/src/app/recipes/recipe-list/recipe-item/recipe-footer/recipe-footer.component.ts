@@ -22,6 +22,7 @@ export class RecipeFooterComponent implements OnInit {
   faComment = faComment;
   faStar = faStar;
   @Output('on-like') onLike = new EventEmitter();
+  @Output('on-unlike') onUnlike = new EventEmitter();
   modalRef?: BsModalRef;
 
   ngOnInit(): void {}
@@ -29,7 +30,11 @@ export class RecipeFooterComponent implements OnInit {
 
   onLikeRecipe() {
     this.hasLiked = !this.hasLiked;
-    this.onLike.emit();
+    if (this.hasLiked) {
+      this.onLike.emit();
+    }else{
+      this.onUnlike.emit();
+    }
   }
 
   showUsers(template: TemplateRef<any>) {
