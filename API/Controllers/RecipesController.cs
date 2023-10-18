@@ -31,7 +31,7 @@ namespace recipes_app.Controllers
         public async Task<ActionResult<IEnumerable<RecipesDto>>> GetRecipes()
         {
             var recipes = await _recRepository.GetRecipesAsync();
-            
+
             if (!recipes.Any()) return NotFound("No found Recipes");
             var authUser = User.GetUsername();
             if (authUser == null) return Unauthorized("Uknown user");
@@ -48,9 +48,14 @@ namespace recipes_app.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<RecipesDto>> GetRecipeById(int id)
         {
+            var userName = User.GetUsername();
+            var user = await _memberRep.GetUserByUserNameAsync(userName);
 
             var result = await _recRepository.GetRecipeByIdAsync(id);
+
             if (result == null) return NotFound("Recipe doesn't exist");
+
+            if (!result.AppUserName.Equals(user.UserName)) return Unauthorized();
             return Ok(result);
         }
 

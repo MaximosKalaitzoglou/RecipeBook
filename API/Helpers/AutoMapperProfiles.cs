@@ -42,6 +42,16 @@ namespace recipes_app.Helpers
                 dest => dest.UserPhotoUrl,
                 opt => opt.MapFrom(src => src.AppUser.Photo.Url)
             );
+
+            CreateMap<Comments, CommentDto>()
+            .ForMember(
+                dest => dest.UserName,
+                opt => opt.MapFrom(src => src.AppUser.UserName)
+            )
+            .ForMember(
+                dest => dest.UserPhotoUrl,
+                opt => opt.MapFrom(src => src.AppUser.Photo.Url)
+            );
         }
     }
 }

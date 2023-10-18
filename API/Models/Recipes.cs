@@ -29,6 +29,8 @@ namespace recipes_app.Models
 
         // Contains reference to the user
         public List<Likes> Likes { get; set; } = new();
+
+        public List<Comments> Comments { get; set; } = new();
         public List<Ingredient> Ingredients { get; set; } = new();
 
         [ForeignKey("AppUserId")]

@@ -43,6 +43,8 @@ namespace recipes_app.Data.Repositories
             return _context.Recipes.Where(rec => rec.Id == id)
                 .Include(rec => rec.Ingredients)
                 .Include(rec => rec.Likes)
+                .Include(rec => rec.Comments)
+
                 .Include(rec => rec.AppUser)
                 .ThenInclude(u => u.Photo)
                 .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider)
@@ -54,6 +56,7 @@ namespace recipes_app.Data.Repositories
             return await _context.Recipes
                     .Include(rec => rec.Ingredients)
                     .Include(rec => rec.Likes)
+                    .Include(rec => rec.Comments)
                     .Include(rec => rec.AppUser)
                     .ThenInclude(u => u.Photo)
                     .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider)

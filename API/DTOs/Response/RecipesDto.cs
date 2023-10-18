@@ -34,6 +34,8 @@ namespace recipes_app.DTOs
         public bool HasLiked { get; set; }
         public List<LikesDto> Likes { get; set; }
 
+        public List<CommentDto> Comments { get; set; }
+
         public string AppUserPhotoUrl { get; set; }
 
         public string AppUserName { get; set; }

@@ -1,5 +1,6 @@
 [
   {
+    "Id": 1,
     "UserName": "Lisa",
     "Gender": "female",
     "DateOfBirth": "1956-07-22",
@@ -21,6 +22,14 @@
           {
             "UserId": 1,
             "RecipeId": 1
+          }
+        ],
+        "Comments": [
+          {
+            "UserId": 2,
+            "RecipeId": 1,
+            "Comment": "Nice one!",
+            "DateCommented": "2023-09-24"
           }
         ],
 
@@ -47,6 +56,7 @@
         "Description": "Lorem ipsum dolor elit eu eiusmod labore in aute veniam non esse ea eiusmod incididunt. Ut cillum culpa et mollit. Duis do eiusmod duis culpa ut laborum voluptate. Velit esse magna officia eiusmod Lorem tempor eu dolore esse. Esse commodo ex aliqua ea excepteur aliqua reprehenderit sit velit laboris.\r\n",
         "DateAdded": "2020-06-10",
         "Likes": [],
+        "Comments": [],
 
         "Ingredients": [
           {
@@ -66,6 +76,7 @@
     ]
   },
   {
+    "Id": 2,
     "UserName": "Karen",
     "Gender": "female",
     "Alias": "Karen_flou",
@@ -84,6 +95,7 @@
         "Description": "Aute do nulla duis aute labore aliqua ullamco culpa magna dolor ad adipisicing. Exercitation enim voluptate sint veniam ipsum nisi. Mollit eu ipsum aliquip cupidatat fugiat. Deserunt consequat magna tempor mollit quis culpa laboris cillum amet exercitation commodo est amet. Quis ea nisi irure veniam et reprehenderit esse. Pariatur ex reprehenderit dolore reprehenderit magna excepteur Lorem laborum ullamco enim pariatur eu magna Lorem.\r\n",
         "DateAdded": "2018-06-04",
         "Likes": [],
+        "Comments": [],
 
         "Ingredients": [
           {
@@ -101,6 +113,7 @@
         ]
       },
       {
+
         "Name": "crepa",
         "Category": "desert",
         "ImageUrl": "https://imageproxy.wolt.com/menu/menu-images/5dd804175fcc482f69c89404/0c3a607c-2a7f-11eb-9d20-ce24305d99b5_crepa_bisco_banana.jpeg",
@@ -108,6 +121,7 @@
         "Description": "Anim id id nisi ipsum Lorem velit incididunt ut do laboris consequat nisi. Dolor duis adipisicing voluptate nulla cillum in deserunt nulla culpa nisi esse. Nisi velit incididunt veniam id laborum.\r\n",
         "DateAdded": "2016-11-18",
         "Likes": [],
+        "Comments": [],
 
         "Ingredients": [
           {
@@ -127,6 +141,8 @@
     ]
   },
   {
+    "Id": 3,
+
     "UserName": "Mary",
     "Alias": "Maria_S",
     "Gender": "female",
@@ -145,6 +161,8 @@
         "Description": "Lorem ipsum dolor elit eu eiusmod labore in aute veniam non esse ea eiusmod incididunt. Ut cillum culpa et mollit. Duis do eiusmod duis culpa ut laborum voluptate. Velit esse magna officia eiusmod Lorem tempor eu dolore esse. Esse commodo ex aliqua ea excepteur aliqua reprehenderit sit velit laboris.\r\n",
         "DateAdded": "2021-06-10",
         "Likes": [],
+        "Comments": [],
+
         "Ingredients": [
           {
             "Name": "eggs",
@@ -168,6 +186,7 @@
         "Description": "Lorem ipsum dolor elit eu eiusmod labore in aute veniam non esse ea eiusmod incididunt. Ut cillum culpa et mollit. Duis do eiusmod duis culpa ut laborum voluptate. Velit esse magna officia eiusmod Lorem tempor eu dolore esse. Esse commodo ex aliqua ea excepteur aliqua reprehenderit sit velit laboris.\r\n",
         "DateAdded": "2021-06-10",
         "Likes": [],
+        "Comments": [],
 
         "Ingredients": [
           {
