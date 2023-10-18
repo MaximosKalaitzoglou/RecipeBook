@@ -1,22 +1,20 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4" *ngFor="let recipe of recipes">
-      <a
-        class="card"
-        [routerLink]="'/recipes/' + recipe.id"
-        style="text-decoration: none"
-      >
-        <img
-          [src]="recipe.imageUrl"
-          class="card-img-top img-responsive"
-          alt="Recipe Image"
-          style="width: 100%"
-        />
+      <div class="card">
+        <a [routerLink]="'/recipes/' + recipe.id" style="text-decoration: none">
+          <img
+            [src]="recipe.imageUrl"
+            class="card-img-top img-responsive"
+            alt="Recipe Image"
+            style="width: 100%"
+          />
+        </a>
         <div class="card-body">
           <h5 class="card-title">{{ recipe.name }}</h5>
           <p class="card-text">{{ recipe.description | truncate : 100 }}</p>
         </div>
-      </a>
+      </div>
     </div>
   </div>
 </div>

@@ -31,6 +31,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { RecipeCreateComponent } from './recipes/recipe-create/recipe-create.component';
 import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
 import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component';
+import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component
     RecipeCreateComponent,
     RecipeFormComponent,
     RecipeCardComponent,
+    UnauthorizedComponent,
   ],
   imports: [
     BrowserModule,

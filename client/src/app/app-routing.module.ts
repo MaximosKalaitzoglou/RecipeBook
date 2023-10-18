@@ -11,6 +11,8 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { UsersComponent } from './users/users.component';
 import { UserPageComponent } from './users/user-page/user-page.component';
 import { RecipeCreateComponent } from './recipes/recipe-create/recipe-create.component';
+import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
+import { routeParamsGuard } from './_guards/route-params.guard';
 
 const routes: Routes = [
   {
@@ -33,10 +35,12 @@ const routes: Routes = [
       },
       {
         path: 'recipes/:id/edit',
+        canActivate: [routeParamsGuard],
         component: RecipeEditComponent,
       },
       {
         path: 'recipes/:id',
+        canActivate: [routeParamsGuard],
         component: RecipeDetailComponent,
       },
     ],
@@ -64,6 +68,10 @@ const routes: Routes = [
   {
     path: 'server-error',
     component: ServerErrorComponent,
+  },
+  {
+    path: 'not-authorized',
+    component: UnauthorizedComponent,
   },
   {
     path: '**',
