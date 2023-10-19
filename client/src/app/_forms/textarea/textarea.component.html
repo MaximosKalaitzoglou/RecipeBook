@@ -1,0 +1,18 @@
+<h5 class="my-4">{{ label }}</h5>
+<textarea
+  name=""
+  id="{{ label }}"
+  [rows]="rows"
+  class="form-control mb-4"
+  [formControl]="control"
+  [class.is-invalid]="control.touched && control.invalid"
+></textarea>
+<div *ngIf="control.errors && control.touched" class="text-danger mb-3">
+  <div *ngIf="control.hasError('required')">{{ label }} is required.</div>
+  <div *ngIf="control.hasError('maxlength')">
+    {{ label }} must be less than
+    {{ control.errors["maxlength"].requiredLength }}
+
+    Current size: {{ control.errors["maxlength"].actualLength }}
+  </div>
+</div>

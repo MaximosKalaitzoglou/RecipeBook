@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription, tap } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Recipe } from 'src/app/_models/recipe';
 import { MemberService } from 'src/app/_services/member.service';
@@ -9,32 +10,30 @@ import { MemberService } from 'src/app/_services/member.service';
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.css'],
 })
-export class UserPageComponent implements OnInit {
-  member: Member | undefined;
-  recipes: Recipe[] = [];
+export class UserPageComponent implements OnInit, OnDestroy {
+  member$: Observable<Member> | undefined;
+  recipes$: Observable<Recipe[]> | undefined;
   username = '';
+  routeParamsSub!: Subscription;
+
   constructor(
     private memberService: MemberService,
     private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
-    this.route.params.subscribe({
+    this.routeParamsSub = this.route.params.subscribe({
       next: (params) => {
         this.username = params['username'];
-        this.memberService.getMemberUsername(this.username).subscribe({
-          next: (member) => {
-            this.member = member;
-          },
-        });
-
-        this.memberService.getMemberRecipes(this.username).subscribe({
-          next: (recipes) => {
-            this.recipes = recipes;
-          },
-        });
+        this.member$ = this.memberService.getMemberUsername(this.username);
+        
+        this.recipes$ = this.memberService.getMemberRecipes(this.username);
       },
     });
   }
 
-  
+
+
+  ngOnDestroy(): void {
+    this.routeParamsSub.unsubscribe();
+  }
 }

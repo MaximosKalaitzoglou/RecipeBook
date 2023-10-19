@@ -39,7 +39,7 @@
               (click)="modalRef?.hide()"
             >
               <img
-                [src]="comment.userPhotoUrl"
+                [src]="comment.userPhotoUrl || './assets/default-avatar.png'"
                 alt=""
                 class="img-responsive img-thumbnail rounded-circle me-1"
                 width="40px"

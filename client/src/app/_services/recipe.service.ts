@@ -118,7 +118,7 @@ export class RecipeService {
       this.getHttpOptions()
     );
   }
-  
+
   addRecipe(recipe: Recipe) {
     this.http
       .post<Recipe>(
@@ -139,10 +139,10 @@ export class RecipeService {
     this.http
       .put(this.apiUrl + 'recipes/' + idx, recipe, this.getHttpOptions())
       .subscribe({
-        next: (response) => {
+        next: (_) => {
           this.recipes = this.recipes.map((rec) => {
             if (rec.id === idx) {
-              rec = recipe;
+              rec = { ...rec, ...recipe };
             }
             return rec;
           });

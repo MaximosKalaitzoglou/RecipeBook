@@ -35,7 +35,7 @@
         style="cursor: pointer"
       >
         <img
-          [src]="like.userPhotoUrl"
+          [src]="like.userPhotoUrl || './assets/default-avatar.png'"
           alt=""
           class="img-responsive img-thumbnail rounded-circle"
           width="40px"

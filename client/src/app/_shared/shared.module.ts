@@ -3,13 +3,14 @@ import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { FilterRecipesPipe } from './filter-recipes.pipe';
+import { FilterRecipesPipe } from '../_pipes/filter-recipes.pipe';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ToastrModule } from 'ngx-toastr';
-import { TimestampPipe } from './timestamp.pipe';
-import { TruncatePipe } from './truncate.pipe';
+import { TimestampPipe } from '../_pipes/timestamp.pipe';
+import { TruncatePipe } from '../_pipes/truncate.pipe';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [FilterRecipesPipe, TimestampPipe, TruncatePipe],
@@ -26,6 +27,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
       preventDuplicates: true,
     }),
     ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   providers: [],
   exports: [
@@ -40,6 +42,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     TimestampPipe,
     TruncatePipe,
     ModalModule,
+    BsDatepickerModule,
   ],
 })
 export class SharedModule {}

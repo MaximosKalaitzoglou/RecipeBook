@@ -19,15 +19,14 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup = new FormGroup({});
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
+  maxDate = new Date();
+  minDate = new Date(1899, 12, 31);
 
-  constructor(
-    private accService: AccountService,
-    private router: Router,
-    private toastr: ToastrService
-  ) {}
+  constructor(private router: Router, private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
   }
 
   initializeForm() {
@@ -44,6 +43,9 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         this.matchValues('password'),
       ]),
+      gender: new FormControl('Male'),
+      alias: new FormControl('', Validators.required),
+      dateOfBirth: new FormControl('', Validators.required),
     });
     this.registerForm.controls['password'].valueChanges.subscribe({
       next: () => {
@@ -61,17 +63,24 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    console.log(this.registerForm?.value);
-    // this.accService.register(this.model).subscribe({
-    //   next: (response) => {
-    //     this.cancel();
-    //   },
-    // });
+    this.registerForm.value.dateOfBirth = new Date(
+      this.registerForm.value.dateOfBirth
+    )
+      .toISOString()
+      .split('T')[0];
+    // console.log(this.registerForm.value);
+
+    this.accountService.register(this.registerForm.value).subscribe({
+      next: (response) => {
+        this.cancel();
+      },
+    });
+    this.registerForm.reset();
     // registerForm.resetForm();
   }
 
   cancel() {
-    console.log(this.registerForm.get('username')?.errors);
+    // console.log(this.registerForm.get('dateOfBirth'));
     this.router.navigateByUrl('/');
   }
 }

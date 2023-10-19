@@ -1,23 +1,18 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Observable, Subscription } from 'rxjs';
 import { Recipe } from 'src/app/_models/recipe';
 import { AccountService } from 'src/app/_services/account.service';
-
+import { RecipeService } from 'src/app/_services/recipe.service';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
@@ -43,15 +38,17 @@ import { AccountService } from 'src/app/_services/account.service';
     ]),
   ],
 })
-export class RecipeFormComponent implements OnInit {
+export class RecipeFormComponent implements OnDestroy {
+  id: number = 0;
+  recipe: Recipe | null = null;
+  editMode: boolean = false;
   faTrash = faTrash;
   recipeForm: FormGroup | undefined;
   recipeIngredients = new FormArray<any>([]);
-
-  @Input() recipe: Recipe | null = null;
-  @Output('on-submit-new') onSubmitNew = new EventEmitter<Recipe>();
-  @Output('on-submit-update') onSubmitUpdate = new EventEmitter<Recipe>();
-  @Output('on-cancel-form') onCancel = new EventEmitter<boolean>();
+  submitted = false;
+  paramSub!: Subscription;
+  recipeSub!: Subscription;
+  redirectEventSub!: Subscription;
 
   categories = [
     {
@@ -68,13 +65,54 @@ export class RecipeFormComponent implements OnInit {
     },
   ];
 
-  constructor(private accountService: AccountService) {}
-
-  ngOnInit(): void {
-    this.initForm();
+  constructor(
+    private route: ActivatedRoute,
+    private recipeService: RecipeService,
+    private router: Router,
+    private accountService: AccountService
+  ) {
+    this.paramSub = this.route.paramMap.subscribe((params) => {
+      // Check the route segments to determine if you're in edit mode
+      const id = params.get('id');
+      if (id) {
+        this.id = +id;
+        this.editMode = this.route.snapshot.url.some(
+          (segment) => segment.path === 'edit'
+        );
+      }
+    });
   }
 
-  private initForm() {
+  ngOnInit(): void {
+    this.redirectEventSub = this.recipeService.redirectEvent.subscribe({
+      next: (value) => {
+        if (value) {
+          this.navigateAway();
+        }
+      },
+    });
+    if (this.editMode) {
+      this.recipeSub = this.recipeService
+        .getRecipeByIdToEdit(this.id)
+        .subscribe({
+          next: (recipe) => {
+            this.recipe = recipe;
+          },
+        });
+    }
+
+    this.createAndFillForm();
+  }
+
+  ngOnDestroy(): void {
+    this.paramSub.unsubscribe();
+    if (this.recipeSub) {
+      this.recipeSub.unsubscribe();
+    }
+    if (this.redirectEventSub) this.redirectEventSub.unsubscribe();
+  }
+
+  private createAndFillForm() {
     if (this.recipe) {
       if (this.recipe.ingredients) {
         for (let ing of this.recipe.ingredients) {
@@ -113,8 +151,14 @@ export class RecipeFormComponent implements OnInit {
     this.recipeForm = new FormGroup({
       name: new FormControl(name, [Validators.required]),
       imagePath: new FormControl(imageUrl, [Validators.required]),
-      description: new FormControl(description, [Validators.required]),
-      preparation: new FormControl(preparationSteps, Validators.required),
+      description: new FormControl(description, [
+        Validators.required,
+        Validators.maxLength(5000),
+      ]),
+      preparation: new FormControl(preparationSteps, [
+        Validators.required,
+        Validators.maxLength(5000),
+      ]),
       ingredients: this.recipeIngredients,
 
       category: new FormControl(category),
@@ -127,14 +171,15 @@ export class RecipeFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.recipe) {
+    this.submitted = true;
+    if (this.editMode) {
       const payload = this.createPayLoad('update');
-      this.onSubmitUpdate.emit(payload);
+      this.recipeService.updateRecipe(this.id, payload);
     } else {
       const payload = this.createPayLoad('new');
-
-      this.onSubmitNew.emit(payload);
+      this.recipeService.addRecipe(payload);
     }
+    
   }
 
   createPayLoad(type: string) {
@@ -168,10 +213,6 @@ export class RecipeFormComponent implements OnInit {
     }
   }
 
-  onCancelForm() {
-    this.onCancel.emit(this.recipeForm?.dirty);
-  }
-
   onAddIngredient() {
     this.recipeIngredients.push(
       new FormGroup({
@@ -190,5 +231,22 @@ export class RecipeFormComponent implements OnInit {
 
   onDeleteIngredient(idx: number) {
     (<FormArray>this.recipeForm?.get('ingredients')).removeAt(idx);
+  }
+
+  navigateAway() {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  onCancelForm() {
+    this.navigateAway();
+  }
+
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (this.recipeForm?.dirty && !this.submitted) {
+      return confirm(
+        'You have unsaved changes are you sure you want to leave ?'
+      );
+    }
+    return true;
   }
 }

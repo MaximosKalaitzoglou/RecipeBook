@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
 import { RegisterComponent } from './register/register.component';
 import { HomepageComponent } from './homepage/homepage.component';
@@ -10,10 +9,10 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { UsersComponent } from './users/users.component';
 import { UserPageComponent } from './users/user-page/user-page.component';
-import { RecipeCreateComponent } from './recipes/recipe-create/recipe-create.component';
 import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
 import { routeParamsGuard } from './_guards/route-params.guard';
 import { LeaveGuard } from './_guards/leave-page.guard';
+import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
 
 const routes: Routes = [
   {
@@ -32,13 +31,14 @@ const routes: Routes = [
       },
       {
         path: 'recipes/new',
-        component: RecipeCreateComponent,
+        component: RecipeFormComponent,
+        canDeactivate: [LeaveGuard],
       },
       {
         path: 'recipes/:id/edit',
         canActivate: [routeParamsGuard],
         canDeactivate: [LeaveGuard],
-        component: RecipeEditComponent,
+        component: RecipeFormComponent,
       },
       {
         path: 'recipes/:id',

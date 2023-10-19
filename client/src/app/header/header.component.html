@@ -30,7 +30,7 @@
     >
       <a [routerLink]="'/users/' + user.userName" class="text-decoration-none">
         <img
-          [src]="user.photoUrl"
+          [src]="user.photoUrl || './assets/default-avatar.png'"
           alt="user photo"
           class="rounded-circle"
           style="width: 50px"
