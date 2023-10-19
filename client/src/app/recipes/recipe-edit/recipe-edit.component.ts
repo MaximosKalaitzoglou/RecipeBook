@@ -69,6 +69,6 @@ export class RecipeEditComponent implements OnInit, CanComponentDeactivate {
   }
 
   canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
-    return confirm('Do you want to discard this changes ?');
+    return true;
   }
 }

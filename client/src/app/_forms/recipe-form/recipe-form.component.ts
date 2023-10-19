@@ -12,12 +12,9 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Observable } from 'rxjs';
-import { CanComponentDeactivate } from 'src/app/_guards/leave-page.guard';
 import { Recipe } from 'src/app/_models/recipe';
 import { AccountService } from 'src/app/_services/account.service';
 

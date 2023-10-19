@@ -13,10 +13,9 @@
     [formGroup]="recipeForm"
     (ngSubmit)="onSubmit()"
     autocomplete="on"
-    
   >
     <!-- Name  -->
-    <div>
+    <!-- <div>
       <h5 class="my-4">Name</h5>
       <input
         type="text"
@@ -26,7 +25,12 @@
         formControlName="name"
         style="width: 470px"
       />
-    </div>
+    </div> -->
+    <app-text-input
+      [formControl]="$any(recipeForm.controls['name'])"
+      [type]="'text'"
+      [label]="'Recipe name'"
+    ></app-text-input>
     <!-- Categories  -->
     <div class="form-group" style="width: 470px">
       <h5 class="my-4">Category</h5>
@@ -111,19 +115,28 @@
       </div> -->
 
     <!-- Image Url  -->
-    <h5>Image url</h5>
-    <input
+    <h5>Image</h5>
+    <!-- <input
       type="text"
       name=""
       id="image"
       class="form-control mb-3"
       formControlName="imagePath"
       #image
-    />
+    /> -->
+    <app-text-input
+      [formControl]="$any(recipeForm.controls['imagePath'])"
+      [type]="'text'"
+      [label]="'Image Url'"
+    ></app-text-input>
 
     <!-- Image preview -->
     <img
-      [src]="image.value.length > 0 ? image.value : './assets/default.png'"
+      [src]="
+        recipeForm.controls['imagePath'].value.length > 0
+          ? recipeForm.controls['imagePath'].value
+          : './assets/default.png'
+      "
       [alt]=""
       class="img-thumbnail img-responsive"
       width="300px"

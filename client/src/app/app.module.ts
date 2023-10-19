@@ -29,7 +29,7 @@ import { MemberService } from './_services/member.service';
 import { UserRecipeCardComponent } from './users/user-page/user-recipe-card/user-recipe-card.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { RecipeCreateComponent } from './recipes/recipe-create/recipe-create.component';
-import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
+import { RecipeFormComponent } from './_forms/recipe-form/recipe-form.component';
 import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component';
 import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
 import { ViewLikesComponent } from './_modals/view-likes/view-likes.component';
@@ -37,6 +37,7 @@ import { ViewCommentsComponent } from './_modals/view-comments/view-comments.com
 import { LikeButtonComponent } from './_features/like-button/like-button.component';
 import { AddCommentComponent } from './_features/add-comment/add-comment.component';
 import { LikeService } from './_services/like.service';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { LikeService } from './_services/like.service';
     ViewCommentsComponent,
     LikeButtonComponent,
     AddCommentComponent,
+    TextInputComponent,
   ],
   imports: [
     BrowserModule,
