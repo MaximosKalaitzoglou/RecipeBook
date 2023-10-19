@@ -32,6 +32,11 @@ import { RecipeCreateComponent } from './recipes/recipe-create/recipe-create.com
 import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
 import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component';
 import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
+import { ViewLikesComponent } from './_modals/view-likes/view-likes.component';
+import { ViewCommentsComponent } from './_modals/view-comments/view-comments.component';
+import { LikeButtonComponent } from './_features/like-button/like-button.component';
+import { AddCommentComponent } from './_features/add-comment/add-comment.component';
+import { LikeService } from './_services/like.service';
 
 @NgModule({
   declarations: [
@@ -55,6 +60,10 @@ import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.compon
     RecipeFormComponent,
     RecipeCardComponent,
     UnauthorizedComponent,
+    ViewLikesComponent,
+    ViewCommentsComponent,
+    LikeButtonComponent,
+    AddCommentComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +80,7 @@ import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.compon
   providers: [
     RecipeService,
     MemberService,
+    LikeService,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],

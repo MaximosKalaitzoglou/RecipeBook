@@ -9,6 +9,8 @@ import {
   faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import { Recipe } from 'src/app/_models/recipe';
+import { AccountService } from 'src/app/_services/account.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -17,6 +19,7 @@ import { Recipe } from 'src/app/_models/recipe';
 })
 export class RecipeDetailComponent implements OnInit {
   recipe: Recipe | null = null;
+  OwnsRecipe = false;
   id: number = 0;
   faDots = faBars;
   faHeart = faHeart;
@@ -26,7 +29,8 @@ export class RecipeDetailComponent implements OnInit {
   constructor(
     private recipeService: RecipeService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +41,15 @@ export class RecipeDetailComponent implements OnInit {
       next: (recipe: Recipe) => {
         // console.log(recipe);
         this.recipe = recipe;
+        this.accountService.currentUser$.subscribe({
+          next: (user) => {
+            if (this.recipe?.appUserName === user?.userName) {
+              this.OwnsRecipe = true;
+            } else {
+              this.OwnsRecipe = false;
+            }
+          },
+        });
       },
     });
 

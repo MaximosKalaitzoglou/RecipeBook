@@ -12,23 +12,6 @@
           style="font-size: 1.125rem; text-anchor: middle"
         />
       </div>
-
-      <!-- <div card-extras *ngIf="recipe.comments">
-        <ul class="list-group">
-          <li class="list-group-item" *ngFor="let comment of recipe.comments">
-            <img
-              [src]="comment.userPhotoUrl"
-              alt=""
-              class="img-responsive rounded-circle me-1"
-              style="width: 40px"
-            />
-            <p style="display: inline-block" class="me-3">
-              <strong> {{ comment.userName }} </strong>
-            </p>
-            <span style="display: inline-block"> {{ comment.comment }} </span>
-          </li>
-        </ul>
-      </div> -->
     </app-recipe-card>
   </div>
 
@@ -61,6 +44,20 @@
         <p class="card-text">
           {{ recipe.preparationSteps }}
         </p>
+      </tab>
+
+      <tab heading="Options" *ngIf="OwnsRecipe">
+        <h4 class="mt-2">Options</h4>
+        <hr />
+        <button type="button" class="btn" (click)="onDeleteRecipe()">
+          <h6 class="text-danger">Delete Recipe</h6>
+        </button>
+        <hr />
+
+        <a type="button" class="btn" [routerLink]="'edit'">
+          <h6 class="text-primary">Edit Recipe</h6>
+        </a>
+        <hr />
       </tab>
     </tabset>
   </div>

@@ -1,23 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { RecipeService } from '../../_services/recipe.service';
 import { Recipe } from 'src/app/_models/recipe';
+import { Observable } from 'rxjs';
+import { CanComponentDeactivate } from 'src/app/_guards/leave-page.guard';
 
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
   styleUrls: ['./recipe-edit.component.css'],
 })
-export class RecipeEditComponent implements OnInit {
+export class RecipeEditComponent implements OnInit, CanComponentDeactivate {
   id: number = 0;
-  editMode: boolean = false;
-  faTrash = faTrash;
-  recipeForm: FormGroup | undefined;
-  recipeIngredients = new FormArray<any>([]);
   recipe: Recipe | null = null;
-  imageData: File | null = null;
+  formIsDirty = false;
 
   categories = [
     {
@@ -43,9 +39,8 @@ export class RecipeEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
-      this.editMode = params['id'] != null;
       // console.log(this.editMode);
-      this.recipeService.getRecipeById(this.id).subscribe({
+      this.recipeService.getRecipeByIdToEdit(this.id).subscribe({
         next: (recipe) => {
           this.recipe = recipe;
         },
@@ -71,5 +66,9 @@ export class RecipeEditComponent implements OnInit {
 
   onCancelForm() {
     this.navigateAway();
+  }
+
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    return confirm('Do you want to discard this changes ?');
   }
 }

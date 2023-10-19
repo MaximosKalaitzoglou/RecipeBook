@@ -18,6 +18,9 @@
   transition: all 0.3s ease;
 }
 
+textarea {
+  resize: vertical;
+}
 #comment:hover {
   color: #333;
 }
@@ -31,9 +34,8 @@
   transition: all 0.3s ease;
 }
 
-#comment-btn:hover{
+#comment-btn:hover {
   color: rgb(66, 173, 82);
-
 }
 #star {
   color: #968787;

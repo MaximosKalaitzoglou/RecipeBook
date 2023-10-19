@@ -13,6 +13,7 @@ import { UserPageComponent } from './users/user-page/user-page.component';
 import { RecipeCreateComponent } from './recipes/recipe-create/recipe-create.component';
 import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
 import { routeParamsGuard } from './_guards/route-params.guard';
+import { LeaveGuard } from './_guards/leave-page.guard';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
       {
         path: 'recipes/:id/edit',
         canActivate: [routeParamsGuard],
+        canDeactivate: [LeaveGuard],
         component: RecipeEditComponent,
       },
       {

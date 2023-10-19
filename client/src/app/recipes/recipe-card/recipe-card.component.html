@@ -6,71 +6,7 @@
     [category]="recipe.category"
   ></app-recipe-header>
   <ng-content select="[card-body]"></ng-content>
-  <app-recipe-footer
-    *ngIf="recipe.likes"
-    (on-like)="onLikeRecipe()"
-    (on-unlike)="onUnlikeRecipe()"
-    (on-show-comments)="onShowComments(template)"
-    (on-new-comment)="onPostComment($event)"
-    [likes]="recipe.likes"
-    [likeCount]="recipe.likeCount || 0"
-    [hasLiked]="recipe.hasLiked"
-    [commentCount]="recipe.comments.length"
-  ></app-recipe-footer>
+  <app-recipe-footer *ngIf="recipe.likes" [recipe]="recipe"></app-recipe-footer>
 
-  <ng-template #template>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Comments</h4>
-      <button
-        type="button"
-        class="btn-close close pull-right"
-        aria-label="Close"
-        (click)="modalRef?.hide()"
-      >
-        <span aria-hidden="true" class="visually-hidden">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body custom-modal">
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let comment of recipe.comments">
-          <div class="row">
-            <div class="col-md-4">
-              <a
-                style="cursor: pointer"
-                [routerLink]="'/users/' + comment.userName"
-                (click)="modalRef?.hide()"
-              >
-                <img
-                  [src]="comment.userPhotoUrl"
-                  alt=""
-                  class="img-responsive img-thumbnail rounded-circle me-1"
-                  width="40px"
-                />
-              </a>
-              <span class="me-3">
-                <strong> {{ comment.userName }}</strong>
-              </span>
-            </div>
-            <div class="col-md-6">
-              <p>
-                {{ comment.comment }}
-              </p>
-            </div>
-            <div class="col-md-2" *ngIf="comment.userName === user.userName">
-              <button type="button" class="btn" style="color: crimson" (click)="onDeleteComment(comment.commentId)">
-                <fa-icon [icon]="faDelete"></fa-icon>
-              </button>
-            </div>
-          </div>
-          <div class="row">
-            <span class="">
-              {{ comment.dateCommented | timestamp }}
-            </span>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </ng-template>
   <ng-content select="[card-extras]"></ng-content>
 </div>
