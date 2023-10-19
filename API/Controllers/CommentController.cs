@@ -51,7 +51,7 @@ namespace recipes_app.Controllers
                 var commentDto = new CommentDto
                 {
                     UserName = userNameToken,
-                    UserPhotoUrl = user.Photo.Url,
+                    UserPhotoUrl = user.Photo?.Url,
                     UserId = user.Id,
                     Comment = commentRequest.Comment,
                     DateCommented = commentRequest.DateCommented,

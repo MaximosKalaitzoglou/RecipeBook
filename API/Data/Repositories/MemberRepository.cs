@@ -59,7 +59,7 @@ namespace recipes_app.Data.Repositories
             var user = await _context.Users
             .Include(u => u.Photo)
             .Include(u => u.Recipes)
-            .ThenInclude(rec => rec.Ingredients)
+            .ThenInclude(rec => rec.Likes)
             .SingleOrDefaultAsync(u => u.UserName == username);
             var userRecipes = _mapper.Map<IEnumerable<RecipesDto>>(user.Recipes);
             return userRecipes;

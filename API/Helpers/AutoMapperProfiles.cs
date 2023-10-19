@@ -13,6 +13,8 @@ namespace recipes_app.Helpers
             CreateMap<AppUser, MemberDto>()
             .ReverseMap();
 
+            CreateMap<RegisterDto, AppUser>();
+
             CreateMap<Recipes, RecipesDto>()
             .ForMember(
                 dest => dest.AppUserPhotoUrl,
@@ -52,6 +54,8 @@ namespace recipes_app.Helpers
                 dest => dest.UserPhotoUrl,
                 opt => opt.MapFrom(src => src.AppUser.Photo.Url)
             );
+
+
         }
     }
 }

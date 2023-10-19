@@ -10,10 +10,8 @@ namespace recipes_app.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
         public string Url { get; set; }
 
-        [Required]
         public bool IsMain { get; set; }
 
         [ForeignKey("AppUserId")]

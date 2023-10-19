@@ -43,7 +43,7 @@ namespace recipes_app.Controllers
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
-                    UserPhotoUrl = user.Photo.Url,
+                    UserPhotoUrl = user.Photo?.Url,
                     LikeId = newLike.LikeId,
                 };
             }
