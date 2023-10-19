@@ -12,7 +12,6 @@ namespace recipes_app.Controllers
         public bool Success { get; set; }
         public string Type { get; set; }
     }
-    //TODO: Need to change other Http controllers to include AppUser Photo and username on the response
     [Authorize]
     public class RecipesController : BaseApiController
     {
@@ -45,6 +44,7 @@ namespace recipes_app.Controllers
             return Ok(recipes);
         }
 
+        //View Page recipes
         [HttpGet("{id}")]
         public async Task<ActionResult<RecipesDto>> GetRecipeById(int id)
         {
@@ -55,7 +55,21 @@ namespace recipes_app.Controllers
 
             if (result == null) return NotFound("Recipe doesn't exist");
 
-            if (!result.AppUserName.Equals(user.UserName)) return Unauthorized();
+            return Ok(result);
+        }
+
+        // Edit page Recipes
+        [HttpGet("{id}/edit")]
+        public async Task<ActionResult<RecipesDto>> GetRecipeByIdToEdit(int id)
+        {
+            var userName = User.GetUsername();
+            var user = await _memberRep.GetUserByUserNameAsync(userName);
+
+            var result = await _recRepository.GetRecipeByIdAsync(id);
+
+            if (result == null) return NotFound("Recipe doesn't exist");
+
+            if (!result.AppUserName.Equals(user.UserName)) return Unauthorized("You are not allowed to edit this recipe");
             return Ok(result);
         }
 

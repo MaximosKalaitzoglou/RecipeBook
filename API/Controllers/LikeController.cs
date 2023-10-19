@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.Data;
@@ -7,6 +8,7 @@ using recipes_app.Models;
 
 namespace recipes_app.Controllers
 {
+    [Authorize]
     public class LikeController : BaseApiController
     {
         private readonly DataContext _context;

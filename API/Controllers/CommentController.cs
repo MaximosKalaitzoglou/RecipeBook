@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.Data;
@@ -9,6 +10,7 @@ using recipes_app.Models;
 
 namespace recipes_app.Controllers
 {
+    [Authorize]
     public class CommentController : BaseApiController
     {
         private readonly DataContext _context;
@@ -67,7 +69,16 @@ namespace recipes_app.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteComment(string username, int recipeId, int commentId)
         {
+            //Only a user that owns the comment or the User that owns the Recipe the comment
+            // was made on can delete the comment
+
+            var tokenUsername = User.GetUsername();
+
+            var tokenUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == tokenUsername);
+
             var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == username);
+            if (tokenUser != user) return Unauthorized("You are not the user that send the request!");
+
             if (user == null) return NotFound("User not found");
 
             var recipe = await _context.Recipes.SingleOrDefaultAsync(r => r.Id == recipeId);
@@ -78,14 +89,24 @@ namespace recipes_app.Controllers
 
             if (comment == null) return BadRequest("This is not the Comment you are Looking for!");
 
-            _context.Comments.Remove(comment);
+
+            if (comment.UserId == tokenUser.Id || recipe.AppUserId == tokenUser.Id)
+            {
+
+                _context.Comments.Remove(comment);
+
+            }
+            else
+            {
+                return Unauthorized("You are not authorized to delete this comment");
+            }
+
 
             if (await _context.SaveChangesAsync() > 0)
             {
                 return Ok();
             }
-
-            return BadRequest("Something went wrong");
+            return BadRequest("Something went wrong deleting this comment");
 
 
         }

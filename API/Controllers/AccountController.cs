@@ -55,7 +55,7 @@ namespace recipes_app.Controllers
             var user = await _context.Users
             .Include(u => u.Photo)
             .SingleOrDefaultAsync(x => x.UserName == loginDto.UserName);
-            if (user == null) return Unauthorized("Invalid username");
+            if (user == null) return Unauthorized("Invalid username or password");
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
@@ -63,7 +63,7 @@ namespace recipes_app.Controllers
 
             for (int i = 0; i < computedHash.Length; i++)
             {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid username or password");
             }
 
             return new UserDto
