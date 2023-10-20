@@ -18,8 +18,7 @@ namespace recipes_app.Models
         [Required]
         public string Description { get; set; } = null!;
 
-        [Required]
-        public string ImageUrl { get; set; } = null!;
+        public Photo Photo { get; set; }
 
         public string PreparationSteps { get; set; } = null!;
 
@@ -27,7 +26,6 @@ namespace recipes_app.Models
 
         public DateTime DateAdded { get; set; } = DateTime.UtcNow;
 
-        // Contains reference to the user
         public List<Likes> Likes { get; set; } = new();
 
         public List<Comments> Comments { get; set; } = new();

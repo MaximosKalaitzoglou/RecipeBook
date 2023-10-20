@@ -54,7 +54,7 @@ namespace recipes_app.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("recipes_app.Models.Comments", b =>
@@ -81,7 +81,7 @@ namespace recipes_app.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("recipes_app.Models.Ingredient", b =>
@@ -104,7 +104,7 @@ namespace recipes_app.Migrations
 
                     b.HasIndex("RecipesId");
 
-                    b.ToTable("Ingredient");
+                    b.ToTable("Ingredient", (string)null);
                 });
 
             modelBuilder.Entity("recipes_app.Models.Likes", b =>
@@ -125,7 +125,7 @@ namespace recipes_app.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("Likes", (string)null);
                 });
 
             modelBuilder.Entity("recipes_app.Models.Photo", b =>
@@ -151,7 +151,7 @@ namespace recipes_app.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Photo");
+                    b.ToTable("Photo", (string)null);
                 });
 
             modelBuilder.Entity("recipes_app.Models.Recipes", b =>
@@ -188,7 +188,7 @@ namespace recipes_app.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipes", (string)null);
                 });
 
             modelBuilder.Entity("recipes_app.Models.Comments", b =>
