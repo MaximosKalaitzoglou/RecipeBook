@@ -38,6 +38,9 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { DatePickerComponent } from './_forms/date-picker/date-picker.component';
 import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
 import { TextareaComponent } from './_forms/textarea/textarea.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { PhotoUploadComponent } from './_modals/photo-upload/photo-upload.component';
+import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +69,9 @@ import { TextareaComponent } from './_forms/textarea/textarea.component';
     DatePickerComponent,
     RecipeFormComponent,
     TextareaComponent,
+    UserEditComponent,
+    PhotoUploadComponent,
+    FileUploaderComponent,
   ],
   imports: [
     BrowserModule,

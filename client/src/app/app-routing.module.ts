@@ -7,12 +7,12 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { authGuard } from './_guards/auth.guard';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
-import { UsersComponent } from './users/users.component';
 import { UserPageComponent } from './users/user-page/user-page.component';
 import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
 import { routeParamsGuard } from './_guards/route-params.guard';
 import { LeaveGuard } from './_guards/leave-page.guard';
 import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
 
 const routes: Routes = [
   {
@@ -48,14 +48,20 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'users',
+    path: '',
     runGuardsAndResolvers: 'always',
     canActivate: [authGuard],
-    component: UsersComponent,
+
     children: [
       {
-        path: ':username',
+        path: 'users/:username',
         component: UserPageComponent,
+        canActivate: [routeParamsGuard],
+      },
+      {
+        path: 'users/:username/edit',
+        component: UserEditComponent,
+        canActivate: [routeParamsGuard],
       },
     ],
   },

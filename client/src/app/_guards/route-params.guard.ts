@@ -16,18 +16,21 @@ export class routeParamsGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    const id = route.params['id'];
-
-    // Check if the id is not a valid integer
-    if (isNaN(id)) {
-      // Redirect to the "Not Found" page for non-integer IDs
-      this.router.navigateByUrl('/not-found');
-      return false;
+    if (route.url.toString().includes('recipes')) {
+      const id = route.params['id'];
+      // Check if the id is not a valid integer
+      if (isNaN(id)) {
+        this.router.navigateByUrl('/not-found');
+        return false;
+      }
+    } else if (route.url.toString().includes('users')) {
+      const username = route.params['username'];
+      if (!isNaN(username)) {
+        this.router.navigateByUrl('/not-found');
+        return false;
+      }
     }
 
-    // Continue with your authorization logic to check if the user can access the recipe
-    // ...
-
-    return true; // Return true if the user is authorized to access the recipe
+    return true;
   }
 }

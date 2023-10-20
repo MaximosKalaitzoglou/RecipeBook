@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Recipe } from '../_models/recipe.model';
 
 @Component({
   selector: 'app-file-uploader',

@@ -48,7 +48,11 @@
           >My Recipes</a
         >
 
-        <a routerLink="/" class="dropdown-item">Edit Profile</a>
+        <a
+          [routerLink]="'/users/' + currentUser + '/edit'"
+          class="dropdown-item"
+          >Edit Profile</a
+        >
         <a routerLink="/" class="dropdown-item" (click)="logout()">Logout</a>
       </div>
     </div>
