@@ -60,6 +60,8 @@ namespace recipes_app.Data.Repositories
             .Include(u => u.Photo)
             .Include(u => u.Recipes)
             .ThenInclude(rec => rec.Likes)
+            .Include(u => u.Recipes)
+            .ThenInclude(rec => rec.Photo)
             .SingleOrDefaultAsync(u => u.UserName == username);
 
             var userRecipes = _mapper.Map<IEnumerable<RecipesDto>>(user.Recipes);

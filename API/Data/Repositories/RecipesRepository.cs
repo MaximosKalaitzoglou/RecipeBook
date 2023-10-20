@@ -44,7 +44,7 @@ namespace recipes_app.Data.Repositories
                 .Include(rec => rec.Ingredients)
                 .Include(rec => rec.Likes)
                 .Include(rec => rec.Comments)
-
+                .Include(rec => rec.Photo)
                 .Include(rec => rec.AppUser)
                 .ThenInclude(u => u.Photo)
                 .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider)
@@ -57,6 +57,7 @@ namespace recipes_app.Data.Repositories
                     .Include(rec => rec.Ingredients)
                     .Include(rec => rec.Likes)
                     .Include(rec => rec.Comments)
+                    .Include(rec => rec.Photo)
                     .Include(rec => rec.AppUser)
                     .ThenInclude(u => u.Photo)
                     .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider)

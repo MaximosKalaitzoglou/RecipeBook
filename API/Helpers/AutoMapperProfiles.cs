@@ -27,6 +27,9 @@ namespace recipes_app.Helpers
             .ForMember(
                 dest => dest.LikeCount,
                 opt => opt.MapFrom(src => src.Likes.Count)
+            ).ForMember(
+                dest => dest.ImageUrl,
+                opt => opt.MapFrom(src => src.Photo.Url)
             );
 
             CreateMap<RecipesDto, Recipes>();
