@@ -20,6 +20,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private memberService: MemberService,
     private route: ActivatedRoute
   ) {}
+
+  
   ngOnInit(): void {
     this.routeParamsSub = this.route.params.subscribe({
       next: (params) => {

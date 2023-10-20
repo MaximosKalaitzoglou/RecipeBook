@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccountService } from '../_services/account.service';
 
 @Component({
   selector: 'app-homepage',
@@ -34,7 +35,11 @@ export class HomepageComponent {
   rate = 4;
   isReadonly = true;
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    public accountService: AccountService
+  ) {}
 
   navigateToRegister() {
     this.router.navigate(['register']);

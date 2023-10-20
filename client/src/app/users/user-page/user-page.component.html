@@ -17,6 +17,14 @@
       >
         Message
       </button>
+      <div class="row mt-4" *ngIf="recipes$ | async as recipes">
+        <div class="col-md-4">
+          <strong>
+            {{ recipes.length }}
+          </strong>
+          {{ recipes.length == 1 ? "recipe" : "recipes" }}
+        </div>
+      </div>
     </div>
 
     <div class="row mb-3">
@@ -35,20 +43,6 @@
       <div class="col-md-2">
         <strong>Member since</strong> {{ member.memberSince | date }}
       </div>
-    </div>
-
-    <div class="row" *ngIf="recipes$ | async as recipes">
-      <div class="col-md-3"></div>
-      <div class="col-md-2">
-        <strong>
-          {{ recipes.length }}
-        </strong>
-        {{ recipes.length == 1 ? "recipe" : "recipes" }}
-      </div>
-      <div class="col-md-2">
-        <strong>{{ 10 }}</strong> likes
-      </div>
-      <div class="col-md-2"><strong>10</strong> stars</div>
     </div>
   </div>
 
