@@ -68,6 +68,7 @@ namespace recipes_app.Controllers
             var user = await _memberRep.GetUserByUserNameAsync(User.GetUsername());
             if (user == null) return NotFound("User not found!");
 
+            
             var result = await _photoService.AddPhotoAsync(file, "members");
 
             if (result.Error != null) return BadRequest(result.Error.Message);
@@ -99,5 +100,6 @@ namespace recipes_app.Controllers
             }
             return BadRequest("Something went wrong saving new User Photo");
         }
+
     }
 }
