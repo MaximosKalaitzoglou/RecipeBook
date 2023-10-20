@@ -29,6 +29,8 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-file-uploader></app-file-uploader>
+    <app-file-uploader
+      (on-selected-file)="uploadPhoto($event)"
+    ></app-file-uploader>
   </div>
 </ng-template>

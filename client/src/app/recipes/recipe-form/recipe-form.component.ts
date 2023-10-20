@@ -128,7 +128,6 @@ export class RecipeFormComponent implements OnDestroy {
       }
       this.createForm(
         this.recipe.name,
-        this.recipe.imageUrl,
         this.recipe.description,
         this.recipe.preparationSteps,
         this.recipe.category.replace(
@@ -143,14 +142,12 @@ export class RecipeFormComponent implements OnDestroy {
 
   private createForm(
     name: string = '',
-    imageUrl: string = '',
     description: string = '',
     preparationSteps: string = '',
     category: string = this.categories[0].value
   ) {
     this.recipeForm = new FormGroup({
       name: new FormControl(name, [Validators.required]),
-      imagePath: new FormControl(imageUrl, [Validators.required]),
       description: new FormControl(description, [
         Validators.required,
         Validators.maxLength(5000),
@@ -179,18 +176,17 @@ export class RecipeFormComponent implements OnDestroy {
       const payload = this.createPayLoad('new');
       this.recipeService.addRecipe(payload);
     }
-    
   }
 
   createPayLoad(type: string) {
-    var { name, category, preparation, description, imagePath, ingredients } =
+    var { name, category, preparation, description, ingredients } =
       this.recipeForm?.value;
     var payload: Recipe = {
       name: name,
       category: category,
       preparationSteps: preparation,
       description: description,
-      imageUrl: imagePath,
+      imageUrl: '',
       ingredients: ingredients,
       dateAdded: new Date().toISOString(),
       likeCount: 0,

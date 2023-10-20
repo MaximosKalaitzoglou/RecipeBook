@@ -1,9 +1,9 @@
-<div class="row">
-  <div class="col-4 mb-3">
+<div class="row" *ngIf="!submitted">
+  <div class="col-md-4 mb-3">
     <h1>{{ editMode ? "Your" : "New" }} Recipe</h1>
   </div>
 
-  <div class="col-8">
+  <div class="col-md-8">
     <div class="alert alert-info pb-0" *ngIf="recipeForm?.dirty">
       <p>
         <strong>Information: </strong>You have unsaved changes. Any unsaved
@@ -104,43 +104,6 @@
           </div>
         </div>
       </div>
-
-      <!-- TODO: Image Uploader -->
-      <!-- <div class="col-md-6">
-            <app-file-uploader
-              (emit-path)="getImageData($event)"
-              [imagePath]="recipe ? recipe.imagePath : ''"
-            ></app-file-uploader>
-          </div> -->
-
-      <!-- Image Url  -->
-      <h5>Image</h5>
-      <!-- <input
-          type="text"
-          name=""
-          id="image"
-          class="form-control mb-3"
-          formControlName="imagePath"
-          #image
-        /> -->
-      <app-text-input
-        [formControl]="$any(recipeForm.controls['imagePath'])"
-        [type]="'text'"
-        [label]="'Image Url'"
-      ></app-text-input>
-
-      <!-- Image preview -->
-      <img
-        [src]="
-          recipeForm.controls['imagePath'].value.length > 0
-            ? recipeForm.controls['imagePath'].value
-            : './assets/default.png'
-        "
-        [alt]=""
-        class="img-thumbnail img-responsive"
-        width="300px"
-        height="250px"
-      />
 
       <!-- Description  -->
 
