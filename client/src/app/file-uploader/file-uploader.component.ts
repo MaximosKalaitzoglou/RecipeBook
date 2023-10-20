@@ -1,14 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { PhotoUploadService } from '../_services/photo-upload.service';
 
 @Component({
   selector: 'app-file-uploader',
   templateUrl: './file-uploader.component.html',
   styleUrls: ['./file-uploader.component.css'],
 })
-export class FileUploaderComponent {
+export class FileUploaderComponent implements OnInit {
   selectedFile: File | null = null;
   progress = 0;
-  type: 'success' | 'info' | 'warning' | 'danger' = 'info';
+  type: 'success' | 'info' | 'warning' | 'danger' = 'success';
   @Input() imagePath: string = '';
   @Output('on-selected-file') imagePreview = new EventEmitter<File>();
 
@@ -17,6 +18,14 @@ export class FileUploaderComponent {
     if (this.selectedFile === null) return;
     this.imagePath = this.fileUrl;
   }
+  constructor(private photoUploadService: PhotoUploadService) {
+    this.photoUploadService.showProgress.subscribe({
+      next: (value) => {
+        this.progress = value;
+      },
+    });
+  }
+  ngOnInit(): void {}
 
   get sizeInMb() {
     return this.selectedFile
