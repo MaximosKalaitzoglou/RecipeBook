@@ -61,7 +61,9 @@ namespace recipes_app.Data.Repositories
             .Include(u => u.Recipes)
             .ThenInclude(rec => rec.Likes)
             .SingleOrDefaultAsync(u => u.UserName == username);
+
             var userRecipes = _mapper.Map<IEnumerable<RecipesDto>>(user.Recipes);
+
             return userRecipes;
         }
 

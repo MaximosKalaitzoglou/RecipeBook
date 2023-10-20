@@ -5,7 +5,7 @@ using recipes_app.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAplicationServices(builder.Configuration);
-
+builder.Services.AddIdentityServices(builder.Configuration);
 
 // Add services to the container.
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using recipes_app.Data.Repositories;
+using recipes_app.Helpers;
 using recipes_app.Interfaces;
 using recipes_app.Services;
 
@@ -28,25 +29,14 @@ namespace recipes_app.Extensions
             services.AddScoped<ITokenService, TokenService>();
 
             services.AddScoped<IRecipesRepository, RecipesRepository>();
-            
+
             services.AddScoped<IMemberRepository, MemberRepository>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding
-                    .UTF8.GetBytes(config["TokenKey"])),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                };
-            });
+            services.AddScoped<IPhotoService, PhotoService>();
 
             return services;
         }

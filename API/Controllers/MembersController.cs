@@ -1,7 +1,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using recipes_app.DTOs;
+using recipes_app.Extensions;
 using recipes_app.Interfaces;
+using recipes_app.Models;
 
 namespace recipes_app.Controllers
 {
@@ -9,10 +11,14 @@ namespace recipes_app.Controllers
     {
 
         private readonly IMemberRepository _memberRep;
+        private readonly IPhotoService _photoService;
+        private readonly IMapper _mapper;
 
-        public MembersController(IMemberRepository memberRep, IMapper mapper)
+        public MembersController(IMemberRepository memberRep, IMapper mapper, IPhotoService photoService)
         {
             _memberRep = memberRep;
+            _photoService = photoService;
+            _mapper = mapper;
         }
 
         [HttpGet("{username}/recipes")]
@@ -54,6 +60,44 @@ namespace recipes_app.Controllers
             }
 
             return Ok("Deleted succesfully");
+        }
+
+        [HttpPost("add-photo")]
+        public async Task<ActionResult<PhotoDto>> AddPhotoAsync(IFormFile file)
+        {
+            var user = await _memberRep.GetUserByUserNameAsync(User.GetUsername());
+            if (user == null) return NotFound("User not found!");
+
+            var result = await _photoService.AddPhotoAsync(file, "members");
+
+            if (result.Error != null) return BadRequest(result.Error.Message);
+
+            var photo = new Photo
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId,
+                IsMain = true
+            };
+
+            if (user.Photo != null)
+            {
+                if (user.Photo.PublicId.Length > 0)
+                {
+
+                    var deletionResult = await _photoService.DeletePhotoAsync(user.Photo.PublicId);
+                    if (deletionResult.Error != null) return BadRequest("There was an error updating your Photo");
+                }
+            }
+            user.Photo = photo;
+
+            if (await _memberRep.SaveAllAsync())
+            {
+                return CreatedAtAction(nameof(GetMemberByUserName), new
+                {
+                    username = User.GetUsername()
+                }, _mapper.Map<PhotoDto>(photo));
+            }
+            return BadRequest("Something went wrong saving new User Photo");
         }
     }
 }

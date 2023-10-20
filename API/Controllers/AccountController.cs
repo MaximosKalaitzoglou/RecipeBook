@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.Data;
 using recipes_app.DTOs;
+using recipes_app.Extensions;
 using recipes_app.Interfaces;
 using recipes_app.Models;
 
@@ -31,7 +32,6 @@ namespace recipes_app.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-
             if (await UserExists(registerDto.UserName)) return BadRequest("Username is taken.");
 
             var user = _mapper.Map<AppUser>(registerDto);
