@@ -41,6 +41,7 @@ import { TextareaComponent } from './_forms/textarea/textarea.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { PhotoUploadComponent } from './_modals/photo-upload/photo-upload.component';
 import { FileUploaderComponent } from './file-uploader/file-uploader.component';
+import { PhotoUploaderComponent } from './photo-uploader/photo-uploader.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { FileUploaderComponent } from './file-uploader/file-uploader.component';
     UserEditComponent,
     PhotoUploadComponent,
     FileUploaderComponent,
+    PhotoUploaderComponent,
   ],
   imports: [
     BrowserModule,

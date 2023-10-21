@@ -11,6 +11,7 @@ import { TimestampPipe } from '../_pipes/timestamp.pipe';
 import { TruncatePipe } from '../_pipes/truncate.pipe';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [FilterRecipesPipe, TimestampPipe, TruncatePipe],
@@ -28,6 +29,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     }),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    FileUploadModule,
   ],
   providers: [],
   exports: [
@@ -43,6 +45,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     TruncatePipe,
     ModalModule,
     BsDatepickerModule,
+    FileUploadModule,
   ],
 })
 export class SharedModule {}
