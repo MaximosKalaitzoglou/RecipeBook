@@ -1,8 +1,12 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using recipes_app.Data;
 using recipes_app.DTOs;
 using recipes_app.Extensions;
 using recipes_app.Interfaces;
+using recipes_app.Models;
 
 namespace recipes_app.Controllers
 {
@@ -18,11 +22,19 @@ namespace recipes_app.Controllers
         private readonly IRecipesRepository _recRepository;
         private readonly IMemberRepository _memberRep;
 
+        private readonly IPhotoService _photoService;
 
-        public RecipesController(IRecipesRepository recRepository, IMemberRepository memberRep)
+        private readonly IMapper _mapper;
+
+        private readonly DataContext _context;
+
+        public RecipesController(IRecipesRepository recRepository, IMemberRepository memberRep, IMapper mapper, IPhotoService photoService, DataContext context)
         {
             _recRepository = recRepository;
             _memberRep = memberRep;
+            _photoService = photoService;
+            _mapper = mapper;
+            _context = context;
         }
 
 
@@ -83,6 +95,48 @@ namespace recipes_app.Controllers
             if (response == null) return NotFound("User not Found");
             else if (response.Success == false) return BadRequest("Something went wrong");
             return response.Recipe;
+        }
+
+
+        [HttpPost("{id}/add-photo")]
+        public async Task<ActionResult<PhotoDto>> AddPhotoAsync(IFormFile file, int id)
+        {
+            var user = await _memberRep.GetUserByUserNameAsync(User.GetUsername());
+            if (user == null) return NotFound("User not found!");
+
+            var recipe = await _context.Recipes.FirstOrDefaultAsync(rec => rec.Id == id);
+            if (recipe == null) return NotFound("Recipe not found");
+
+            var result = await _photoService.AddPhotoAsync(file, "recipes");
+
+            if (result.Error != null) return BadRequest(result.Error.Message);
+
+            var photo = new Photo
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId,
+                IsMain = true
+            };
+
+            if (recipe.Photo != null)
+            {
+                if (recipe.Photo.PublicId.Length > 0)
+                {
+
+                    var deletionResult = await _photoService.DeletePhotoAsync(recipe.Photo.PublicId);
+                    if (deletionResult.Error != null) return BadRequest("There was an error updating your Photo");
+                }
+            }
+            recipe.Photo = photo;
+
+            if (await _memberRep.SaveAllAsync())
+            {
+                return CreatedAtAction(nameof(GetRecipeById), new
+                {
+                    id = recipe.Id
+                }, _mapper.Map<PhotoDto>(photo));
+            }
+            return BadRequest("Something went wrong saving new User Photo");
         }
 
         [HttpPut("{id}")]
