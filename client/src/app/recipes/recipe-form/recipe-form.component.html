@@ -1,18 +1,20 @@
+<div class="col-md-12" *ngIf="recipeForm?.dirty && !submitted">
+  <div class="alert alert-dismissible alert-warning">
+    <p>
+      <strong>Information: </strong>You have unsaved changes. Any unsaved
+      changes will be lost
+    </p>
+  </div>
+</div>
+
 <div class="row" *ngIf="!submitted">
-  <div class="col-md-4 mb-3">
+  <div class="col-md-4 mb-3" *ngIf="editMode && recipe">
+    <app-photo-upload [item]="recipe"></app-photo-upload>
+  </div>
+
+  <div class="col-md-8">
     <h1>{{ editMode ? "Your" : "New" }} Recipe</h1>
-  </div>
 
-  <div class="col-md-8">
-    <div class="alert alert-info pb-0" *ngIf="recipeForm?.dirty">
-      <p>
-        <strong>Information: </strong>You have unsaved changes. Any unsaved
-        changes will be lost
-      </p>
-    </div>
-  </div>
-
-  <div class="col-md-8">
     <form
       *ngIf="recipeForm"
       [formGroup]="recipeForm"
@@ -149,4 +151,25 @@
   </div>
 
   <div class="col-4"></div>
+</div>
+
+<div class="container" *ngIf="submitted && recipe">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-dismissible alert-success">
+        <strong>Well done!</strong> You successfully
+        {{ editMode ? "updated your Recipe!" : "created a Recipe!" }}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 text-center" *ngIf="editMode">
+      <a (click)="navigateAway()" class="btn btn-success">Broswe recipes</a>
+    </div>
+    <div class="col-md-4 text-center" *ngIf="!editMode && recipe">
+      <a [routerLink]="'/recipes/' + recipe.id" class="btn btn-success"
+        >View Recipe</a
+      >
+    </div>
+  </div>
 </div>

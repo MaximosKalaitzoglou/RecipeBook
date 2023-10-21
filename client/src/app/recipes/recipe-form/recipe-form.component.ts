@@ -40,7 +40,7 @@ import {
 })
 export class RecipeFormComponent implements OnDestroy {
   id: number = 0;
-  recipe: Recipe | null = null;
+  recipe!: Recipe;
   editMode: boolean = false;
   faTrash = faTrash;
   recipeForm: FormGroup | undefined;
@@ -97,11 +97,12 @@ export class RecipeFormComponent implements OnDestroy {
         .subscribe({
           next: (recipe) => {
             this.recipe = recipe;
+            this.createAndFillForm();
           },
         });
+    } else {
+      this.createForm();
     }
-
-    this.createAndFillForm();
   }
 
   ngOnDestroy(): void {
@@ -135,8 +136,6 @@ export class RecipeFormComponent implements OnDestroy {
           this.recipe.category[0].toUpperCase()
         )
       );
-    } else {
-      this.createForm();
     }
   }
 
@@ -174,7 +173,12 @@ export class RecipeFormComponent implements OnDestroy {
       this.recipeService.updateRecipe(this.id, payload);
     } else {
       const payload = this.createPayLoad('new');
-      this.recipeService.addRecipe(payload);
+      this.recipeService.addRecipe(payload).subscribe({
+        next: (response: Recipe) => {
+          this.recipeService.recipes.push({ ...payload, id: response.id });
+          this.recipe = { ...payload, id: response.id };
+        },
+      });
     }
   }
 
@@ -230,7 +234,7 @@ export class RecipeFormComponent implements OnDestroy {
   }
 
   navigateAway() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.router.navigate(['..'], { relativeTo: this.route });
   }
 
   onCancelForm() {

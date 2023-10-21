@@ -1,6 +1,7 @@
 import { Component, Input, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Member } from 'src/app/_models/member';
+import { Recipe } from 'src/app/_models/recipe';
 
 @Component({
   selector: 'app-photo-upload',
@@ -9,7 +10,7 @@ import { Member } from 'src/app/_models/member';
 })
 export class PhotoUploadComponent {
   modalRef?: BsModalRef;
-  @Input() user!: Member;
+  @Input() item!: Member | Recipe;
   constructor(private modalService: BsModalService) {}
 
   showEditPhoto(template: TemplateRef<any>) {
@@ -19,11 +20,11 @@ export class PhotoUploadComponent {
     );
   }
 
-  // uploadPhoto(event: File) {
-  //   this.photoUploadService.uploadMemberPhoto(event).subscribe({
-  //     next: (photo) => {
-  //       console.log(photo);
-  //     },
-  //   });
-  // }
+  isMember(item: Member | Recipe): item is Member {
+    return (item as Member).hasOwnProperty('dateOfBirth');
+  }
+
+  isRecipe(item: Member | Recipe): item is Recipe {
+    return (item as Recipe).hasOwnProperty('preparationSteps');
+  }
 }

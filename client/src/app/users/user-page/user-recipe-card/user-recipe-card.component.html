@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4" *ngFor="let recipe of recipes">
+    <div class="col-md-4 mb-3" *ngFor="let recipe of recipes">
       <div class="card">
         <a [routerLink]="'/recipes/' + recipe.id" style="text-decoration: none">
           <img

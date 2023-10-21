@@ -11,7 +11,7 @@ import { Comment } from '../_models/comment';
   providedIn: 'root',
 })
 export class RecipeService {
-  private recipes: Recipe[] = [];
+  public recipes: Recipe[] = [];
   apiUrl = environment.apiUrl;
 
   recipesChanged = new Subject<Recipe[]>();
@@ -120,19 +120,11 @@ export class RecipeService {
   }
 
   addRecipe(recipe: Recipe) {
-    this.http
-      .post<Recipe>(
-        this.apiUrl + 'recipes/save-recipe',
-        recipe,
-        this.getHttpOptions()
-      )
-      .subscribe({
-        next: (response: Recipe) => {
-          response.appUserPhotoUrl = recipe.appUserPhotoUrl;
-          this.recipes.push(response);
-          this.redirectEvent.next(true);
-        },
-      });
+    return this.http.post<Recipe>(
+      this.apiUrl + 'recipes/save-recipe',
+      recipe,
+      this.getHttpOptions()
+    );
   }
 
   updateRecipe(idx: number, recipe: Recipe) {

@@ -8,13 +8,14 @@ import { MemberService } from '../_services/member.service';
 import { take } from 'rxjs';
 import { Photo } from '../_models/photo';
 import { faUpload, faBan, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Recipe } from '../_models/recipe';
 @Component({
   selector: 'app-photo-uploader',
   templateUrl: './photo-uploader.component.html',
   styleUrls: ['./photo-uploader.component.css'],
 })
 export class PhotoUploaderComponent {
-  @Input() member: Member | undefined;
+  @Input() item!: Member | Recipe;
   uploader: FileUploader | undefined;
   hasBaseDropZoneOver = false;
   apiUrl = environment.apiUrl;
@@ -24,10 +25,7 @@ export class PhotoUploaderComponent {
   faBan = faBan;
   faTrash = faTrash;
 
-  constructor(
-    private accountService: AccountService,
-    private membersService: MemberService
-  ) {
+  constructor(private accountService: AccountService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: (user) => (this.user = user),
     });
@@ -42,8 +40,15 @@ export class PhotoUploaderComponent {
   }
 
   initializeUploader() {
+    var url = this.apiUrl;
+    if (this.isMember(this.item)) {
+      url += 'members/add-photo';
+    } else if (this.isRecipe(this.item)) {
+      url += `recipes/${this.item.id}/add-photo`;
+    }
+
     this.uploader = new FileUploader({
-      url: this.apiUrl + 'members/add-photo',
+      url: url,
       authToken: `Bearer ${this.user?.token}`,
       isHTML5: true,
       allowedFileType: ['image'],
@@ -51,7 +56,6 @@ export class PhotoUploaderComponent {
       autoUpload: false,
       maxFileSize: 10 * 1024 * 1024,
     });
-
     this.uploader.onAfterAddingFile = (f) => {
       if (this.uploader) {
         if (this.uploader.queue.length > 1) {
@@ -64,12 +68,24 @@ export class PhotoUploaderComponent {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const photo: Photo = JSON.parse(response);
-        if (this.member && this.user) {
-          this.member.photo = photo;
-          this.user.photoUrl = photo.url;
-          this.accountService.setCurrentUser(this.user);
+        if (this.item && this.user) {
+          if (this.isMember(this.item)) {
+            this.item.photo = photo;
+            this.user.photoUrl = photo.url;
+            this.accountService.setCurrentUser(this.user);
+          } else {
+            this.item.imageUrl = photo.url;
+          }
         }
       }
     };
+  }
+
+  isMember(item: Member | Recipe): item is Member {
+    return (item as Member).hasOwnProperty('dateOfBirth');
+  }
+
+  isRecipe(item: Member | Recipe): item is Recipe {
+    return (item as Recipe).hasOwnProperty('preparationSteps');
   }
 }

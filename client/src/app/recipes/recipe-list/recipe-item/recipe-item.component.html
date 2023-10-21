@@ -8,7 +8,7 @@
     </div>
     <div [routerLink]="['/recipes/' + recipe.id]" style="cursor: pointer">
       <img
-        [src]="recipe.imageUrl"
+        [src]="recipe.imageUrl || './assets/default.png'"
         [alt]="recipe.name"
         class="img-responsive d-block user-select-none"
         style="height: 70%; width: 70%; margin: auto"

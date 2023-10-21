@@ -1,8 +1,26 @@
-<div class="card" *ngIf="user">
+<div class="card" *ngIf="isMember(item)">
   <div class="card-img-wrapper">
     <img
-      [src]="user.photo ? user.photo.url : './assets/default-avatar.png'"
-      [alt]="user.alias"
+      [src]="item.photo ? item.photo.url : './assets/default-avatar.png'"
+      [alt]="item.alias"
+      class="card-img-top"
+      style="width: 150px"
+    />
+    <ul class="list-inline member-icons animate text-center">
+      <li class="list-inline-item">
+        <button class="btn" id="editPhoto" (click)="showEditPhoto(template)">
+          Edit
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="card" *ngIf="isRecipe(item)">
+  <div class="card-img-wrapper">
+    <img
+      [src]="item.imageUrl || './assets/default.png'"
+      [alt]="item.name"
       class="card-img-top"
       style="width: 150px"
     />
@@ -29,7 +47,6 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-photo-uploader [member]="user"></app-photo-uploader>
+    <app-photo-uploader [item]="item"></app-photo-uploader>
   </div>
-    
 </ng-template>
