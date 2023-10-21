@@ -21,40 +21,18 @@ export class PhotoUploadService {
   uploadMemberPhoto(photo: File) {
     const formData = new FormData();
     formData.append('file', photo);
+
     const req = new HttpRequest(
       'POST',
       this.apiUrl + 'members/add-photo',
       formData,
-      this.getHttpOptions()
+      { reportProgress: true, headers: this.getHttpOptions()?.headers }
     );
 
-    return this.http.request(req).pipe(
-      map((event) => this.getEventMessage(event, photo)),
-      tap((message) => this.showProgress.next(message))
-    );
+    return this.http.request(req);
   }
 
   uploadRecipePhoto(photo: File) {}
-
-  /** Return distinct message for sent, upload progress, & response events */
-  private getEventMessage(event: HttpEvent<any>, file: File) {
-    switch (event.type) {
-      case HttpEventType.Sent:
-        return 0;
-      case HttpEventType.UploadProgress:
-        // Compute and show the % done:
-        const percentDone = event.total
-          ? Math.round((100 * event.loaded) / event.total)
-          : 0;
-        return percentDone;
-
-      case HttpEventType.Response:
-        return 100;
-
-      default:
-        return 0;
-    }
-  }
 
   getHttpOptions() {
     const userString = localStorage.getItem('user');
@@ -65,7 +43,6 @@ export class PhotoUploadService {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + user.token,
       }),
-      reportProgress: true,
     };
   }
 }

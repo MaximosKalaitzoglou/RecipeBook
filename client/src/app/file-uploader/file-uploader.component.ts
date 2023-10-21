@@ -9,7 +9,7 @@ import { PhotoUploadService } from '../_services/photo-upload.service';
 export class FileUploaderComponent implements OnInit {
   selectedFile: File | null = null;
   progress = 0;
-  type: 'success' | 'info' | 'warning' | 'danger' = 'success';
+  type: 'success' | 'info' | 'warning' | 'danger' = 'info';
   @Input() imagePath: string = '';
   @Output('on-selected-file') imagePreview = new EventEmitter<File>();
 
