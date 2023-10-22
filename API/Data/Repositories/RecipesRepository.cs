@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.DTOs;
 using recipes_app.DTOs.Request;
+using recipes_app.Helpers;
 using recipes_app.Interfaces;
 using recipes_app.Models;
 
@@ -54,17 +55,18 @@ namespace recipes_app.Data.Repositories
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<RecipesDto>> GetRecipesAsync()
+        public async Task<PaginationFilter<RecipesDto>> GetRecipesAsync(UserParams userParams)
         {
-            return await _context.Recipes
+            var query = _context.Recipes
                     .Include(rec => rec.Ingredients)
                     .Include(rec => rec.Likes)
                     .Include(rec => rec.Comments)
                     .Include(rec => rec.Photo)
                     .Include(rec => rec.AppUser)
                     .ThenInclude(u => u.Photo)
-                    .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
+                    .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider);
+
+            return await PaginationFilter<RecipesDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<AddRecipeResult> AddRecipeAsync(RecipeRequest recipesDto, string username)

@@ -6,6 +6,7 @@ using recipes_app.Data;
 using recipes_app.DTOs;
 using recipes_app.DTOs.Request;
 using recipes_app.Extensions;
+using recipes_app.Helpers;
 using recipes_app.Interfaces;
 using recipes_app.Models;
 
@@ -40,9 +41,9 @@ namespace recipes_app.Controllers
 
 
         [HttpGet("list")]
-        public async Task<ActionResult<IEnumerable<RecipesDto>>> GetRecipes()
+        public async Task<ActionResult<PaginationFilter<RecipesDto>>> GetRecipes([FromQuery] UserParams userParams)
         {
-            var recipes = await _recRepository.GetRecipesAsync();
+            var recipes = await _recRepository.GetRecipesAsync(userParams);
 
             if (!recipes.Any()) return NotFound("No found Recipes");
             var authUser = User.GetUsername();
@@ -54,6 +55,12 @@ namespace recipes_app.Controllers
                 var hasLiked = await _recRepository.UserHasLikedRecipe(authUser, recipe.Id);
                 recipe.HasLiked = hasLiked;
             }
+
+            Response
+            .AddPaginationHeader(
+                new PaginationHeader(recipes.CurrentPage,
+                 recipes.PageSize, recipes.TotalCount, recipes.TotalPages));
+                 
             return Ok(recipes);
         }
 

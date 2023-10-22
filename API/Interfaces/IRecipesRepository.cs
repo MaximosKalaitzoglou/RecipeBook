@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using recipes_app.Data.Repositories;
 using recipes_app.DTOs;
 using recipes_app.DTOs.Request;
+using recipes_app.Helpers;
 using recipes_app.Models;
 
 namespace recipes_app.Interfaces
@@ -14,7 +15,7 @@ namespace recipes_app.Interfaces
         Task<bool> UserHasLikedRecipe(string username, int recipeId);
         Task<bool> SaveAllAsync();
 
-        Task<IEnumerable<RecipesDto>> GetRecipesAsync();
+        Task<PaginationFilter<RecipesDto>> GetRecipesAsync(UserParams userParams);
 
         Task<RecipesDto> GetRecipeByIdAsync(int id);
 
