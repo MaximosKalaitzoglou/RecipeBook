@@ -26,7 +26,6 @@ import { UsersComponent } from './users/users.component';
 import { UserPageComponent } from './users/user-page/user-page.component';
 import { MemberService } from './_services/member.service';
 import { UserRecipeCardComponent } from './users/user-page/user-recipe-card/user-recipe-card.component';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component';
 import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
 import { ViewLikesComponent } from './_modals/view-likes/view-likes.component';
@@ -85,7 +84,6 @@ import { PhotoUploaderComponent } from './photo-uploader/photo-uploader.componen
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    ModalModule.forRoot(),
   ],
   providers: [
     RecipeService,

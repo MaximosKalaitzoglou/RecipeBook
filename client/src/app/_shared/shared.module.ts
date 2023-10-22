@@ -12,6 +12,8 @@ import { TruncatePipe } from '../_pipes/truncate.pipe';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FileUploadModule } from 'ng2-file-upload';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [FilterRecipesPipe, TimestampPipe, TruncatePipe],
@@ -30,6 +32,9 @@ import { FileUploadModule } from 'ng2-file-upload';
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     FileUploadModule,
+    ModalModule.forRoot(),
+    PaginationModule.forRoot(),
+    InfiniteScrollModule,
   ],
   providers: [],
   exports: [
@@ -46,6 +51,9 @@ import { FileUploadModule } from 'ng2-file-upload';
     ModalModule,
     BsDatepickerModule,
     FileUploadModule,
+    ModalModule,
+    PaginationModule,
+    InfiniteScrollModule,
   ],
 })
 export class SharedModule {}

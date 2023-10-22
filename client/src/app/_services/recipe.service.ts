@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Subject, catchError, map, of, tap } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Recipe } from '../_models/recipe';
 import { Like } from '../_models/like';
 import { AccountService } from './account.service';
 import { Comment } from '../_models/comment';
 import { RecipePayload } from '../_models/payloads/recipe-payload';
+import { PaginationResults } from '../_models/pagination';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecipeService {
   private recipes: Recipe[] = [];
+  paginatedResults: PaginationResults<Recipe[]> = new PaginationResults<
+    Recipe[]
+  >();
+
   apiUrl = environment.apiUrl;
 
   recipesChanged = new Subject<Recipe[]>();
@@ -79,14 +84,30 @@ export class RecipeService {
     });
   }
 
-  getRecipes() {
-    if (this.recipes.length > 0) return of(this.recipes);
+  getRecipes(offset?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (offset && itemsPerPage) {
+      params = params.append('offset', offset);
+      params = params.append('pageSize', itemsPerPage);
+    }
+    // if (this.recipes.length > 0) return of(this.recipes);
     return this.http
-      .get<Recipe[]>(this.apiUrl + 'recipes/list/', this.getHttpOptions())
+      .get<Recipe[]>(this.apiUrl + 'recipes/list/', {
+        ...this.getHttpOptions(),
+        observe: 'response',
+        params,
+      })
       .pipe(
-        map((recipes) => {
-          this.recipes = recipes;
-          return recipes;
+        map((response) => {
+          if (response.body) {
+            this.paginatedResults.result = response.body;
+          }
+          const pagination = response.headers.get('Pagination');
+          if (pagination) {
+            this.paginatedResults.pagination = JSON.parse(pagination);
+          }
+          return this.paginatedResults;
         })
       );
   }
