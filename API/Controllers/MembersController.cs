@@ -1,12 +1,15 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using recipes_app.DTOs;
+using recipes_app.DTOs.Request;
 using recipes_app.Extensions;
 using recipes_app.Interfaces;
 using recipes_app.Models;
 
 namespace recipes_app.Controllers
 {
+    [Authorize]
     public class MembersController : BaseApiController
     {
 
@@ -39,10 +42,25 @@ namespace recipes_app.Controllers
             return Ok(await _memberRep.GetMemberByUserNameAsync(username));
         }
 
-        [HttpPut("{username}")]
-        public async Task<ActionResult> UpdateMemberById(MemberDto memberDto, string username)
+        [HttpGet("{username}/edit")]
+        public async Task<ActionResult<MemberDto>> GetMemberByUserNameToEdit(string username)
         {
-            var result = await _memberRep.UpdateMemberAsync(memberDto);
+            var authUsername = User.GetUsername();
+
+            if (authUsername != username)
+            {
+                return Unauthorized("You do not own this user profile in order to be ableedit it");
+            }
+
+            return Ok(await _memberRep.GetMemberByUserNameAsync(username));
+        }
+
+        [HttpPut("{username}")]
+        public async Task<ActionResult> UpdateMemberByUsername(MemberUpdateRequest memberDto, string username)
+        {
+            var authUsername = User.GetUsername();
+            if (authUsername != username) return Unauthorized("You are not authorized to update this members info");
+            var result = await _memberRep.UpdateMemberAsync(memberDto, username);
             if (result == false)
             {
                 return NotFound("user not found");
@@ -68,7 +86,7 @@ namespace recipes_app.Controllers
             var user = await _memberRep.GetUserByUserNameAsync(User.GetUsername());
             if (user == null) return NotFound("User not found!");
 
-            
+
             var result = await _photoService.AddPhotoAsync(file, "members");
 
             if (result.Error != null) return BadRequest(result.Error.Message);
@@ -100,6 +118,8 @@ namespace recipes_app.Controllers
             }
             return BadRequest("Something went wrong saving new User Photo");
         }
+
+
 
     }
 }

@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using recipes_app.Data.Repositories;
 using recipes_app.DTOs;
+using recipes_app.DTOs.Request;
 using recipes_app.Models;
 
 namespace recipes_app.Interfaces
@@ -17,9 +18,9 @@ namespace recipes_app.Interfaces
 
         Task<RecipesDto> GetRecipeByIdAsync(int id);
 
-        Task<AddRecipeResult> AddRecipeAsync(RecipesDto recipesDto);
+        Task<AddRecipeResult> AddRecipeAsync(RecipeRequest recipesDto, string username);
 
-        Task<UpdateResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id);
+        Task<UpdateResult> UpdateRecipe(RecipeRequest recipeUpdateDto, int id);
 
         Task<bool> DeleteRecipe(int id);
 

@@ -6,6 +6,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.DTOs;
+using recipes_app.DTOs.Request;
 using recipes_app.Interfaces;
 using recipes_app.Models;
 
@@ -15,10 +16,31 @@ namespace recipes_app.Data.Repositories
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public MemberRepository(DataContext context, IMapper mapper)
+        private readonly IPhotoService _photoService;
+        public MemberRepository(DataContext context, IMapper mapper, IPhotoService photoService)
         {
             _context = context;
             _mapper = mapper;
+            _photoService = photoService;
+        }
+
+        public async Task<Photo> AddMemberPhotoAsync(IFormFile file)
+        {
+
+
+            var result = await _photoService.AddPhotoAsync(file, "members");
+
+            if (result.Error != null) return null;
+
+            var photo = new Photo
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId,
+                IsMain = true
+            };
+
+            return photo;
+
         }
 
         public async Task<bool> DeleteMemberAsync(string username)
@@ -27,6 +49,12 @@ namespace recipes_app.Data.Repositories
             if (member == null)
             {
                 return false;
+            }
+
+            if (member.Photo.PublicId.Length > 1)
+            {
+                var result = await _photoService.DeletePhotoAsync(member.Photo.PublicId);
+                if (result.Error != null) return false;
             }
 
             _context.Users.Remove(member);
@@ -87,9 +115,9 @@ namespace recipes_app.Data.Repositories
             _context.Entry(user).State = EntityState.Modified;
         }
 
-        public async Task<bool> UpdateMemberAsync(MemberDto memberDto)
+        public async Task<bool> UpdateMemberAsync(MemberUpdateRequest memberDto, string username)
         {
-            var member = await _context.Users.FirstOrDefaultAsync(m => m.UserName == memberDto.UserName);
+            var member = await _context.Users.FirstOrDefaultAsync(m => m.UserName == username);
 
             if (member == null)
             {

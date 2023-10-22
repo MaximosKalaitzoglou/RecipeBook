@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.DTOs;
+using recipes_app.DTOs.Request;
 using recipes_app.Interfaces;
 using recipes_app.Models;
 
@@ -32,10 +33,12 @@ namespace recipes_app.Data.Repositories
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public RecipesRepository(DataContext context, IMapper mapper)
+        private readonly IPhotoService _photoService;
+        public RecipesRepository(DataContext context, IMapper mapper, IPhotoService photoService)
         {
             _context = context;
             _mapper = mapper;
+            _photoService = photoService;
         }
 
         public Task<RecipesDto> GetRecipeByIdAsync(int id)
@@ -64,17 +67,18 @@ namespace recipes_app.Data.Repositories
                     .ToListAsync();
         }
 
-        public async Task<AddRecipeResult> AddRecipeAsync(RecipesDto recipesDto)
+        public async Task<AddRecipeResult> AddRecipeAsync(RecipeRequest recipesDto, string username)
         {
-            var user = _context.Users.SingleOrDefault(user => user.UserName == recipesDto.AppUserName);
+            var user = _context.Users
+            .Include(u => u.Photo)
+            .SingleOrDefault(user => user.UserName == username);
 
             if (user == null)
             {
                 return null;
             }
             var newRecipe = _mapper.Map<Recipes>(recipesDto);
-            newRecipe.AppUserId = user.Id;
-
+            newRecipe.AppUser = user;
             await _context.Recipes.AddAsync(newRecipe);
             if (await SaveAllAsync())
             {
@@ -91,7 +95,7 @@ namespace recipes_app.Data.Repositories
         }
 
 
-        public async Task<UpdateResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id)
+        public async Task<UpdateResult> UpdateRecipe(RecipeRequest recipeUpdateDto, int id)
         {
             var recipe = await _context.Recipes.Include(rec => rec.Ingredients).FirstOrDefaultAsync(x => x.Id == id);
             if (recipe == null)
@@ -127,10 +131,16 @@ namespace recipes_app.Data.Repositories
 
         public async Task<bool> DeleteRecipe(int id)
         {
-            var recipe = await _context.Recipes.FindAsync(id);
+            var recipe = await _context.Recipes.Include(rec => rec.Photo).FirstOrDefaultAsync(rec => rec.Id == id);
+
             if (recipe == null)
             {
                 return false;
+            }
+            if (recipe.Photo?.PublicId?.Length > 0)
+            {
+                var result = await _photoService.DeletePhotoAsync(recipe.Photo.PublicId);
+                if (result.Error != null) return false;
             }
             _context.Recipes.Remove(recipe);
 

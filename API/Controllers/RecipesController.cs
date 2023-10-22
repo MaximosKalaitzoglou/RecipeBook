@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using recipes_app.Data;
 using recipes_app.DTOs;
+using recipes_app.DTOs.Request;
 using recipes_app.Extensions;
 using recipes_app.Interfaces;
 using recipes_app.Models;
@@ -86,11 +87,10 @@ namespace recipes_app.Controllers
         }
 
         [HttpPost("save-recipe")]
-        public async Task<ActionResult<RecipesDto>> AddRecipe(RecipesDto recipe)
+        public async Task<ActionResult<RecipesDto>> AddRecipe(RecipeRequest recipe)
         {
-            recipe.AppUserName = User.GetUsername();
-
-            var response = await _recRepository.AddRecipeAsync(recipe);
+            var authUser = User.GetUsername();
+            var response = await _recRepository.AddRecipeAsync(recipe, authUser);
 
             if (response == null) return NotFound("User not Found");
             else if (response.Success == false) return BadRequest("Something went wrong");
@@ -140,11 +140,11 @@ namespace recipes_app.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateRecipe(RecipesDto recipeUpdateDto, int id)
+        public async Task<ActionResult> UpdateRecipe(RecipeRequest recipeUpdateDto, int id)
         {
 
             var username = User.GetUsername();
-            recipeUpdateDto.Id = id;
+            // recipeUpdateDto.Id = id;
 
             var isValid = await ValidateAuthority(username, id);
 
@@ -153,7 +153,7 @@ namespace recipes_app.Controllers
                 if (isValid.Type == "not-found") return NotFound("User not Found");
                 else return Unauthorized("You have no priviledges to edit this recipe");
             }
-            recipeUpdateDto.AppUserName = User.GetUsername();
+            // recipeUpdateDto.AppUserName = User.GetUsername();
 
 
             var result = await _recRepository.UpdateRecipe(recipeUpdateDto, id);
@@ -183,6 +183,7 @@ namespace recipes_app.Controllers
                 if (isValid.Type == "not-found") return NotFound("User not Found");
                 else return Unauthorized("You have no priviledges to delete this recipe");
             }
+
 
             var result = await _recRepository.DeleteRecipe(id);
             if (result)

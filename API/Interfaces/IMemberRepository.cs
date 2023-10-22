@@ -1,4 +1,5 @@
 using recipes_app.DTOs;
+using recipes_app.DTOs.Request;
 using recipes_app.Models;
 
 namespace recipes_app.Interfaces
@@ -19,8 +20,10 @@ namespace recipes_app.Interfaces
         Task<IEnumerable<MemberDto>> GetMembersAsync();
 
         Task<MemberDto> GetMemberByUserNameAsync(string username);
+        
+        Task<Photo> AddMemberPhotoAsync(IFormFile file);
 
-        Task<bool> UpdateMemberAsync(MemberDto memberDto);
+        Task<bool> UpdateMemberAsync(MemberUpdateRequest memberDto, string username);
 
         Task<bool> DeleteMemberAsync(string username);
     }

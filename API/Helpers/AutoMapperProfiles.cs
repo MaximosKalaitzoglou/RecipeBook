@@ -1,5 +1,6 @@
 using AutoMapper;
 using recipes_app.DTOs;
+using recipes_app.DTOs.Request;
 using recipes_app.DTOs.Response;
 using recipes_app.Models;
 
@@ -10,8 +11,11 @@ namespace recipes_app.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<Ingredient, IngredientDto>();
-            CreateMap<AppUser, MemberDto>()
-            .ReverseMap();
+            CreateMap<AppUser, MemberDto>();
+
+            CreateMap<MemberDto, AppUser>();
+
+            CreateMap<MemberUpdateRequest, AppUser>();
 
             CreateMap<RegisterDto, AppUser>();
 
@@ -32,7 +36,7 @@ namespace recipes_app.Helpers
                 opt => opt.MapFrom(src => src.Photo.Url)
             );
 
-            CreateMap<RecipesDto, Recipes>();
+            CreateMap<RecipeRequest, Recipes>();
 
             CreateMap<Photo, PhotoDto>();
 
