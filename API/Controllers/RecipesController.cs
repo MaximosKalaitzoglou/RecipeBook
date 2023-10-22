@@ -43,16 +43,19 @@ namespace recipes_app.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<PaginationFilter<RecipesDto>>> GetRecipes([FromQuery] UserParams userParams)
         {
+
+            var authUser = await _memberRep.GetUserByUserNameAsync(User.GetUsername());
+            if (authUser == null) return Unauthorized("Uknown user");
             var recipes = await _recRepository.GetRecipesAsync(userParams);
 
             if (!recipes.Any()) return NotFound("No found Recipes");
-            var authUser = User.GetUsername();
-            if (authUser == null) return Unauthorized("Uknown user");
+
+
 
             foreach (var recipe in recipes)
             {
                 // Check if the authenticated user has liked this recipe
-                var hasLiked = await _recRepository.UserHasLikedRecipe(authUser, recipe.Id);
+                var hasLiked = await _recRepository.UserHasLikedRecipe(authUser.UserName, recipe.Id);
                 recipe.HasLiked = hasLiked;
             }
 

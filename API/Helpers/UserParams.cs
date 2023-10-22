@@ -7,6 +7,7 @@ namespace recipes_app.Helpers
 {
     public class UserParams
     {
+
         private const int MaxPageSize = 5;
 
         public int Offset { get; set; } = 0;
@@ -19,5 +20,9 @@ namespace recipes_app.Helpers
             set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
         }
 
+        public string Category { get; set; } = "all";
+
+
+        public bool MostRecent { get; set; } = true;
     }
 }

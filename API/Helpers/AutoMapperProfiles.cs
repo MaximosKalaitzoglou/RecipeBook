@@ -36,6 +36,8 @@ namespace recipes_app.Helpers
                 opt => opt.MapFrom(src => src.Photo.Url)
             );
 
+            
+
             CreateMap<RecipeRequest, Recipes>();
 
             CreateMap<Photo, PhotoDto>();

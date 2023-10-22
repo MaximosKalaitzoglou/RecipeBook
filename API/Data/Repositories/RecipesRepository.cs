@@ -64,10 +64,22 @@ namespace recipes_app.Data.Repositories
                     .Include(rec => rec.Photo)
                     .Include(rec => rec.AppUser)
                     .ThenInclude(u => u.Photo)
-                    .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider);
+                    .AsQueryable();
+
+            if (userParams.Category != "all")
+            {
+                query = query.Where(rec => rec.Category.ToLower().Trim().Equals(userParams.Category.ToLower().Trim()));
+            }
+
+            if (userParams.MostRecent)
+                query = query.OrderByDescending(rec => rec.DateAdded);
+            else
+                query = query.OrderBy(rec => rec.DateAdded);
 
 
-            var paginationFilter = await PaginationFilter<RecipesDto>.CreateAsync(query, userParams.Offset, userParams.PageSize);
+            var paginationFilter = await PaginationFilter<RecipesDto>.CreateAsync(
+                query.AsNoTracking().ProjectTo<RecipesDto>(_mapper.ConfigurationProvider),
+                userParams.Offset, userParams.PageSize);
 
             return paginationFilter;
         }
