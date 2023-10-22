@@ -1,23 +1,20 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace recipes_app.Helpers
 {
     public class PaginationFilter<T> : List<T>
     {
-        public PaginationFilter(IEnumerable<T> items, int count, int pageNumber, int pageSize)
+        public PaginationFilter(IEnumerable<T> items, int count, int offset, int pageSize)
         {
-            CurrentPage = pageNumber;
+            Offset = offset;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             PageSize = pageSize;
             TotalCount = count;
             AddRange(items);
         }
 
-        public int CurrentPage { get; set; }
+        public int Offset { get; set; }
 
         public int TotalPages { get; set; }
 
@@ -26,15 +23,15 @@ namespace recipes_app.Helpers
         public int TotalCount { get; set; }
 
         public static async Task<PaginationFilter<T>> CreateAsync(IQueryable<T> source,
-         int pageNumber, int pageSize)
+         int offset, int pageSize)
         {
             var count = await source.CountAsync();
             var items = await source
-            .Skip((pageNumber - 1) * pageSize)
+            .Skip(offset)
             .Take(pageSize)
             .ToListAsync();
 
-            return new PaginationFilter<T>(items, count, pageNumber, pageSize);
+            return new PaginationFilter<T>(items, count, offset, pageSize);
         }
 
     }

@@ -7,15 +7,15 @@ namespace recipes_app.Helpers
 {
     public class PaginationHeader
     {
-        public PaginationHeader(int currentPage, int itemsPerPage, int totalItems, int totalPages)
+        public PaginationHeader(int offset, int itemsPerPage, int totalItems, int totalPages)
         {
-            CurrentPage = currentPage;
+            Offset = offset;
             ItemsPerPage = itemsPerPage;
             TotalItems = totalItems;
             TotalPages = totalPages;
         }
 
-        public int CurrentPage { get; set; }
+        public int Offset { get; set; }
 
         public int ItemsPerPage { get; set; }
 

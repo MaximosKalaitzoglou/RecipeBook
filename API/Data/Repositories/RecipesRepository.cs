@@ -66,7 +66,10 @@ namespace recipes_app.Data.Repositories
                     .ThenInclude(u => u.Photo)
                     .ProjectTo<RecipesDto>(_mapper.ConfigurationProvider);
 
-            return await PaginationFilter<RecipesDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
+
+            var paginationFilter = await PaginationFilter<RecipesDto>.CreateAsync(query, userParams.Offset, userParams.PageSize);
+
+            return paginationFilter;
         }
 
         public async Task<AddRecipeResult> AddRecipeAsync(RecipeRequest recipesDto, string username)

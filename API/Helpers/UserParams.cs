@@ -9,7 +9,7 @@ namespace recipes_app.Helpers
     {
         private const int MaxPageSize = 5;
 
-        public int PageNumber { get; set; } = 1;
+        public int Offset { get; set; } = 0;
 
         private int _pageSize = 5;
 

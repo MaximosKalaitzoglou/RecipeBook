@@ -58,9 +58,9 @@ namespace recipes_app.Controllers
 
             Response
             .AddPaginationHeader(
-                new PaginationHeader(recipes.CurrentPage,
+                new PaginationHeader(recipes.Offset,
                  recipes.PageSize, recipes.TotalCount, recipes.TotalPages));
-                 
+
             return Ok(recipes);
         }
 
