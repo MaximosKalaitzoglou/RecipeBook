@@ -81,20 +81,18 @@ namespace recipes_app.Controllers
             return Ok(result);
         }
 
-        // Edit page Recipes
+        [ServiceFilter(typeof(RecipeOwnershipActionFilter))]
         [HttpGet("{id}/edit")]
         public async Task<ActionResult<RecipesDto>> GetRecipeByIdToEdit(int id)
         {
-            var userName = User.GetUsername();
-            var user = await _memberRep.GetUserByUserNameAsync(userName);
 
             var result = await _recRepository.GetRecipeByIdAsync(id);
 
             if (result == null) return NotFound("Recipe doesn't exist");
 
-            if (!result.AppUserName.Equals(user.UserName)) return Unauthorized("You are not allowed to edit this recipe");
             return Ok(result);
         }
+
 
         [HttpPost("save-recipe")]
         public async Task<ActionResult<RecipesDto>> AddRecipe(RecipeRequest recipe)
@@ -107,12 +105,11 @@ namespace recipes_app.Controllers
             return response.Recipe;
         }
 
-
+        //TODO: Move this to recipes Repository and remove context and mapper if not needed
+        [ServiceFilter(typeof(RecipeOwnershipActionFilter))]
         [HttpPost("{id}/add-photo")]
         public async Task<ActionResult<PhotoDto>> AddPhotoAsync(IFormFile file, int id)
         {
-            var user = await _memberRep.GetUserByUserNameAsync(User.GetUsername());
-            if (user == null) return NotFound("User not found!");
 
             var recipe = await _context.Recipes.FirstOrDefaultAsync(rec => rec.Id == id);
             if (recipe == null) return NotFound("Recipe not found");
@@ -149,22 +146,10 @@ namespace recipes_app.Controllers
             return BadRequest("Something went wrong saving new User Photo");
         }
 
+        [ServiceFilter(typeof(RecipeOwnershipActionFilter))]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRecipe(RecipeRequest recipeUpdateDto, int id)
         {
-
-            var username = User.GetUsername();
-            // recipeUpdateDto.Id = id;
-
-            var isValid = await ValidateAuthority(username, id);
-
-            if (!isValid.Success)
-            {
-                if (isValid.Type == "not-found") return NotFound("User not Found");
-                else return Unauthorized("You have no priviledges to edit this recipe");
-            }
-            // recipeUpdateDto.AppUserName = User.GetUsername();
-
 
             var result = await _recRepository.UpdateRecipe(recipeUpdateDto, id);
 
@@ -182,19 +167,10 @@ namespace recipes_app.Controllers
             }
         }
 
+        [ServiceFilter(typeof(RecipeOwnershipActionFilter))]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRecipe(int id)
         {
-
-            var isValid = await ValidateAuthority(User.GetUsername(), id);
-
-            if (!isValid.Success)
-            {
-                if (isValid.Type == "not-found") return NotFound("User not Found");
-                else return Unauthorized("You have no priviledges to delete this recipe");
-            }
-
-
             var result = await _recRepository.DeleteRecipe(id);
             if (result)
             {

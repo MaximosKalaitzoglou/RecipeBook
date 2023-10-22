@@ -38,6 +38,7 @@ namespace recipes_app.Extensions
 
             services.AddScoped<IPhotoService, PhotoService>();
 
+            services.AddScoped<RecipeOwnershipActionFilter>();
             return services;
         }
     }

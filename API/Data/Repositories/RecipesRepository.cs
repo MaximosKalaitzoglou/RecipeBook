@@ -90,10 +90,6 @@ namespace recipes_app.Data.Repositories
             .Include(u => u.Photo)
             .SingleOrDefault(user => user.UserName == username);
 
-            if (user == null)
-            {
-                return null;
-            }
             var newRecipe = _mapper.Map<Recipes>(recipesDto);
             newRecipe.AppUser = user;
             await _context.Recipes.AddAsync(newRecipe);
