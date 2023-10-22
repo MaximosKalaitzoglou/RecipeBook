@@ -8,6 +8,7 @@ import { AccountService } from './account.service';
 import { Comment } from '../_models/comment';
 import { RecipePayload } from '../_models/payloads/recipe-payload';
 import { PaginationResults } from '../_models/pagination';
+import { PaginationParams } from '../_models/payloads/pagination-params';
 
 @Injectable({
   providedIn: 'root',
@@ -84,23 +85,13 @@ export class RecipeService {
     });
   }
 
-  getRecipes(
-    offset?: number,
-    itemsPerPage?: number,
-    mostRecent?: boolean,
-    category?: string
-  ) {
-    let params = new HttpParams();
-
-    if (offset && itemsPerPage) {
-      params = params.append('offset', offset);
-      params = params.append('pageSize', itemsPerPage);
-    }
-
-    if (mostRecent) params = params.append('mostRecent', mostRecent);
-
-    if (category) params = params.append('category', category);
+  getRecipes(recipeParams: PaginationParams) {
+    let params = this.getPaginationHeaders(recipeParams);
     // if (this.recipes.length > 0) return of(this.recipes);
+    return this.getPaginatedRecipes(params);
+  }
+
+  private getPaginatedRecipes(params: HttpParams) {
     return this.http
       .get<Recipe[]>(this.apiUrl + 'recipes/list/', {
         ...this.getHttpOptions(),
@@ -119,6 +110,16 @@ export class RecipeService {
           return this.paginatedResults;
         })
       );
+  }
+
+  private getPaginationHeaders(recipeParams: PaginationParams) {
+    let params = new HttpParams();
+
+    params = params.append('offset', recipeParams.offset);
+    params = params.append('pageSize', recipeParams.itemsPerPage);
+    params = params.append('mostRecent', recipeParams.mostRecent);
+    params = params.append('category', recipeParams.category);
+    return params;
   }
 
   //View Recipe

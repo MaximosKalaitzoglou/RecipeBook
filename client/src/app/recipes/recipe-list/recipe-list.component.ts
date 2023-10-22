@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Recipe } from 'src/app/_models/recipe';
 import { Pagination } from 'src/app/_models/pagination';
+import { PaginationParams } from 'src/app/_models/payloads/pagination-params';
 
 @Component({
   selector: 'app-recipe-list',
@@ -13,12 +14,9 @@ import { Pagination } from 'src/app/_models/pagination';
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[] | undefined;
   pagination: Pagination | undefined;
-  offset = 0;
-  pageSize = 5;
   subscription!: Subscription;
-  isFetching = false;
   filterCategory: string = 'all';
-  mostRecent: boolean = true;
+  recipeParams: PaginationParams = new PaginationParams();
 
   constructor(
     private recipeService: RecipeService,
@@ -27,35 +25,28 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // this.recipes$ = this.recipeService.getRecipes();
     this.loadRecipes();
   }
 
   loadRecipes() {
-    this.recipeService
-      .getRecipes(
-        this.offset,
-        this.pageSize,
-        this.mostRecent,
-        this.filterCategory
-      )
-      .subscribe({
-        next: (response) => {
-          if (response.result && response.pagination) {
-            this.recipes = [...(this.recipes || []), ...response.result];
-            // this.recipes = response.result;
-            this.pagination = response.pagination;
-          }
-        },
-      });
+    if (!this.recipeParams) return;
+    this.recipeService.getRecipes(this.recipeParams).subscribe({
+      next: (response) => {
+        if (response.result && response.pagination) {
+          this.recipes = [...(this.recipes || []), ...response.result];
+          // this.recipes = response.result;
+          this.pagination = response.pagination;
+        }
+      },
+    });
   }
 
   onScroll() {
     if (this.pagination) {
-      if (this.offset + this.pageSize >= this.pagination.totalItems) {
+      if (this.recipeParams.allItemsLoaded(this.pagination.totalItems)) {
         return;
       }
-      this.offset += this.pageSize;
+      this.recipeParams.incrementOffset();
       this.loadRecipes();
     }
   }
@@ -63,8 +54,8 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   onCategoryChange(event: any) {
     this.filterCategory = event?.target.value;
     if (this.filterCategory.toLowerCase().trim() != 'new') {
-      this.filterCategory = this.filterCategory.toLowerCase().trim();
-      this.offset = 0;
+      this.recipeParams.setCategory(this.filterCategory.toLowerCase().trim());
+      this.recipeParams.setOffset(0);
       this.recipes = [];
       this.loadRecipes();
     }
