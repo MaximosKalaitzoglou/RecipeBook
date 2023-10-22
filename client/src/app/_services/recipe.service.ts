@@ -84,13 +84,22 @@ export class RecipeService {
     });
   }
 
-  getRecipes(offset?: number, itemsPerPage?: number) {
+  getRecipes(
+    offset?: number,
+    itemsPerPage?: number,
+    mostRecent?: boolean,
+    category?: string
+  ) {
     let params = new HttpParams();
 
     if (offset && itemsPerPage) {
       params = params.append('offset', offset);
       params = params.append('pageSize', itemsPerPage);
     }
+
+    if (mostRecent) params = params.append('mostRecent', mostRecent);
+
+    if (category) params = params.append('category', category);
     // if (this.recipes.length > 0) return of(this.recipes);
     return this.http
       .get<Recipe[]>(this.apiUrl + 'recipes/list/', {

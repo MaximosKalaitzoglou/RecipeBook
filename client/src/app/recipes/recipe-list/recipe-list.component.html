@@ -32,31 +32,12 @@
   style="justify-content: center; margin: auto"
   *ngIf="recipes"
 >
-  <div
-    class="list-group"
-    *ngFor="
-      let recipe of recipes | filterRecipes : filterCategory;
-      let i = index
-    "
-  >
+  <div class="list-group" *ngFor="let recipe of recipes; let i = index">
     <app-recipe-item [recipe]="recipe" [index]="i"></app-recipe-item>
   </div>
 </div>
 
 <div class="d-flex justify-content-center" *ngIf="pagination">
-  <!-- <pagination
-    [boundaryLinks]="true"
-    [totalItems]="pagination.totalItems"
-    [itemsPerPage]="pagination.itemsPerPage"
-    [maxSize]="10"
-    [(ngModel)]="pagination.currentPage"
-    (pageChanged)="pageChanged($event)"
-    previousText="&lsaquo;"
-    nextText="&rsaquo;"
-    firstText="&laquo;"
-    lastText="&raquo;"
-  >
-  </pagination> -->
   <div
     class="search-results"
     infiniteScroll

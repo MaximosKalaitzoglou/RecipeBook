@@ -18,6 +18,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
   isFetching = false;
   filterCategory: string = 'all';
+  mostRecent: boolean = true;
 
   constructor(
     private recipeService: RecipeService,
@@ -31,23 +32,23 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   }
 
   loadRecipes() {
-    this.recipeService.getRecipes(this.offset, this.pageSize).subscribe({
-      next: (response) => {
-        if (response.result && response.pagination) {
-          this.recipes = [...(this.recipes || []), ...response.result];
-          this.pagination = response.pagination;
-        }
-      },
-    });
+    this.recipeService
+      .getRecipes(
+        this.offset,
+        this.pageSize,
+        this.mostRecent,
+        this.filterCategory
+      )
+      .subscribe({
+        next: (response) => {
+          if (response.result && response.pagination) {
+            this.recipes = [...(this.recipes || []), ...response.result];
+            // this.recipes = response.result;
+            this.pagination = response.pagination;
+          }
+        },
+      });
   }
-
-  // pageChanged(event: any) {
-  //   if (this.pageNumber != event.page) {
-  //     this.pageNumber = event.page;
-  //     // window.scrollTo({ top: 0, behavior: 'smooth' });
-  //     this.loadRecipes();
-  //   }
-  // }
 
   onScroll() {
     if (this.pagination) {
@@ -61,6 +62,12 @@ export class RecipeListComponent implements OnInit, OnDestroy {
 
   onCategoryChange(event: any) {
     this.filterCategory = event?.target.value;
+    if (this.filterCategory.toLowerCase().trim() != 'new') {
+      this.filterCategory = this.filterCategory.toLowerCase().trim();
+      this.offset = 0;
+      this.recipes = [];
+      this.loadRecipes();
+    }
   }
 
   ngOnDestroy(): void {}
