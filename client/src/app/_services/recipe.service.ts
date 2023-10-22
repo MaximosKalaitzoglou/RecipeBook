@@ -15,9 +15,7 @@ import { PaginationParams } from '../_models/payloads/pagination-params';
 })
 export class RecipeService {
   private recipes: Recipe[] = [];
-  paginatedResults: PaginationResults<Recipe[]> = new PaginationResults<
-    Recipe[]
-  >();
+  recipesCache = new Map();
 
   apiUrl = environment.apiUrl;
 
@@ -86,46 +84,33 @@ export class RecipeService {
   }
 
   getRecipes(recipeParams: PaginationParams) {
+    const response = this.recipesCache.get(
+      Object.values(recipeParams).join('-')
+    );
+
+    if (response) return of(response);
     let params = this.getPaginationHeaders(recipeParams);
-    // if (this.recipes.length > 0) return of(this.recipes);
-    return this.getPaginatedRecipes(params);
-  }
 
-  private getPaginatedRecipes(params: HttpParams) {
-    return this.http
-      .get<Recipe[]>(this.apiUrl + 'recipes/list/', {
-        ...this.getHttpOptions(),
-        observe: 'response',
-        params,
+    return this.getPaginatedRecipes<Recipe[]>(
+      this.apiUrl + 'recipes/list/',
+      params
+    ).pipe(
+      map((response) => {
+        this.recipesCache.set(Object.values(recipeParams).join('-'), response);
+        return response;
       })
-      .pipe(
-        map((response) => {
-          if (response.body) {
-            this.paginatedResults.result = response.body;
-          }
-          const pagination = response.headers.get('Pagination');
-          if (pagination) {
-            this.paginatedResults.pagination = JSON.parse(pagination);
-          }
-          return this.paginatedResults;
-        })
-      );
-  }
-
-  private getPaginationHeaders(recipeParams: PaginationParams) {
-    let params = new HttpParams();
-
-    params = params.append('offset', recipeParams.offset);
-    params = params.append('pageSize', recipeParams.itemsPerPage);
-    params = params.append('mostRecent', recipeParams.mostRecent);
-    params = params.append('category', recipeParams.category);
-    return params;
+    );
   }
 
   //View Recipe
   getRecipeById(id: number) {
-    const recipe = this.recipes.find((rec) => rec.id === id);
-    // console.log(recipe);
+    // const recipe = this.recipes.find((rec) => rec.id === id);
+    // if (recipe) return of(recipe);
+    const recipes = [...this.recipesCache.values()].reduce(
+      (arr, elem) => arr.concat(elem.result),
+      []
+    );
+    const recipe = recipes.find((rec: Recipe) => rec.id === id);
     if (recipe) return of(recipe);
     return this.http.get<Recipe>(
       this.apiUrl + 'recipes/' + id,
@@ -199,5 +184,38 @@ export class RecipeService {
         Authorization: 'Bearer ' + user.token,
       }),
     };
+  }
+
+  private getPaginatedRecipes<T>(url: string, params: HttpParams) {
+    const paginatedResult: PaginationResults<T> = new PaginationResults<T>();
+
+    return this.http
+      .get<T>(url, {
+        ...this.getHttpOptions(),
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          if (response.body) {
+            paginatedResult.result = response.body;
+          }
+          const pagination = response.headers.get('Pagination');
+          if (pagination) {
+            paginatedResult.pagination = JSON.parse(pagination);
+          }
+          return paginatedResult;
+        })
+      );
+  }
+
+  private getPaginationHeaders(recipeParams: PaginationParams) {
+    let params = new HttpParams();
+
+    params = params.append('offset', recipeParams.offset);
+    params = params.append('pageSize', recipeParams.itemsPerPage);
+    params = params.append('mostRecent', recipeParams.mostRecent);
+    params = params.append('category', recipeParams.category);
+    return params;
   }
 }
