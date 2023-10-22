@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RecipeService } from '../../_services/recipe.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription, map, of } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Recipe } from 'src/app/_models/recipe';
-import { MemberService } from 'src/app/_services/member.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -20,22 +19,10 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   constructor(
     private recipeService: RecipeService,
     private router: Router,
-    private route: ActivatedRoute,
-    private memberService: MemberService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.isFetching = true;
-    this.subscription = this.recipeService.recipesChanged.subscribe({
-      next: (recipes: Recipe[]) => {
-        this.recipes$ = of(recipes);
-        this.isFetching = false;
-      },
-    });
-    this.memberService.getMembers().subscribe({
-      next: (members) => {},
-    });
-
     this.recipes$ = this.recipeService.getRecipes();
   }
 
@@ -43,9 +30,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     this.filterCategory = event?.target.value;
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
   navigateToNewRecipe() {
     this.router.navigate(['new'], { relativeTo: this.route });

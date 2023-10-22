@@ -3,6 +3,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from '../_services/account.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CachedStateService } from '../_services/cached-state.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -12,7 +13,11 @@ export class HeaderComponent implements OnInit {
   faBars = faBars;
   currentUser = '';
 
-  constructor(public accountService: AccountService, private router: Router) {}
+  constructor(
+    public accountService: AccountService,
+    private router: Router,
+    private cachedStateService: CachedStateService
+  ) {}
 
   ngOnInit(): void {
     this.accountService.currentUser$.subscribe({
@@ -35,5 +40,6 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.accountService.logout();
+    this.cachedStateService.clearCachedDataOnLogout();
   }
 }

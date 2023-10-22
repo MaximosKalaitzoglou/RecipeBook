@@ -6,12 +6,13 @@ import { Recipe } from '../_models/recipe';
 import { Like } from '../_models/like';
 import { AccountService } from './account.service';
 import { Comment } from '../_models/comment';
+import { RecipePayload } from '../_models/payloads/recipe-payload';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecipeService {
-  public recipes: Recipe[] = [];
+  private recipes: Recipe[] = [];
   apiUrl = environment.apiUrl;
 
   recipesChanged = new Subject<Recipe[]>();
@@ -26,8 +27,6 @@ export class RecipeService {
     commentId: number;
   }>();
 
-  redirectEvent = new Subject<Boolean>();
-
   constructor(
     private http: HttpClient,
     private accountService: AccountService
@@ -36,9 +35,12 @@ export class RecipeService {
       next: (like) => {
         var recipe = this.recipes.find((r) => r.id === like.recipeId);
         if (like !== null && recipe) {
-          recipe.likes.push(like.likeObj);
-          recipe.likeCount++;
-          recipe.hasLiked = true;
+          var user = this.accountService.getCurrentUser();
+          if (user) {
+            recipe.likes.push({ ...like.likeObj, userName: user.userName });
+            recipe.likeCount++;
+            recipe.hasLiked = true;
+          }
         }
       },
     });
@@ -102,16 +104,8 @@ export class RecipeService {
   //Edit Recipe
   getRecipeByIdToEdit(id: number) {
     const recipe = this.recipes.find((rec) => rec.id === id);
-    var user = this.accountService.getCurrentUser();
     if (recipe) {
-      if (user) {
-        if (user.userName !== recipe.appUserName) {
-          // console.log('Error unauthorized to edit ');
-        } else {
-          // console.log('Cached returned');
-          return of(recipe);
-        }
-      }
+      return of(recipe);
     }
     return this.http.get<Recipe>(
       this.apiUrl + 'recipes/' + id + '/edit',
@@ -119,42 +113,49 @@ export class RecipeService {
     );
   }
 
-  addRecipe(recipe: Recipe) {
-    return this.http.post<Recipe>(
-      this.apiUrl + 'recipes/save-recipe',
-      recipe,
-      this.getHttpOptions()
-    );
+  addRecipe(recipe: RecipePayload) {
+    return this.http
+      .post<Recipe>(
+        this.apiUrl + 'recipes/save-recipe',
+        recipe,
+        this.getHttpOptions()
+      )
+      .pipe(
+        tap((response) => {
+          this.recipes.push(response);
+        })
+      );
   }
 
-  updateRecipe(idx: number, recipe: Recipe) {
-    this.http
+  updateRecipe(idx: number, recipe: RecipePayload) {
+    return this.http
       .put(this.apiUrl + 'recipes/' + idx, recipe, this.getHttpOptions())
-      .subscribe({
-        next: (_) => {
+      .pipe(
+        tap((res) => {
           this.recipes = this.recipes.map((rec) => {
             if (rec.id === idx) {
               rec = { ...rec, ...recipe };
             }
             return rec;
           });
-          this.recipesChanged.next(this.recipes);
-          this.redirectEvent.next(true);
-        },
-      });
+        })
+      );
   }
 
   deleteRecipe(id: number) {
-    this.http
+    return this.http
       .delete(this.apiUrl + 'recipes/' + id, this.getHttpOptions())
-      .subscribe({
-        next: (response) => {
+      .pipe(
+        tap((res) => {
           // console.log(response);
           this.recipes = this.recipes.filter((rec, i) => rec.id !== id);
           this.recipesChanged.next(this.recipes.slice());
-          this.redirectEvent.next(true);
-        },
-      });
+        })
+      );
+  }
+
+  clearCachedRecipes() {
+    this.recipes = [];
   }
 
   getHttpOptions() {

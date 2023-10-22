@@ -38,7 +38,7 @@
 
         <app-textarea
           [formControl]="$any(userEditForm.controls['description'])"
-          [label]="'Description'"
+          [label]="'About me'"
           [rows]="6"
         ></app-textarea>
 
@@ -47,7 +47,7 @@
             class="btn btn-success me-4"
             type="submit"
             style="padding: 0.5rem 2rem"
-            [disabled]="!userEditForm.valid"
+            [disabled]="!(userEditForm.valid && userEditForm.dirty)"
           >
             Update Info
           </button>

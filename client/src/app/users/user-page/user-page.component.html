@@ -8,7 +8,7 @@
         style="width: 120px"
       />
     </div>
-    <div class="col-md-5">
+    <div class="col-md-9">
       <h4 style="display: inline-block" class="me-5">{{ member.alias }}</h4>
       <button
         type="button"
@@ -17,7 +17,25 @@
       >
         Message
       </button>
-      <div class="row mt-4" *ngIf="recipes$ | async as recipes">
+
+      <a
+        type="button"
+        class="btn btn-secondary me-4"
+        style="display: inline-block"
+        [routerLink]="'edit'"
+        *ngIf="accountService.getCurrentUser()?.userName === member.userName"
+      >
+        Edit Profile
+      </a>
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <strong> About me </strong>
+          <p>
+            {{ member.description }}
+          </p>
+        </div>
+      </div>
+      <div class="row mt-4 mb-3" *ngIf="recipes$ | async as recipes">
         <div class="col-md-4">
           <strong>
             {{ recipes.length }}
@@ -29,7 +47,7 @@
 
     <div class="row mb-3">
       <div class="col-md-3"></div>
-      <div class="col-md-1">
+      <div class="col-md-1 ms-2">
         <strong>Age</strong>
         <div class="row">
           <div class="col-md-1">

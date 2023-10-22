@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Member } from 'src/app/_models/member';
-import { User } from 'src/app/_models/user';
 import { MemberService } from 'src/app/_services/member.service';
 
 @Component({
@@ -24,7 +23,7 @@ export class UserEditComponent implements OnDestroy, OnInit {
     this.routeSub = this.route.params.subscribe({
       next: (params) => {
         var username = params['username'];
-        this.memberService.getMemberUsername(username).subscribe({
+        this.memberService.getMemberUsernameToEdit(username).subscribe({
           next: (member) => {
             this.user = member;
             this.initializeForm();
@@ -43,7 +42,15 @@ export class UserEditComponent implements OnDestroy, OnInit {
     });
   }
 
-  updateUserInfo() {}
+  updateUserInfo() {
+    var payload = this.userEditForm.value;
+
+    this.memberService.updateMember(payload, this.user.userName).subscribe({
+      next: (response) => {
+        this.cancel();
+      },
+    });
+  }
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();

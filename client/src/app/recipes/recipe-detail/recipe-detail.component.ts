@@ -52,14 +52,6 @@ export class RecipeDetailComponent implements OnInit {
         });
       },
     });
-
-    this.recipeService.redirectEvent.subscribe({
-      next: (value) => {
-        if (value) {
-          this.router.navigate(['/recipes']);
-        }
-      },
-    });
   }
 
   onEditRecipe() {
@@ -67,6 +59,10 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onDeleteRecipe() {
-    this.recipeService.deleteRecipe(this.id);
+    this.recipeService.deleteRecipe(this.id).subscribe({
+      next: (_) => {
+        this.router.navigate(['..'], { relativeTo: this.route });
+      },
+    });
   }
 }

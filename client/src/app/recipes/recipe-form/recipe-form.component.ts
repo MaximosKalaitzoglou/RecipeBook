@@ -13,6 +13,7 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+import { RecipePayload } from 'src/app/_models/payloads/recipe-payload';
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
@@ -48,7 +49,6 @@ export class RecipeFormComponent implements OnDestroy {
   submitted = false;
   paramSub!: Subscription;
   recipeSub!: Subscription;
-  redirectEventSub!: Subscription;
 
   categories = [
     {
@@ -84,13 +84,6 @@ export class RecipeFormComponent implements OnDestroy {
   }
 
   ngOnInit(): void {
-    this.redirectEventSub = this.recipeService.redirectEvent.subscribe({
-      next: (value) => {
-        if (value) {
-          this.navigateAway();
-        }
-      },
-    });
     if (this.editMode) {
       this.recipeSub = this.recipeService
         .getRecipeByIdToEdit(this.id)
@@ -110,7 +103,6 @@ export class RecipeFormComponent implements OnDestroy {
     if (this.recipeSub) {
       this.recipeSub.unsubscribe();
     }
-    if (this.redirectEventSub) this.redirectEventSub.unsubscribe();
   }
 
   private createAndFillForm() {
@@ -170,13 +162,14 @@ export class RecipeFormComponent implements OnDestroy {
     this.submitted = true;
     if (this.editMode) {
       const payload = this.createPayLoad('update');
-      this.recipeService.updateRecipe(this.id, payload);
+      this.recipeService.updateRecipe(this.id, payload).subscribe({
+        next: (_) => {},
+      });
     } else {
       const payload = this.createPayLoad('new');
       this.recipeService.addRecipe(payload).subscribe({
         next: (response: Recipe) => {
-          this.recipeService.recipes.push({ ...payload, id: response.id });
-          this.recipe = { ...payload, id: response.id };
+          this.recipe = response;
         },
       });
     }
@@ -185,30 +178,24 @@ export class RecipeFormComponent implements OnDestroy {
   createPayLoad(type: string) {
     var { name, category, preparation, description, ingredients } =
       this.recipeForm?.value;
-    var payload: Recipe = {
+    var payload: RecipePayload = {
       name: name,
       category: category,
       preparationSteps: preparation,
       description: description,
-      imageUrl: '',
       ingredients: ingredients,
-      dateAdded: new Date().toISOString(),
-      likeCount: 0,
-      likes: [],
-      comments: [],
-      hasLiked: false,
     };
     if (type === 'update' && this.recipe) {
-      payload.hasLiked = this.recipe.hasLiked;
-      payload.likes = this.recipe.likes;
-      payload.likeCount = this.recipe.likeCount;
-      payload.comments = this.recipe.comments;
+      // payload.hasLiked = this.recipe.hasLiked;
+      // payload.likes = this.recipe.likes;
+      // payload.likeCount = this.recipe.likeCount;
+      // payload.comments = this.recipe.comments;
       return payload;
     } else {
       var user = this.accountService.getCurrentUser();
       if (user == null) throw Error('Unauthorized');
-      payload.appUserName = user.userName;
-      payload.appUserPhotoUrl = user.photoUrl;
+      // payload.appUserName = user.userName;
+      // payload.appUserPhotoUrl = user.photoUrl;
       return payload;
     }
   }

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription, tap } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Recipe } from 'src/app/_models/recipe';
+import { AccountService } from 'src/app/_services/account.service';
 import { MemberService } from 'src/app/_services/member.service';
 
 @Component({
@@ -18,22 +19,20 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private memberService: MemberService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public accountService: AccountService
   ) {}
 
-  
   ngOnInit(): void {
     this.routeParamsSub = this.route.params.subscribe({
       next: (params) => {
         this.username = params['username'];
         this.member$ = this.memberService.getMemberUsername(this.username);
-        
+
         this.recipes$ = this.memberService.getMemberRecipes(this.username);
       },
     });
   }
-
-
 
   ngOnDestroy(): void {
     this.routeParamsSub.unsubscribe();

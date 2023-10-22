@@ -6,6 +6,8 @@
   class="form-control mb-4"
   [formControl]="control"
   [class.is-invalid]="control.touched && control.invalid"
+  autocomplete="on"
+  spellcheck="true"
 ></textarea>
 <div *ngIf="control.errors && control.touched" class="text-danger mb-3">
   <div *ngIf="control.hasError('required')">{{ label }} is required.</div>

@@ -166,7 +166,7 @@
     <div class="col-md-4 text-center" *ngIf="editMode">
       <a (click)="navigateAway()" class="btn btn-success">Broswe recipes</a>
     </div>
-    <div class="col-md-4 text-center" *ngIf="!editMode && recipe">
+    <div class="col-md-8 text-center" *ngIf="!editMode && recipe">
       <a [routerLink]="'/recipes/' + recipe.id" class="btn btn-success"
         >View Recipe</a
       >
