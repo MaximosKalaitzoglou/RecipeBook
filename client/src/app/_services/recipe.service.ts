@@ -9,6 +9,11 @@ import { Comment } from '../_models/comment';
 import { RecipePayload } from '../_models/payloads/recipe-payload';
 import { PaginationResults } from '../_models/pagination';
 import { PaginationParams } from '../_models/payloads/pagination-params';
+import {
+  getPaginatedResults,
+  getPaginationRecipesHeaders,
+} from './pagination-helper';
+import { getHttpOptions } from './http-headers-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -110,11 +115,12 @@ export class RecipeService {
     );
 
     if (response) return of(response);
-    let params = this.getPaginationHeaders(recipeParams);
+    let params = getPaginationRecipesHeaders(recipeParams);
 
-    return this.getPaginatedRecipes<Recipe[]>(
+    return getPaginatedResults<Recipe[]>(
       this.apiUrl + 'recipes/list/',
-      params
+      params,
+      this.http
     ).pipe(
       map((response) => {
         this.recipesCache.set(Object.values(recipeParams).join('-'), response);
@@ -129,7 +135,7 @@ export class RecipeService {
     if (recipe) return of(recipe);
     return this.http.get<Recipe>(
       this.apiUrl + 'recipes/' + id,
-      this.getHttpOptions()
+      getHttpOptions()
     );
   }
   //Edit Recipe
@@ -140,7 +146,7 @@ export class RecipeService {
     }
     return this.http.get<Recipe>(
       this.apiUrl + 'recipes/' + id + '/edit',
-      this.getHttpOptions()
+      getHttpOptions()
     );
   }
 
@@ -149,7 +155,7 @@ export class RecipeService {
       .post<Recipe>(
         this.apiUrl + 'recipes/save-recipe',
         recipe,
-        this.getHttpOptions()
+        getHttpOptions()
       )
       .pipe(
         tap((response) => {
@@ -160,7 +166,7 @@ export class RecipeService {
 
   updateRecipe(idx: number, recipe: RecipePayload) {
     return this.http
-      .put(this.apiUrl + 'recipes/' + idx, recipe, this.getHttpOptions())
+      .put(this.apiUrl + 'recipes/' + idx, recipe, getHttpOptions())
       .pipe(
         tap((res) => {
           this.recipes = this.recipes.map((rec) => {
@@ -175,7 +181,7 @@ export class RecipeService {
 
   deleteRecipe(id: number) {
     return this.http
-      .delete(this.apiUrl + 'recipes/' + id, this.getHttpOptions())
+      .delete(this.apiUrl + 'recipes/' + id, getHttpOptions())
       .pipe(
         tap((res) => {
           // console.log(response);
@@ -188,50 +194,5 @@ export class RecipeService {
   clearCachedRecipes() {
     this.recipes = [];
     this.recipesCache = new Map();
-  }
-
-  getHttpOptions() {
-    const userString = localStorage.getItem('user');
-    if (!userString) return;
-
-    const user = JSON.parse(userString);
-    return {
-      headers: new HttpHeaders({
-        Authorization: 'Bearer ' + user.token,
-      }),
-    };
-  }
-
-  private getPaginatedRecipes<T>(url: string, params: HttpParams) {
-    const paginatedResult: PaginationResults<T> = new PaginationResults<T>();
-
-    return this.http
-      .get<T>(url, {
-        ...this.getHttpOptions(),
-        observe: 'response',
-        params,
-      })
-      .pipe(
-        map((response) => {
-          if (response.body) {
-            paginatedResult.result = response.body;
-          }
-          const pagination = response.headers.get('Pagination');
-          if (pagination) {
-            paginatedResult.pagination = JSON.parse(pagination);
-          }
-          return paginatedResult;
-        })
-      );
-  }
-
-  private getPaginationHeaders(recipeParams: PaginationParams) {
-    let params = new HttpParams();
-
-    params = params.append('offset', recipeParams.offset);
-    params = params.append('pageSize', recipeParams.itemsPerPage);
-    params = params.append('mostRecent', recipeParams.mostRecent);
-    params = params.append('category', recipeParams.category);
-    return params;
   }
 }

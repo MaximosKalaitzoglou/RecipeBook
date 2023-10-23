@@ -3,6 +3,7 @@ export class PaginationParams {
   itemsPerPage = 5;
   mostRecent = true;
   category = 'all';
+  container = 'Inbox';
 
   setCategory(value: string) {
     this.category = value;

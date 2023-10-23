@@ -4,6 +4,7 @@ import { Like } from '../_models/like';
 import { catchError, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { RecipeService } from './recipe.service';
+import { getHttpOptions } from './http-headers-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -13,29 +14,15 @@ export class LikeService {
 
   constructor(private http: HttpClient, private recipeService: RecipeService) {}
 
-  getHttpOptions() {
-    const userString = localStorage.getItem('user');
-
-    if (!userString) return;
-
-    const user = JSON.parse(userString);
-
-    return {
-      headers: new HttpHeaders({
-        Authorization: 'Bearer ' + user.token,
-      }),
-    };
-  }
-
-  likeRecipe(recipeId: number) {
+  likeRecipe(newRecipe: { username: string; recipeId: number }) {
     return this.http
-      .post<Like>(this.apiUrl + 'like', recipeId, this.getHttpOptions())
+      .post<Like>(this.apiUrl + 'like', newRecipe, getHttpOptions())
       .pipe(
         tap((like) => {
           // Emit an event to update recipes
           this.recipeService.likeAdded.next({
             likeObj: like,
-            recipeId: recipeId,
+            recipeId: newRecipe.recipeId,
           });
         })
       );
@@ -43,7 +30,7 @@ export class LikeService {
 
   unlikeRecipe(likeReq: { userName: string; recipeId: number }) {
     return this.http
-      .delete(this.apiUrl + 'like/' + likeReq.recipeId, this.getHttpOptions())
+      .delete(this.apiUrl + 'like/' + likeReq.recipeId, getHttpOptions())
       .pipe(
         tap((_) => {
           // Emit an event to update recipes

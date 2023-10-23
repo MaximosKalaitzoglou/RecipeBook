@@ -14,6 +14,7 @@ import { LeaveGuard } from './_guards/leave-page.guard';
 import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { BadRequestComponent } from './errors/bad-request/bad-request.component';
+import { MessagesComponent } from './_features/messages/messages.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,10 @@ const routes: Routes = [
         path: 'users/:username/edit',
         component: UserEditComponent,
         canActivate: [routeParamsGuard],
+      },
+      {
+        path: 'messages',
+        component: MessagesComponent,
       },
     ],
   },

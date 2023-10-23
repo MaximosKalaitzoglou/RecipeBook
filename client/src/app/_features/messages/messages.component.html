@@ -1,0 +1,22 @@
+<div class="container" *ngIf="messages">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="list-group">
+        <li class="list-group-items" *ngFor="let message of messages">
+          {{ message.content }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+  <div
+    class="search-results"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="300"
+    (scrolled)="onScroll()"
+    [scrollWindow]="true"
+  ></div>
+</div>

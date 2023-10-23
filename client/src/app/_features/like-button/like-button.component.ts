@@ -30,12 +30,14 @@ export class LikeButtonComponent {
     if (this.recipe && this.recipe.id) {
       var user = this.validateUser();
 
-      this.likeService.likeRecipe(this.recipe.id).subscribe({
-        next: (like) => {
-          console.log(like);
-          this.recipe.likes.push(like);
-        },
-      });
+      this.likeService
+        .likeRecipe({ username: user.userName, recipeId: this.recipe.id })
+        .subscribe({
+          next: (like) => {
+            console.log(like);
+            this.recipe.likes.push(like);
+          },
+        });
     }
   }
 

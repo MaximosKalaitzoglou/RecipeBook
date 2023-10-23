@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { RecipeService } from './recipe.service';
 import { Comment } from '../_models/comment';
+import { getHttpOptions } from './http-headers-helper';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,11 +19,7 @@ export class CommentService {
     dateCommented: string;
   }) {
     this.http
-      .post<Comment>(
-        this.apiUrl + 'comment',
-        commentRequest,
-        this.getHttpOptions()
-      )
+      .post<Comment>(this.apiUrl + 'comment', commentRequest, getHttpOptions())
       .subscribe({
         next: (comment) => {
           this.recipeService.commentAdded.next({
@@ -42,22 +39,10 @@ export class CommentService {
       this.apiUrl +
       `comment?username=${commentRequest.userName}&recipeId=${commentRequest.recipeId}&commentId=${commentRequest.commentId}`;
 
-    this.http.delete(url, this.getHttpOptions()).subscribe({
+    this.http.delete(url, getHttpOptions()).subscribe({
       next: (_) => {
         this.recipeService.commentDeleted.next(commentRequest);
       },
     });
-  }
-
-  getHttpOptions() {
-    const userString = localStorage.getItem('user');
-    if (!userString) return;
-
-    const user = JSON.parse(userString);
-    return {
-      headers: new HttpHeaders({
-        Authorization: 'Bearer ' + user.token,
-      }),
-    };
   }
 }

@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Member } from '../_models/member';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
-import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
+import { Observable, catchError, map, of, tap } from 'rxjs';
 import { Recipe } from '../_models/recipe';
 import { AccountService } from './account.service';
+import { getHttpOptions } from './http-headers-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +25,7 @@ export class MemberService {
     }
 
     return this.http
-      .get<Member>(this.apiUrl + 'members/' + username, this.getHttpOptions())
+      .get<Member>(this.apiUrl + 'members/' + username, getHttpOptions())
       .pipe(
         map((fetchedMember) => {
           this.members.push(fetchedMember); // Cache the member data
@@ -51,7 +48,7 @@ export class MemberService {
     return this.http
       .get<Member>(
         this.apiUrl + 'members/' + username + '/edit',
-        this.getHttpOptions()
+        getHttpOptions()
       )
       .pipe(
         map((fetchedMember) => {
@@ -67,7 +64,7 @@ export class MemberService {
     }
 
     return this.http
-      .get<Member[]>(this.apiUrl + 'members/list', this.getHttpOptions())
+      .get<Member[]>(this.apiUrl + 'members/list', getHttpOptions())
       .pipe(
         map((members) => {
           this.members = members;
@@ -84,7 +81,7 @@ export class MemberService {
   getMemberRecipes(username: string) {
     return this.http.get<Recipe[]>(
       this.apiUrl + 'members/' + username + '/recipes',
-      this.getHttpOptions()
+      getHttpOptions()
     );
   }
 
@@ -93,7 +90,7 @@ export class MemberService {
     username: string
   ) {
     return this.http
-      .put(this.apiUrl + 'members/' + username, member, this.getHttpOptions())
+      .put(this.apiUrl + 'members/' + username, member, getHttpOptions())
       .pipe(
         tap((res) => {
           const index = this.members.findIndex(
@@ -105,18 +102,6 @@ export class MemberService {
           }
         })
       );
-  }
-
-  getHttpOptions() {
-    const userString = localStorage.getItem('user');
-    if (!userString) return;
-
-    const user = JSON.parse(userString);
-    return {
-      headers: new HttpHeaders({
-        Authorization: 'Bearer ' + user.token,
-      }),
-    };
   }
 
   clearCachedMembers() {
