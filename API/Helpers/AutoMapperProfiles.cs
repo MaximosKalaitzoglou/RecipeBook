@@ -12,6 +12,7 @@ namespace recipes_app.Helpers
         {
             CreateMap<Ingredient, IngredientDto>();
             CreateMap<AppUser, MemberDto>();
+            CreateMap<Photo, PhotoDto>();
 
             CreateMap<MemberDto, AppUser>();
 
@@ -51,7 +52,6 @@ namespace recipes_app.Helpers
 
             CreateMap<RecipeRequest, Recipes>();
 
-            CreateMap<Photo, PhotoDto>();
 
             CreateMap<IngredientDto, Ingredient>();
 

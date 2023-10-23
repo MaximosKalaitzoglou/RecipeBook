@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using recipes_app.DTOs;
 using recipes_app.DTOs.Request;
 using recipes_app.DTOs.Response;
 using recipes_app.Extensions;
@@ -73,6 +74,12 @@ namespace recipes_app.Controllers
                  messages.PageSize, messages.TotalCount, messages.TotalPages));
 
             return messages;
+        }
+
+        [HttpGet("get-users")]
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetMessagingUsers()
+        {
+            return Ok(await _messageRepository.GetMessagingUsers(User.GetUsername()));
         }
 
         [HttpGet("socket/{username}")]

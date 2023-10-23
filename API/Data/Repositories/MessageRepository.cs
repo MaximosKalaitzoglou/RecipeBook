@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using recipes_app.DTOs;
 using recipes_app.DTOs.Response;
 using recipes_app.Helpers;
 using recipes_app.Interfaces;
@@ -55,6 +56,28 @@ namespace recipes_app.Data.Repositories
             return await PaginationFilter<MessageDto>.CreateAsync(messages, messageParams.Offset, messageParams.PageSize);
         }
 
+        public async Task<IEnumerable<MemberDto>> GetMessagingUsers(string currentUserName)
+        {
+            var senders = await _context.Messages
+                .Where(m => m.ReceiverUsername == currentUserName)
+                .Include(u => u.Sender.Photo)
+                .Select(m => m.Sender)
+                .ToListAsync();
+
+            var receivers = await _context.Messages
+                .Where(m => m.SenderUsername == currentUserName)
+                .Include(u => u.Receiver.Photo)
+                .Select(m => m.Receiver)
+                .ToListAsync();
+
+            var users = senders.Union(receivers).Distinct().ToList();
+
+
+            return _mapper.Map<IEnumerable<MemberDto>>(users);
+        }
+
+
+
         public async Task<IEnumerable<MessageDto>> GetMessageSocket(string currentUserName, string receiverUserName)
         {
             var messages = await _context.Messages
@@ -69,7 +92,7 @@ namespace recipes_app.Data.Repositories
                 m.SenderUsername == currentUserName)
 
                 )
-            .OrderByDescending(m => m.DateSend)
+            .OrderBy(m => m.DateSend)
             .ToListAsync();
 
             var unreadMessages = messages
