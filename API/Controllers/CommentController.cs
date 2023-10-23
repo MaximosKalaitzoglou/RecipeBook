@@ -104,7 +104,7 @@ namespace recipes_app.Controllers
 
             if (await _context.SaveChangesAsync() > 0)
             {
-                return Ok();
+                return NoContent();
             }
             return BadRequest("Something went wrong deleting this comment");
 

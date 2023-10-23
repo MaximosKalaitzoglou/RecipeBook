@@ -72,7 +72,7 @@ namespace recipes_app.Controllers
                 return NotFound("User not Found");
             }
 
-            return Ok("Deleted succesfully");
+            return NoContent();
         }
 
         [ServiceFilter(typeof(AccountOwnershipActionFilter))]

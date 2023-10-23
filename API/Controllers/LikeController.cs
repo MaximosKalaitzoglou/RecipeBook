@@ -17,9 +17,9 @@ namespace recipes_app.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<LikesDto>> LikeRecipe([FromBody] int recipeId)
+        public async Task<ActionResult<LikesDto>> LikeRecipe(LikesRequest likesRequest)
         {
-            var success = await _likeRepository.LikeRecipe(User.GetUsername(), recipeId);
+            var success = await _likeRepository.LikeRecipe(User.GetUsername(), likesRequest.RecipeId);
 
             if (success.LikesDto != null)
             {
@@ -48,7 +48,7 @@ namespace recipes_app.Controllers
 
             if (success.IsSuccess)
             {
-                return Ok();
+                return NoContent();
             }
             else
             {

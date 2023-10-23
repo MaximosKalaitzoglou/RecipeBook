@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using recipes_app.DTOs.Request;
 using recipes_app.DTOs.Response;
 using recipes_app.Extensions;
+using recipes_app.Helpers;
 using recipes_app.Interfaces;
 using recipes_app.Models;
 
@@ -58,6 +60,27 @@ namespace recipes_app.Controllers
             }
 
             return BadRequest("Something went wrong saving the message");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<PaginationFilter<MessageDto>>> GetMessagesForUser([FromQuery] MessageParams messageParams)
+        {
+            messageParams.Username = User.GetUsername();
+
+            var messages = await _messageRepository.GetMessagesForUser(messageParams);
+            Response.AddPaginationHeader(
+                new PaginationHeader(messages.Offset,
+                 messages.PageSize, messages.TotalCount, messages.TotalPages));
+
+            return messages;
+        }
+
+        [HttpGet("socket/{username}")]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageSocket(string username)
+        {
+            var currentUserName = User.GetUsername();
+
+            return Ok(await _messageRepository.GetMessageSocket(currentUserName, username));
         }
     }
 }

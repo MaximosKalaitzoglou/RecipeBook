@@ -16,9 +16,9 @@ namespace recipes_app.Interfaces
 
         Task<Message> GetMessage(int messageId);
 
-        Task<PaginationFilter<MessageDto>> GetMessagesForUser();
+        Task<PaginationFilter<MessageDto>> GetMessagesForUser(MessageParams messageParams);
 
-        Task<IEnumerable<MessageDto>> GetMessageSocket(int currentUserId, int receiverId);
+        Task<IEnumerable<MessageDto>> GetMessageSocket(string currentUserName, string receiverUserName);
 
         Task<bool> SaveAllAsync();
     }

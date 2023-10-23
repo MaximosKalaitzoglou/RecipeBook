@@ -174,7 +174,7 @@ namespace recipes_app.Controllers
             var result = await _recRepository.DeleteRecipe(id);
             if (result)
             {
-                return Ok();
+                return NoContent();
             }
             return BadRequest("Something went wrong");
         }
