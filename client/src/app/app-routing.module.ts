@@ -13,6 +13,7 @@ import { routeParamsGuard } from './_guards/route-params.guard';
 import { LeaveGuard } from './_guards/leave-page.guard';
 import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { BadRequestComponent } from './errors/bad-request/bad-request.component';
 
 const routes: Routes = [
   {
@@ -80,6 +81,10 @@ const routes: Routes = [
   {
     path: 'not-authorized',
     component: UnauthorizedComponent,
+  },
+  {
+    path: 'bad-request',
+    component: BadRequestComponent,
   },
   {
     path: '**',

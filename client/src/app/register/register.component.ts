@@ -73,9 +73,22 @@ export class RegisterComponent implements OnInit {
     this.accountService.register(this.registerForm.value).subscribe({
       next: (response) => {
         this.cancel();
+        this.registerForm.reset();
+      },
+      error: (error) => {
+        if (error.status === 400) {
+          const errorResponse = error.error; // Check the response body for details
+          console.log(errorResponse);
+
+          if (errorResponse && errorResponse === 'Username is taken') {
+            // The error is due to a username conflict
+            this.registerForm
+              .get('username')
+              ?.setErrors({ usernameTaken: true });
+          }
+        }
       },
     });
-    this.registerForm.reset();
     // registerForm.resetForm();
   }
 

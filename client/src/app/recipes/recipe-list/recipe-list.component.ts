@@ -15,14 +15,23 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[] | undefined;
   pagination: Pagination | undefined;
   subscription!: Subscription;
-  filterCategory: string = 'all';
-  recipeParams: PaginationParams = new PaginationParams();
+  filterCategory: string = 'breakfast';
+  recipeParams: PaginationParams | undefined;
+  categories: any[] = [
+    { value: 'all', display: 'All' },
+    { value: 'breakfast', display: 'Breakfast' },
+    { value: 'lunch', display: 'Lunch' },
+    { value: 'desert', display: 'Desert' },
+  ];
 
   constructor(
     private recipeService: RecipeService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.recipeParams = this.recipeService.getRecipeParams();
+    this.filterCategory = this.recipeParams.category;
+  }
 
   ngOnInit(): void {
     this.loadRecipes();
@@ -42,20 +51,25 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   }
 
   onScroll() {
-    if (this.pagination) {
-      if (this.recipeParams.allItemsLoaded(this.pagination.totalItems)) {
+    if (this.pagination && this.recipeParams) {
+      if (this.recipeParams?.allItemsLoaded(this.pagination.totalItems)) {
         return;
       }
-      this.recipeParams.incrementOffset();
+      this.recipeParams?.incrementOffset();
+      this.recipeService.setRecipeParams(this.recipeParams);
       this.loadRecipes();
     }
   }
 
   onCategoryChange(event: any) {
     this.filterCategory = event?.target.value;
-    if (this.filterCategory.toLowerCase().trim() != 'new') {
-      this.recipeParams.setCategory(this.filterCategory.toLowerCase().trim());
-      this.recipeParams.setOffset(0);
+    if (
+      this.filterCategory.toLowerCase().trim() != 'new' &&
+      this.recipeParams
+    ) {
+      this.recipeParams?.setCategory(this.filterCategory.toLowerCase().trim());
+      this.recipeParams?.setOffset(0);
+      this.recipeService.setRecipeParams(this.recipeParams);
       this.recipes = [];
       this.loadRecipes();
     }

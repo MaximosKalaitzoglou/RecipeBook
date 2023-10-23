@@ -23,6 +23,10 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error) {
           switch (error.status) {
             case 400:
+              const navigationExtras400: NavigationExtras = {
+                state: { error: error.error },
+              };
+
               if (error.error.errors) {
                 const modelErrors = [];
                 for (const key in error.error.errors) {
@@ -30,17 +34,25 @@ export class ErrorInterceptor implements HttpInterceptor {
                     modelErrors.push(error.error.errors[key]);
                   }
                 }
-                throw modelErrors.flat();
-              } else {
-                this.toastr.error(error.error, error.status.toString());
+                if (navigationExtras400.state)
+                  navigationExtras400.state['error'] = modelErrors;
               }
+              if (request.url.includes('/api/account/register')) {
+                this.toastr.error(error.error, error.status.toString());
+              } else {
+                this.router.navigateByUrl('/bad-request', navigationExtras400);
+              }
+
               break;
             case 401:
               if (request.url.includes('/api/account/login')) {
                 this.toastr.error(error.error, error.status.toString());
               } else {
+                const navigationExtras: NavigationExtras = {
+                  state: { error: error.error },
+                };
                 this.toastr.error('Unauthorized', error.status.toString());
-                this.router.navigateByUrl('/not-authorized');
+                this.router.navigateByUrl('/not-authorized', navigationExtras);
               }
               break;
             case 404:

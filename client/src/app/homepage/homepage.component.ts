@@ -50,4 +50,10 @@ export class HomepageComponent {
       next: (response) => {},
     });
   }
+
+  get400Error() {
+    this.http.get('https://localhost:5001/api/error/bad-request/validation').subscribe({
+      next: (response) => {},
+    });
+  }
 }

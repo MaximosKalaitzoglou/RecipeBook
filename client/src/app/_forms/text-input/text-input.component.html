@@ -14,6 +14,9 @@
       {{ control.errors["minlength"].requiredLength }}
     </div>
     <div *ngIf="control.hasError('notMatching')">Passwords do not match</div>
+
+    <div *ngIf="control.hasError('usernameTaken')">Username is taken</div>
+
   </div>
   <label for="{{ label }}">{{ label }}</label>
 </div>

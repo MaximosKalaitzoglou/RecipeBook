@@ -41,6 +41,7 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { PhotoUploadComponent } from './_modals/photo-upload/photo-upload.component';
 import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 import { PhotoUploaderComponent } from './photo-uploader/photo-uploader.component';
+import { BadRequestComponent } from './errors/bad-request/bad-request.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { PhotoUploaderComponent } from './photo-uploader/photo-uploader.componen
     PhotoUploadComponent,
     FileUploaderComponent,
     PhotoUploaderComponent,
+    BadRequestComponent,
   ],
   imports: [
     BrowserModule,

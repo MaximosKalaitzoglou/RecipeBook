@@ -17,6 +17,8 @@ export class RecipeService {
   private recipes: Recipe[] = [];
   recipesCache = new Map();
 
+  recipeParams: PaginationParams = new PaginationParams();
+
   apiUrl = environment.apiUrl;
 
   recipesChanged = new Subject<Recipe[]>();
@@ -37,7 +39,11 @@ export class RecipeService {
   ) {
     this.likeAdded.subscribe({
       next: (like) => {
-        var recipe = this.recipes.find((r) => r.id === like.recipeId);
+        const recipes = this.recipesCache.get(
+          Object.values(this.recipeParams).join('-')
+        );
+
+        var recipe = recipes.result.find((r: Recipe) => r.id === like.recipeId);
         if (like !== null && recipe) {
           var user = this.accountService.getCurrentUser();
           if (user) {
@@ -51,10 +57,15 @@ export class RecipeService {
 
     this.likeRemoved.subscribe({
       next: (response) => {
-        const recipe = this.recipes.find((r) => r.id === response.recipeId);
+        const recipes = this.recipesCache.get(
+          Object.values(this.recipeParams).join('-')
+        );
+        const recipe = recipes.result.find(
+          (r: Recipe) => r.id === response.recipeId
+        );
         if (recipe?.likes && recipe.likeCount) {
           recipe.likes = recipe.likes.filter(
-            (l) => l.userName !== response.userName
+            (l: Like) => l.userName !== response.userName
           );
           recipe.likeCount--;
           recipe.hasLiked = false;
@@ -64,7 +75,12 @@ export class RecipeService {
 
     this.commentAdded.subscribe({
       next: (comment) => {
-        var recipe = this.recipes.find((r) => r.id === comment.recipeId);
+        const recipes = this.recipesCache.get(
+          Object.values(this.recipeParams).join('-')
+        );
+        var recipe = recipes.result.find(
+          (r: Recipe) => r.id === comment.recipeId
+        );
         if (comment !== null && recipe) {
           recipe.comments.push(comment.com);
         }
@@ -73,14 +89,27 @@ export class RecipeService {
 
     this.commentDeleted.subscribe({
       next: (response) => {
-        const recipe = this.recipes.find((r) => r.id == response.recipeId);
+        const recipes = this.recipesCache.get(
+          Object.values(this.recipeParams).join('-')
+        );
+        const recipe = recipes.result.find(
+          (r: Recipe) => r.id == response.recipeId
+        );
         if (recipe) {
           recipe.comments = recipe.comments.filter(
-            (c) => c.commentId !== response.commentId
+            (c: Comment) => c.commentId !== response.commentId
           );
         }
       },
     });
+  }
+
+  getRecipeParams() {
+    return this.recipeParams;
+  }
+
+  setRecipeParams(recipeParams: PaginationParams) {
+    this.recipeParams = recipeParams;
   }
 
   getRecipes(recipeParams: PaginationParams) {

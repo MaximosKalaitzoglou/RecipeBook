@@ -14,12 +14,12 @@
         id="filter"
         class="form-select"
         style="color: #333"
+        [(ngModel)]="filterCategory"
         (change)="onCategoryChange($event)"
       >
-        <option value="all">All</option>
-        <option value="breakfast">Breakfast</option>
-        <option value="lunch">Lunch</option>
-        <option value="desert">Desert</option>
+        <option *ngFor="let category of categories" [value]="category.value">
+          {{ category.display }}
+        </option>
       </select>
     </div>
   </div>
