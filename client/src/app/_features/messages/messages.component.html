@@ -1,11 +1,83 @@
-<div class="container" *ngIf="messages">
+<div class="container d-flex mb-4 justify-content-center">
   <div class="row">
-    <div class="col-md-12">
-      <ul class="list-group">
-        <li class="list-group-items" *ngFor="let message of messages">
-          {{ message.content }}
+    <div class="col-md-4">
+      <ul class="list-group" style="position: absolute; left: 2rem">
+        <li
+          class="list-group-item"
+          style="width: 280px"
+          style="cursor: pointer"
+          (click)="logSmth()"
+        >
+          <img
+            [src]="'./assets/default-avatar.png'"
+            alt=""
+            width="40px"
+            class="me-2 img-responsive rounded-circle img-thumbail img-card-top"
+          />
+          Cras justo odio
+          <span class="ms-3 badge bg-primary rounded-pill">14</span>
         </li>
       </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ng-container *ngIf="messages && messages.length < 1"
+        >No messages!</ng-container
+      >
+      <div
+        class="bg-primary"
+        id="messageBox"
+        *ngIf="messages && messages.length > 0"
+      >
+        <ul>
+          <li *ngFor="let message of messages" class="float-end">
+            <table class="table" >
+              <tbody >
+                <tr class="table-primary">
+                  <th scope="row" >
+                    <img
+                      [src]="'./assets/default-avatar.png'"
+                      alt=""
+                      width="40px"
+                      class="mb-3 img-responsive rounded"
+                    />
+                  </th>
+                  <td>
+                    <span>
+                      {{ message.content }}
+                      How are you all good ?
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge bg-dark rounded-pill"
+                      >{{ message.dateSend | timestamp }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- 
+            <span class="badge bg-dark rounded-pill"
+              >{{ message.dateSend | timestamp }}
+            </span> -->
+          </li>
+          <li class="him">
+            <span
+              style="position: relative; left: -0.5rem; bottom: 1rem"
+              class="badge bg-dark rounded-pill"
+              >{{ "2020-11-23" | timestamp }}
+            </span>
+            <span> By Other User, first message </span>
+            <img
+              [src]="'./assets/default-avatar.png'"
+              alt=""
+              width="40px"
+              class="me-2 img-responsive rounded"
+            />
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

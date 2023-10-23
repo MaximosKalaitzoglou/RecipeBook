@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Message } from 'src/app/_models/message';
 import { Pagination } from 'src/app/_models/pagination';
+import { AccountService } from 'src/app/_services/account.service';
 import { MessageService } from 'src/app/_services/message.service';
 
 @Component({
@@ -11,11 +12,14 @@ import { MessageService } from 'src/app/_services/message.service';
 export class MessagesComponent implements OnInit {
   messages: Message[] | undefined;
   pagination?: Pagination;
-  container = 'Inbox';
+  container = 'Outbox';
   offset = 0;
   pageSize = 5;
 
-  constructor(private messageService: MessageService) {}
+  constructor(
+    private messageService: MessageService,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
     this.loadMessages();
@@ -28,6 +32,7 @@ export class MessagesComponent implements OnInit {
         next: (response) => {
           this.messages = response.result;
           this.pagination = response.pagination;
+          console.log(this.messages);
         },
       });
   }
@@ -40,5 +45,15 @@ export class MessagesComponent implements OnInit {
       this.offset += this.pageSize;
       this.loadMessages();
     }
+  }
+
+  logSmth() {
+    // console.log('Clicked');
+  }
+
+  get IsReceiver() {
+    var user = this.accountService.getCurrentUser();
+    if (user) return user.userName;
+    else return '';
   }
 }
