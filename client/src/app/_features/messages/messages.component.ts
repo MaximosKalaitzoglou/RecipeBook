@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Member } from 'src/app/_models/member';
 import { Message } from 'src/app/_models/message';
 import { Pagination } from 'src/app/_models/pagination';
 import { AccountService } from 'src/app/_services/account.service';
@@ -11,6 +12,7 @@ import { MessageService } from 'src/app/_services/message.service';
 })
 export class MessagesComponent implements OnInit {
   messages: Message[] | undefined;
+  messagingUsers: Member[] = [];
   pagination?: Pagination;
   container = 'Outbox';
   offset = 0;
@@ -22,7 +24,8 @@ export class MessagesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadMessages();
+    // this.loadMessages();
+    this.loadMessagingUsers();
   }
 
   loadMessages() {
@@ -35,6 +38,23 @@ export class MessagesComponent implements OnInit {
           console.log(this.messages);
         },
       });
+  }
+
+  loadMessagingUsers() {
+    this.messageService.getMessagingUsers().subscribe({
+      next: (response) => {
+
+        this.messagingUsers = response;
+      },
+    });
+  }
+
+  loadMessageSocket(username: string) {
+    this.messageService.getMessageSocket(username).subscribe({
+      next: (response) => {
+        this.messages = response;
+      },
+    });
   }
 
   onScroll() {
@@ -51,7 +71,7 @@ export class MessagesComponent implements OnInit {
     // console.log('Clicked');
   }
 
-  get IsReceiver() {
+  get currentUser() {
     var user = this.accountService.getCurrentUser();
     if (user) return user.userName;
     else return '';

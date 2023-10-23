@@ -6,15 +6,16 @@
           class="list-group-item"
           style="width: 280px"
           style="cursor: pointer"
-          (click)="logSmth()"
+          *ngFor="let user of messagingUsers"
+          (click)="loadMessageSocket(user.userName)"
         >
           <img
-            [src]="'./assets/default-avatar.png'"
+            [src]="user.photo.url"
             alt=""
             width="40px"
             class="me-2 img-responsive rounded-circle img-thumbail img-card-top"
           />
-          Cras justo odio
+          {{ user.alias }}
           <span class="ms-3 badge bg-primary rounded-pill">14</span>
         </li>
       </ul>
@@ -22,59 +23,64 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <ng-container *ngIf="messages && messages.length < 1"
-        >No messages!</ng-container
-      >
+      <ng-container *ngIf="!messages && !messagingUsers">
+        <h4 class="mb-3">No messages found, but worry not as...</h4>
+        <figure class="text-center">
+          <blockquote class="blockquote">
+            <p class="mb-0">The wise warrior avoids the battle.</p>
+          </blockquote>
+          <figcaption class="blockquote-footer">
+            Sun-Tzu, <cite title="Source Title">The Art of War</cite>
+          </figcaption>
+        </figure>
+      </ng-container>
       <div
         class="bg-primary"
         id="messageBox"
         *ngIf="messages && messages.length > 0"
       >
-        <ul>
-          <li *ngFor="let message of messages" class="float-end">
-            <table class="table" >
-              <tbody >
-                <tr class="table-primary">
-                  <th scope="row" >
+        <ul class="card-body">
+          <li
+            *ngFor="let message of messages"
+            [ngClass]="
+              message.senderUsername === currentUser
+                ? 'float-end'
+                : 'float-start'
+            "
+            style="max-width: 500px"
+          >
+            <table class="table">
+              <tbody>
+                <tr
+                  [ngClass]="
+                    message.senderUsername === currentUser
+                      ? 'table-dark'
+                      : 'table-danger'
+                  "
+                >
+                  <th scope="row">
                     <img
-                      [src]="'./assets/default-avatar.png'"
+                      [src]="message.senderPhotoUrl"
                       alt=""
-                      width="40px"
-                      class="mb-3 img-responsive rounded"
+                      width="55px"
+                      class="img-responsive rounded"
                     />
                   </th>
+
                   <td>
                     <span>
                       {{ message.content }}
-                      How are you all good ?
                     </span>
                   </td>
-                  <td>
+
+                  <th scope="row">
                     <span class="badge bg-dark rounded-pill"
                       >{{ message.dateSend | timestamp }}
                     </span>
-                  </td>
+                  </th>
                 </tr>
               </tbody>
             </table>
-            <!-- 
-            <span class="badge bg-dark rounded-pill"
-              >{{ message.dateSend | timestamp }}
-            </span> -->
-          </li>
-          <li class="him">
-            <span
-              style="position: relative; left: -0.5rem; bottom: 1rem"
-              class="badge bg-dark rounded-pill"
-              >{{ "2020-11-23" | timestamp }}
-            </span>
-            <span> By Other User, first message </span>
-            <img
-              [src]="'./assets/default-avatar.png'"
-              alt=""
-              width="40px"
-              class="me-2 img-responsive rounded"
-            />
           </li>
         </ul>
       </div>
@@ -82,7 +88,7 @@
   </div>
 </div>
 
-<div class="d-flex justify-content-center" *ngIf="pagination">
+<!-- <div class="d-flex justify-content-center" *ngIf="pagination">
   <div
     class="search-results"
     infiniteScroll
@@ -91,4 +97,4 @@
     (scrolled)="onScroll()"
     [scrollWindow]="true"
   ></div>
-</div>
+</div> -->

@@ -9,7 +9,8 @@ import {
 } from './pagination-helper';
 import { Message } from '../_models/message';
 import { environment } from 'src/environments/environment';
-
+import { getHttpOptions } from './http-headers-helper';
+import { Member } from '../_models/member';
 @Injectable({
   providedIn: 'root',
 })
@@ -37,6 +38,20 @@ export class MessageService {
       this.apiUrl + 'messages',
       params,
       this.http
+    );
+  }
+
+  getMessagingUsers() {
+    return this.http.get<Member[]>(
+      this.apiUrl + 'messages/get-users',
+      getHttpOptions()
+    );
+  }
+
+  getMessageSocket(username: string) {
+    return this.http.get<Message[]>(
+      this.apiUrl + 'messages/socket/' + username,
+      getHttpOptions()
     );
   }
 }
