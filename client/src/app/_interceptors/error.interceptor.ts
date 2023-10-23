@@ -52,7 +52,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                   state: { error: error.error },
                 };
                 this.toastr.error('Unauthorized', error.status.toString());
-                this.router.navigateByUrl('/not-authorized', navigationExtras);
+                
+                // this.router.navigateByUrl('/not-authorized', navigationExtras);
               }
               break;
             case 404:

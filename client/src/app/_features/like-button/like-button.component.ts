@@ -29,9 +29,12 @@ export class LikeButtonComponent {
   onLikeRecipe() {
     if (this.recipe && this.recipe.id) {
       var user = this.validateUser();
-      this.likeService.likeRecipe({
-        userName: user.userName,
-        recipeId: this.recipe.id,
+
+      this.likeService.likeRecipe(this.recipe.id).subscribe({
+        next: (like) => {
+          console.log(like);
+          this.recipe.likes.push(like);
+        },
       });
     }
   }
@@ -39,10 +42,14 @@ export class LikeButtonComponent {
   onUnlikeRecipe() {
     if (this.recipe && this.recipe.id) {
       var user = this.validateUser();
-      this.likeService.unlikeRecipe({
-        userName: user.userName,
-        recipeId: this.recipe.id,
-      });
+      this.likeService
+        .unlikeRecipe({
+          userName: user.userName,
+          recipeId: this.recipe.id,
+        })
+        .subscribe({
+          next: (_) => {},
+        });
     }
   }
 

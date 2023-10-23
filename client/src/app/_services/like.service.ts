@@ -15,9 +15,11 @@ export class LikeService {
 
   getHttpOptions() {
     const userString = localStorage.getItem('user');
+
     if (!userString) return;
 
     const user = JSON.parse(userString);
+
     return {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + user.token,
@@ -25,36 +27,32 @@ export class LikeService {
     };
   }
 
-  likeRecipe(likeRequest: { userName: string; recipeId: number }) {
-    this.http
-      .post<Like>(this.apiUrl + 'like', likeRequest, this.getHttpOptions())
-      .subscribe((like) => {
-        // Emit an event to update recipes
-        this.recipeService.likeAdded.next({
-          likeObj: like,
-          recipeId: likeRequest.recipeId,
-        });
-      }),
-      catchError((error) => {
-        console.log('Error liking recipe');
-        throw error;
-      });
+  likeRecipe(recipeId: number) {
+    return this.http
+      .post<Like>(this.apiUrl + 'like', recipeId, this.getHttpOptions())
+      .pipe(
+        tap((like) => {
+          // Emit an event to update recipes
+          this.recipeService.likeAdded.next({
+            likeObj: like,
+            recipeId: recipeId,
+          });
+        })
+      );
   }
 
-  unlikeRecipe(likeRequest: { userName: string; recipeId: number }) {
-    const url =
-      this.apiUrl +
-      `like?username=${likeRequest.userName}&recipeId=${likeRequest.recipeId}`;
-
-    this.http.delete(url, this.getHttpOptions()).subscribe(
-      (_) => {
-        // Emit an event to update recipes
-        this.recipeService.likeRemoved.next(likeRequest);
-      },
-      catchError((error) => {
-        console.log('Error unLiking recipe');
-        throw error;
-      })
-    );
+  unlikeRecipe(likeReq: { userName: string; recipeId: number }) {
+    return this.http
+      .delete(this.apiUrl + 'like/' + likeReq.recipeId, this.getHttpOptions())
+      .pipe(
+        tap((_) => {
+          // Emit an event to update recipes
+          this.recipeService.likeRemoved.next(likeReq);
+        }),
+        catchError((error) => {
+          console.log('Error unLiking recipe');
+          throw error;
+        })
+      );
   }
 }

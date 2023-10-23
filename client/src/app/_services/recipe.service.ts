@@ -39,11 +39,7 @@ export class RecipeService {
   ) {
     this.likeAdded.subscribe({
       next: (like) => {
-        const recipes = this.recipesCache.get(
-          Object.values(this.recipeParams).join('-')
-        );
-
-        var recipe = recipes.result.find((r: Recipe) => r.id === like.recipeId);
+        const recipe = this.findRecipe(like.recipeId);
         if (like !== null && recipe) {
           var user = this.accountService.getCurrentUser();
           if (user) {
@@ -57,12 +53,8 @@ export class RecipeService {
 
     this.likeRemoved.subscribe({
       next: (response) => {
-        const recipes = this.recipesCache.get(
-          Object.values(this.recipeParams).join('-')
-        );
-        const recipe = recipes.result.find(
-          (r: Recipe) => r.id === response.recipeId
-        );
+        const recipe = this.findRecipe(response.recipeId);
+
         if (recipe?.likes && recipe.likeCount) {
           recipe.likes = recipe.likes.filter(
             (l: Like) => l.userName !== response.userName
@@ -75,12 +67,8 @@ export class RecipeService {
 
     this.commentAdded.subscribe({
       next: (comment) => {
-        const recipes = this.recipesCache.get(
-          Object.values(this.recipeParams).join('-')
-        );
-        var recipe = recipes.result.find(
-          (r: Recipe) => r.id === comment.recipeId
-        );
+        const recipe = this.findRecipe(comment.recipeId);
+
         if (comment !== null && recipe) {
           recipe.comments.push(comment.com);
         }
@@ -89,12 +77,7 @@ export class RecipeService {
 
     this.commentDeleted.subscribe({
       next: (response) => {
-        const recipes = this.recipesCache.get(
-          Object.values(this.recipeParams).join('-')
-        );
-        const recipe = recipes.result.find(
-          (r: Recipe) => r.id == response.recipeId
-        );
+        const recipe = this.findRecipe(response.recipeId);
         if (recipe) {
           recipe.comments = recipe.comments.filter(
             (c: Comment) => c.commentId !== response.commentId
@@ -102,6 +85,15 @@ export class RecipeService {
         }
       },
     });
+  }
+
+  private findRecipe(recipeId: number) {
+    const recipes = [...this.recipesCache.values()].reduce(
+      (arr, elem) => arr.concat(elem.result),
+      []
+    );
+    const recipe = recipes.find((rec: Recipe) => rec.id === recipeId);
+    return recipe;
   }
 
   getRecipeParams() {
@@ -133,13 +125,7 @@ export class RecipeService {
 
   //View Recipe
   getRecipeById(id: number) {
-    // const recipe = this.recipes.find((rec) => rec.id === id);
-    // if (recipe) return of(recipe);
-    const recipes = [...this.recipesCache.values()].reduce(
-      (arr, elem) => arr.concat(elem.result),
-      []
-    );
-    const recipe = recipes.find((rec: Recipe) => rec.id === id);
+    const recipe = this.findRecipe(id);
     if (recipe) return of(recipe);
     return this.http.get<Recipe>(
       this.apiUrl + 'recipes/' + id,
@@ -148,7 +134,7 @@ export class RecipeService {
   }
   //Edit Recipe
   getRecipeByIdToEdit(id: number) {
-    const recipe = this.recipes.find((rec) => rec.id === id);
+    const recipe = this.findRecipe(id);
     if (recipe) {
       return of(recipe);
     }
@@ -201,6 +187,7 @@ export class RecipeService {
 
   clearCachedRecipes() {
     this.recipes = [];
+    this.recipesCache = new Map();
   }
 
   getHttpOptions() {
