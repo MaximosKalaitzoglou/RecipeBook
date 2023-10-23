@@ -28,7 +28,8 @@ namespace recipes_app.Models
 
         public List<Recipes> Recipes { get; set; } = new();
 
-        
+        public List<Message> MessagesSend { get; set; } = new();
+        public List<Message> MessagesReceived { get; set; } = new();
 
         [Required]
         [MinLength(8)]

@@ -36,7 +36,18 @@ namespace recipes_app.Helpers
                 opt => opt.MapFrom(src => src.Photo.Url)
             );
 
-            
+            CreateMap<Message, MessageDto>()
+                    .ForMember(
+                        dest => dest.SenderPhotoUrl,
+                        opt => opt.MapFrom(src => src.Sender.Photo.Url)
+                    ).ForMember(
+                        dest => dest.ReceiverPhotoUrl,
+                        opt => opt.MapFrom(src => src.Receiver.Photo.Url)
+                    ).ForMember(
+                        dest => dest.SenderPhotoUrl,
+                        opt => opt.MapFrom(src => src.Sender.Photo.Url)
+                    );
+
 
             CreateMap<RecipeRequest, Recipes>();
 

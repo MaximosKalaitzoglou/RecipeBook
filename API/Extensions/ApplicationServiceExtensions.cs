@@ -39,6 +39,13 @@ namespace recipes_app.Extensions
             services.AddScoped<IPhotoService, PhotoService>();
 
             services.AddScoped<RecipeOwnershipActionFilter>();
+
+            services.AddScoped<AccountOwnershipActionFilter>();
+
+            services.AddScoped<ILikeRepository, LikeRepository>();
+
+            services.AddScoped<IMessageRepository, MessageRepository>();
+
             return services;
         }
     }

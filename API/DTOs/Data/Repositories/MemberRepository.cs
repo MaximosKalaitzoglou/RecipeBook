@@ -26,8 +26,6 @@ namespace recipes_app.Data.Repositories
 
         public async Task<Photo> AddMemberPhotoAsync(IFormFile file)
         {
-
-
             var result = await _photoService.AddPhotoAsync(file, "members");
 
             if (result.Error != null) return null;

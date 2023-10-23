@@ -8,6 +8,16 @@ using recipes_app.Data;
 
 namespace recipes_app.Controllers
 {
+    public class ErrorResponse
+    {
+        public string Message { get; set; }
+    }
+
+    public class ValidationErrorResponse : ErrorResponse
+    {
+        public List<string> Errors { get; set; }
+    }
+
     public class ErrorController : BaseApiController
     {
         private readonly DataContext _context;
@@ -29,10 +39,30 @@ namespace recipes_app.Controllers
             return NotFound();
         }
 
-        [HttpGet("bad-request")]
-        public ActionResult<string> GetBadRequest()
+        [HttpGet("bad-request/{type}")]
+        public ActionResult<string> GetBadRequest(string type = "simple")
         {
-            return BadRequest();
+            if (type == "simple")
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = "This is a simple error message."
+                };
+                return BadRequest(errorResponse);
+            }
+            else if (type == "validation")
+            {
+                var validationErrorResponse = new ValidationErrorResponse
+                {
+                    Message = "This is a validation error message.",
+                    Errors = new List<string> { "Error 1", "Error 2" }
+                };
+                return BadRequest(validationErrorResponse);
+            }
+            else
+            {
+                return BadRequest("Unknown error type.");
+            }
         }
 
         [HttpGet("server-error")]

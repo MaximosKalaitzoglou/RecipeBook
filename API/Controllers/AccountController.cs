@@ -32,7 +32,7 @@ namespace recipes_app.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.UserName)) return BadRequest("Username is taken.");
+            if (await UserExists(registerDto.UserName)) return BadRequest("Username is taken");
 
             var user = _mapper.Map<AppUser>(registerDto);
             using var hmac = new HMACSHA512();

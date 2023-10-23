@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using recipes_app.DTOs;
 using recipes_app.DTOs.Request;
 using recipes_app.Extensions;
+using recipes_app.Helpers;
 using recipes_app.Interfaces;
 using recipes_app.Models;
 
@@ -42,24 +43,17 @@ namespace recipes_app.Controllers
             return Ok(await _memberRep.GetMemberByUserNameAsync(username));
         }
 
+        [ServiceFilter(typeof(AccountOwnershipActionFilter))]
         [HttpGet("{username}/edit")]
         public async Task<ActionResult<MemberDto>> GetMemberByUserNameToEdit(string username)
         {
-            var authUsername = User.GetUsername();
-
-            if (authUsername != username)
-            {
-                return Unauthorized("You do not own this user profile in order to be ableedit it");
-            }
-
             return Ok(await _memberRep.GetMemberByUserNameAsync(username));
         }
 
+        [ServiceFilter(typeof(AccountOwnershipActionFilter))]
         [HttpPut("{username}")]
         public async Task<ActionResult> UpdateMemberByUsername(MemberUpdateRequest memberDto, string username)
         {
-            var authUsername = User.GetUsername();
-            if (authUsername != username) return Unauthorized("You are not authorized to update this members info");
             var result = await _memberRep.UpdateMemberAsync(memberDto, username);
             if (result == false)
             {
@@ -68,6 +62,7 @@ namespace recipes_app.Controllers
             return NoContent();
         }
 
+        [ServiceFilter(typeof(AccountOwnershipActionFilter))]
         [HttpDelete("{username}")]
         public async Task<ActionResult> DeleteMember(string username)
         {
@@ -80,12 +75,11 @@ namespace recipes_app.Controllers
             return Ok("Deleted succesfully");
         }
 
+        [ServiceFilter(typeof(AccountOwnershipActionFilter))]
         [HttpPost("add-photo")]
         public async Task<ActionResult<PhotoDto>> AddPhotoAsync(IFormFile file)
         {
             var user = await _memberRep.GetUserByUserNameAsync(User.GetUsername());
-            if (user == null) return NotFound("User not found!");
-
 
             var result = await _photoService.AddPhotoAsync(file, "members");
 

@@ -180,5 +180,10 @@ namespace recipes_app.Data.Repositories
             // If like is not null, the user has liked the recipe; otherwise, they haven't
             return like != null;
         }
+
+        public async Task<Recipes> GetContextRecipeByIdAsync(int id)
+        {
+            return await _context.Recipes.FindAsync(id);
+        }
     }
 }

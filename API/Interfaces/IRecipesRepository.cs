@@ -19,6 +19,7 @@ namespace recipes_app.Interfaces
 
         Task<RecipesDto> GetRecipeByIdAsync(int id);
 
+        Task<Recipes> GetContextRecipeByIdAsync(int id);
         Task<AddRecipeResult> AddRecipeAsync(RecipeRequest recipesDto, string username);
 
         Task<UpdateResult> UpdateRecipe(RecipeRequest recipeUpdateDto, int id);

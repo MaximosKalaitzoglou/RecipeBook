@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using recipes_app.Data;
 
@@ -10,9 +11,11 @@ using recipes_app.Data;
 namespace recipes_app.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231023105906_MessageEntityAdded")]
+    partial class MessageEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,6 +136,48 @@ namespace recipes_app.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("recipes_app.Models.Message", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DateSend")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("ReceiverDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("ReceiverId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiverUsername")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SenderUsername")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("recipes_app.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -247,6 +292,25 @@ namespace recipes_app.Migrations
                     b.Navigation("Recipe");
                 });
 
+            modelBuilder.Entity("recipes_app.Models.Message", b =>
+                {
+                    b.HasOne("recipes_app.Models.AppUser", "Receiver")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("recipes_app.Models.AppUser", "Sender")
+                        .WithMany("MessagesSend")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("recipes_app.Models.Recipes", b =>
                 {
                     b.HasOne("recipes_app.Models.AppUser", "AppUser")
@@ -266,6 +330,10 @@ namespace recipes_app.Migrations
 
             modelBuilder.Entity("recipes_app.Models.AppUser", b =>
                 {
+                    b.Navigation("MessagesReceived");
+
+                    b.Navigation("MessagesSend");
+
                     b.Navigation("Recipes");
                 });
 
