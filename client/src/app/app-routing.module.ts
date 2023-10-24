@@ -15,7 +15,7 @@ import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { BadRequestComponent } from './errors/bad-request/bad-request.component';
 import { MessagesComponent } from './_features/messages/messages.component';
-import { ChatRoomComponent } from './chat-room/chat-room.component';
+import { ChatRoomComponent } from './_features/messages/chat-room/chat-room.component';
 
 const routes: Routes = [
   {

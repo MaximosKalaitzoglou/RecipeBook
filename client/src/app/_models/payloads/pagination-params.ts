@@ -34,6 +34,7 @@ export class PaginationParams {
   }
 
   allItemsLoaded(value: number) {
+    
     return this.offset + this.itemsPerPage >= value;
   }
 }

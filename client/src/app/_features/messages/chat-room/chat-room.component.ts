@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AccountService } from '../_services/account.service';
-import { MessageService } from '../_services/message.service';
-import { Message } from '../_models/message';
+import { AccountService } from '../../../_services/account.service';
+import { MessageService } from '../../../_services/message.service';
+import { Message } from '../../../_models/message';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { User } from '../_models/user';
-import { Member } from '../_models/member';
 import { NgForm } from '@angular/forms';
 
 @Component({

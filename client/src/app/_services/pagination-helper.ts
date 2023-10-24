@@ -58,9 +58,7 @@ export function getPaginationRecipesHeaders(recipeParams: {
 export function getPaginationMessagesHeaders(messageParams: {
   offset: number;
   itemsPerPage: number;
-  container: string;
 }) {
   let params = setDefaultParams(messageParams);
-  params = params.append('Container', messageParams.container);
   return params;
 }

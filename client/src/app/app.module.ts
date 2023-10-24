@@ -43,7 +43,7 @@ import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 import { PhotoUploaderComponent } from './photo-uploader/photo-uploader.component';
 import { BadRequestComponent } from './errors/bad-request/bad-request.component';
 import { MessagesComponent } from './_features/messages/messages.component';
-import { ChatRoomComponent } from './chat-room/chat-room.component';
+import { ChatRoomComponent } from './_features/messages/chat-room/chat-room.component';
 import { MessagingUsersComponent } from './_features/messages/messaging-users/messaging-users.component';
 import { AddChatComponent } from './_modals/add-chat/add-chat.component';
 

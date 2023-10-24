@@ -4,7 +4,16 @@
     <app-add-chat></app-add-chat>
   </div>
 </div>
-<ul class="list-group" style="height: 35vw" *ngIf="messagingUsers.length > 0">
+<ul
+  class="list-group"
+  style="height: 35vw; overflow-y: auto"
+  *ngIf="messagingUsers && messagingUsers.length > 0"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="300"
+  (scrolled)="onScroll()"
+  [scrollWindow]="false"
+>
   <a
     class="list-group-item"
     style="width: 100px"
@@ -22,5 +31,5 @@
     {{ user.alias }}
     <span class="ms-3 badge bg-primary rounded-pill">5</span>
   </a>
+  
 </ul>
-
