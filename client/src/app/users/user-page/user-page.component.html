@@ -9,18 +9,18 @@
       />
     </div>
     <div class="col-md-9">
-      <h4 style="display: inline-block" class="me-5">{{ member.alias }}</h4>
-      <button
+      <h4 style="display: inline-block" class="">{{ member.alias }}</h4>
+      <!-- <button
         type="button"
         class="btn btn-dark me-4"
         style="display: inline-block"
       >
         Message
-      </button>
-
+      </button> -->
+      <app-add-chat [selectedMember]="member"></app-add-chat>
       <a
         type="button"
-        class="btn btn-secondary me-4"
+        class="btn btn-secondary"
         style="display: inline-block"
         [routerLink]="'edit'"
         *ngIf="accountService.getCurrentUser()?.userName === member.userName"

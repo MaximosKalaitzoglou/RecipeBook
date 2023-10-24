@@ -13,6 +13,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FileUploadModule } from 'ng2-file-upload';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @NgModule({
   declarations: [FilterRecipesPipe, TimestampPipe, TruncatePipe],
@@ -33,6 +34,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     FileUploadModule,
     ModalModule.forRoot(),
     InfiniteScrollModule,
+    ButtonsModule.forRoot(),
   ],
   providers: [],
   exports: [
@@ -51,6 +53,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     FileUploadModule,
     ModalModule,
     InfiniteScrollModule,
+    ButtonsModule
   ],
 })
 export class SharedModule {}

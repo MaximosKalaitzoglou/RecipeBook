@@ -34,6 +34,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     });
   }
 
+
   ngOnDestroy(): void {
     this.routeParamsSub.unsubscribe();
   }

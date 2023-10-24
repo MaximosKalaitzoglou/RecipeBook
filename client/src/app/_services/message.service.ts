@@ -19,8 +19,9 @@ export class MessageService {
   apiUrl = environment.apiUrl;
   user: User | null = null;
   messageParams: PaginationParams = new PaginationParams();
-  messagesCache = new Map();
-
+  messagingUsersCache = new Map();
+  messageChatCache = new Map();
+  
   constructor(
     private http: HttpClient,
     private accountService: AccountService
@@ -41,28 +42,8 @@ export class MessageService {
     this.messageParams = messageParams;
   }
 
-  getUserMessages(messageParams: { offSet: number; pageSize: number }) {
-    let params = getPaginationMessagesHeaders({
-      offset: messageParams.offSet,
-      itemsPerPage: messageParams.pageSize,
-    });
-    return getPaginatedResults<Message[]>(
-      this.apiUrl + 'messages',
-      params,
-      this.http
-    ).pipe(
-      map((response) => {
-        this.messagesCache.set(
-          Object.values(messageParams).join('-'),
-          response
-        );
-        return response;
-      })
-    );
-  }
-
   getMessagingUsers(messagingUserParams: PaginationParams) {
-    const response = this.messagesCache.get(
+    const response = this.messagingUsersCache.get(
       Object.values(messagingUserParams).join('-')
     );
 
@@ -78,7 +59,7 @@ export class MessageService {
       this.http
     ).pipe(
       map((response) => {
-        this.messagesCache.set(
+        this.messagingUsersCache.set(
           Object.values(messagingUserParams).join('-'),
           response
         );
@@ -87,20 +68,37 @@ export class MessageService {
     );
   }
 
-  getMessageSocket(username: string) {
-    return this.http.get<Message[]>(
-      this.apiUrl + 'messages/socket/' + username,
-      getHttpOptions()
+  getMessageSocket(username: string, messageParams: PaginationParams) {
+    const response = this.messagingUsersCache.get(
+      Object.values(messageParams).join('-') + username
     );
+
+    if (response) return of(response);
+
+    let params = getPaginationMessagesHeaders(messageParams);
+
+    return getPaginatedResults<Message[]>(
+      this.apiUrl + 'messages/socket/' + username,
+      params,
+      this.http
+    ).pipe(
+      map((response) => {
+        this.messagingUsersCache.set(
+          Object.values(messageParams).join('-') + username,
+          response
+        );
+        return response;
+      })
+    );
+  }
+
+  resetParams() {
+    this.messageParams = new PaginationParams();
   }
 
   createMessage(messageDto: { receiverUsername: string; content: string }) {
     return this.http
       .post<Message>(this.apiUrl + 'messages', messageDto, getHttpOptions())
-      .pipe(
-        tap((response) => {
-          console.log(response);
-        })
-      );
+      .pipe(tap((response) => {}));
   }
 }

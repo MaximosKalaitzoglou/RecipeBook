@@ -1,10 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { AccountService } from '../../../_services/account.service';
 import { MessageService } from '../../../_services/message.service';
 import { Message } from '../../../_models/message';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import { Pagination } from 'src/app/_models/pagination';
+import { PaginationParams } from 'src/app/_models/payloads/pagination-params';
 
 @Component({
   selector: 'app-chat-room',
@@ -12,9 +20,13 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./chat-room.component.css'],
 })
 export class ChatRoomComponent implements OnInit, OnDestroy {
-  messages: Message[] = [];
+  messageDictionary = new Map<string, Message[]>();
+  messages: Message[] | undefined;
+  pagination: Pagination | undefined;
+  messageChatParams: PaginationParams | undefined;
   paramsSub!: Subscription;
   username: string = '';
+
   constructor(
     private accountService: AccountService,
     private messageService: MessageService,
@@ -24,6 +36,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.paramsSub = this.route.params.subscribe({
       next: (params) => {
+        this.messageService.resetParams();
+        this.messages = [];
+        this.messageChatParams = this.messageService.getMessageParams();
         this.username = params['username'];
         this.loadMessageSocket(this.username);
       },
@@ -32,6 +47,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.paramsSub.unsubscribe();
+    this.messageChatParams?.setOffset(0);
   }
   //TODO: Add paginationFilter on Chat messages
 
@@ -43,18 +59,42 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     };
     this.messageService.createMessage(payload).subscribe({
       next: (response) => {
-        this.messages.push(response);
-        messageForm.reset();
+        if (this.messages) {
+          this.messages = [response, ...this.messages];
+          messageForm.reset();
+        }
       },
     });
   }
 
   loadMessageSocket(username: string) {
-    this.messageService.getMessageSocket(username).subscribe({
-      next: (response) => {
-        this.messages = response;
-      },
-    });
+    if (!this.messageChatParams) return;
+    this.messageService
+      .getMessageSocket(username, this.messageChatParams)
+      .subscribe({
+        next: (response) => {
+          if (response.result) {
+            if (this.messages) {
+              this.messages.push(...response.result);
+            } else {
+              this.messages = response.result;
+            }
+
+            this.pagination = response.pagination;
+          }
+        },
+      });
+  }
+
+  onScroll() {
+    if (this.pagination && this.messageChatParams) {
+      if (this.messageChatParams?.allItemsLoaded(this.pagination.totalItems)) {
+        return;
+      }
+      this.messageChatParams?.incrementOffset();
+
+      this.loadMessageSocket(this.username);
+    }
   }
 
   get User(): { username: string; url: string } | null {

@@ -1,4 +1,4 @@
-<div class="col-md-6">
+<div class="col-md-2 ms-3" style="display: inline-block">
   <a
     type="button"
     class="btn btn-dark"
@@ -22,8 +22,12 @@
   </div>
 
   <div class="modal-body bg-dark">
-    <form class="d-flex flex-column">
-      <div class="row">
+    <form
+      class="d-flex flex-column"
+      #messageForm="ngForm"
+      (ngSubmit)="onSendMessage(messageForm)"
+    >
+      <div class="row" *ngIf="!userSelected">
         <div class="col-md-1">
           <label
             for="searchBar me-3"
@@ -43,11 +47,20 @@
             (input)="searchUsers()"
           />
         </div>
+        <hr />
+        <p *ngIf="!members || members.length < 1">No members found...</p>
       </div>
-      <hr />
-      <p *ngIf="!members || members.length < 1">No members found...</p>
-      <ul class="list-group" *ngIf="members && members.length > 0">
-        <li class="list-group-item" *ngFor="let member of members">
+      <ul
+        class="list-group"
+        *ngIf="members && members.length > 0 && !userSelected"
+      >
+        <a
+          style="cursor: pointer"
+          class="list-group-item"
+          name="member-card"
+          *ngFor="let member of members"
+          (click)="selectedUser(member)"
+        >
           <img
             [src]="member.photo.url"
             alt=""
@@ -55,10 +68,46 @@
             width="40px"
           />
           <span>{{ member.userName }} </span>
-        </li>
+        </a>
       </ul>
-
-      <button type="submit" class="btn btn-info">Chat</button>
+      <a
+        class="list-group-item"
+        style="cursor: pointer"
+        *ngIf="selectedMember && userSelected"
+      >
+        <img
+          [src]="selectedMember.photo.url"
+          alt=""
+          class="img-responsive rounded-circle"
+          width="40px"
+        />
+        <span>{{ selectedMember.userName }} </span>
+        <button
+          type="button"
+          class="btn float-end"
+          (click)="removeSelectedUser()"
+        >
+          <fa-icon [icon]="faClose"></fa-icon>
+        </button>
+      </a>
+      <div *ngIf="userSelected">
+        <textarea
+          name="message"
+          id="messageText"
+          rows="4"
+          class="form-control bg-dark"
+          placeholder="Message..."
+          ngModel
+          required
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-info"
+        [disabled]="!messageForm.valid || !userSelected"
+      >
+        Send Message
+      </button>
     </form>
   </div>
 </ng-template>
