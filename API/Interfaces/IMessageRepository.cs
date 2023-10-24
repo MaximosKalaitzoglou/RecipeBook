@@ -17,11 +17,11 @@ namespace recipes_app.Interfaces
 
         Task<Message> GetMessage(int messageId);
 
-        Task<IEnumerable<MemberDto>> GetMessagingUsers(string currentUserName);
+        Task<PaginationFilter<MemberDto>> GetMessagingUsers(string currentUserName, UserParams userParams);
 
         Task<PaginationFilter<MessageDto>> GetMessagesForUser(MessageParams messageParams);
 
-        Task<IEnumerable<MessageDto>> GetMessageSocket(string currentUserName, string receiverUserName);
+        Task<PaginationFilter<MessageDto>> GetMessageSocket(string currentUserName, string receiverUserName, UserParams userParams);
 
         Task<bool> SaveAllAsync();
     }

@@ -56,31 +56,33 @@ namespace recipes_app.Data.Repositories
             return await PaginationFilter<MessageDto>.CreateAsync(messages, messageParams.Offset, messageParams.PageSize);
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMessagingUsers(string currentUserName)
+        public async Task<PaginationFilter<MemberDto>> GetMessagingUsers(string currentUserName, UserParams userParams)
         {
-            var senders = await _context.Messages
+            var senders = _context.Messages
                 .Where(m => m.ReceiverUsername == currentUserName)
                 .Include(u => u.Sender.Photo)
                 .Select(m => m.Sender)
-                .ToListAsync();
+                .AsQueryable();
 
-            var receivers = await _context.Messages
+            var receivers = _context.Messages
                 .Where(m => m.SenderUsername == currentUserName)
                 .Include(u => u.Receiver.Photo)
                 .Select(m => m.Receiver)
-                .ToListAsync();
+                .AsQueryable();
 
-            var users = senders.Union(receivers).Distinct().ToList();
+            var query = senders.Union(receivers).Distinct();
 
+            var messages = query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider);
 
-            return _mapper.Map<IEnumerable<MemberDto>>(users);
+            return await PaginationFilter<MemberDto>.CreateAsync(messages, userParams.Offset, userParams.PageSize);
+
         }
 
 
 
-        public async Task<IEnumerable<MessageDto>> GetMessageSocket(string currentUserName, string receiverUserName)
+        public async Task<PaginationFilter<MessageDto>> GetMessageSocket(string currentUserName, string receiverUserName, UserParams userParams)
         {
-            var messages = await _context.Messages
+            var query = _context.Messages
             .Include(m => m.Sender)
             .ThenInclude(s => s.Photo)
             .Include(m => m.Receiver)
@@ -92,10 +94,10 @@ namespace recipes_app.Data.Repositories
                 m.SenderUsername == currentUserName)
 
                 )
-            .OrderBy(m => m.DateSend)
-            .ToListAsync();
+            .OrderByDescending(m => m.DateSend)
+            .AsQueryable();
 
-            var unreadMessages = messages
+            var unreadMessages = query
             .Where(m => m.DateRead == null && m.ReceiverUsername == currentUserName)
             .ToList();
 
@@ -109,8 +111,9 @@ namespace recipes_app.Data.Repositories
                 await _context.SaveChangesAsync();
             }
 
+            var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
 
-            return _mapper.Map<IEnumerable<MessageDto>>(messages);
+            return await PaginationFilter<MessageDto>.CreateAsync(messages, userParams.Offset, userParams.PageSize);
         }
 
         public async Task<bool> SaveAllAsync()

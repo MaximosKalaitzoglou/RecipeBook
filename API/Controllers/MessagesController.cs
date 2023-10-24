@@ -77,17 +77,25 @@ namespace recipes_app.Controllers
         }
 
         [HttpGet("get-users")]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetMessagingUsers()
+        public async Task<ActionResult<PaginationFilter<MemberDto>>> GetMessagingUsers([FromQuery] UserParams userParams)
         {
-            return Ok(await _messageRepository.GetMessagingUsers(User.GetUsername()));
+            var messages = await _messageRepository.GetMessagingUsers(User.GetUsername(), userParams);
+            Response.AddPaginationHeader(
+                new PaginationHeader(messages.Offset,
+                 messages.PageSize, messages.TotalCount, messages.TotalPages));
+
+            return Ok(messages);
         }
 
         [HttpGet("socket/{username}")]
-        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageSocket(string username)
+        public async Task<ActionResult<PaginationFilter<MessageDto>>> GetMessageSocket(string username, [FromQuery] UserParams userParams)
         {
             var currentUserName = User.GetUsername();
-
-            return Ok(await _messageRepository.GetMessageSocket(currentUserName, username));
+            var messages = await _messageRepository.GetMessageSocket(currentUserName, username, userParams);
+            Response.AddPaginationHeader(
+                new PaginationHeader(messages.Offset,
+                 messages.PageSize, messages.TotalCount, messages.TotalPages));
+            return Ok(messages);
         }
     }
 }
