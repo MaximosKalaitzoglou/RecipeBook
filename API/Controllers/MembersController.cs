@@ -25,6 +25,13 @@ namespace recipes_app.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("search/{query}")]
+        public async Task<ActionResult<IEnumerable<MemberDto>>> SearchMembers(string query)
+        {
+            var members = await _memberRep.SearchMembers(query);
+            return Ok(members);
+        }
+
         [HttpGet("{username}/recipes")]
         public async Task<ActionResult<IEnumerable<RecipesDto>>> GetUserRecipes(string username)
         {

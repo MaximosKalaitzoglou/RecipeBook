@@ -24,6 +24,15 @@ namespace recipes_app.Data.Repositories
             _photoService = photoService;
         }
 
+        public async Task<IEnumerable<MemberDto>> SearchMembers(string query)
+        {
+            var users = await _context.Users
+            .Where(u => u.UserName.StartsWith(query))
+            .Include(u => u.Photo)
+            .ToListAsync();
+
+            return _mapper.Map<IEnumerable<MemberDto>>(users);
+        }
         public async Task<Photo> AddMemberPhotoAsync(IFormFile file)
         {
             var result = await _photoService.AddPhotoAsync(file, "members");
