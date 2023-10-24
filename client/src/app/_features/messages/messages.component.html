@@ -1,89 +1,24 @@
-<div class="container d-flex mb-4 justify-content-center">
+<div class="container">
   <div class="row">
-    <div class="col-md-4">
-      <ul class="list-group" style="position: absolute; left: 2rem">
-        <li
-          class="list-group-item"
-          style="width: 280px"
-          style="cursor: pointer"
-          *ngFor="let user of messagingUsers"
-          (click)="loadMessageSocket(user.userName)"
-        >
-          <img
-            [src]="user.photo.url"
-            alt=""
-            width="40px"
-            class="me-2 img-responsive rounded-circle img-thumbail img-card-top"
-          />
-          {{ user.alias }}
-          <span class="ms-3 badge bg-primary rounded-pill">14</span>
-        </li>
-      </ul>
+    <div class="col" style="background-color: #333">
+      <app-messaging-users (on-no-chats-found)="onNoChatsFound($event)"></app-messaging-users>
+      <!-- <app-add-chat></app-add-chat> -->
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <ng-container *ngIf="!messages && !messagingUsers">
-        <h4 class="mb-3">No messages found, but worry not as...</h4>
-        <figure class="text-center">
-          <blockquote class="blockquote">
-            <p class="mb-0">The wise warrior avoids the battle.</p>
-          </blockquote>
-          <figcaption class="blockquote-footer">
-            Sun-Tzu, <cite title="Source Title">The Art of War</cite>
-          </figcaption>
-        </figure>
-      </ng-container>
-      <div
-        class="bg-primary"
-        id="messageBox"
-        *ngIf="messages && messages.length > 0"
-      >
-        <ul class="card-body">
-          <li
-            *ngFor="let message of messages"
-            [ngClass]="
-              message.senderUsername === currentUser
-                ? 'float-end'
-                : 'float-start'
-            "
-            style="max-width: 500px"
-          >
-            <table class="table">
-              <tbody>
-                <tr
-                  [ngClass]="
-                    message.senderUsername === currentUser
-                      ? 'table-dark'
-                      : 'table-danger'
-                  "
-                >
-                  <th scope="row">
-                    <img
-                      [src]="message.senderPhotoUrl"
-                      alt=""
-                      width="55px"
-                      class="img-responsive rounded"
-                    />
-                  </th>
-
-                  <td>
-                    <span>
-                      {{ message.content }}
-                    </span>
-                  </td>
-
-                  <th scope="row">
-                    <span class="badge bg-dark rounded-pill"
-                      >{{ message.dateSend | timestamp }}
-                    </span>
-                  </th>
-                </tr>
-              </tbody>
-            </table>
-          </li>
-        </ul>
+    <div class="col-md-8">
+      <div class="mt-5" *ngIf="noChatsFound">
+        <ng-container style="color: #fff">
+          <h4 class="mb-3">No chat boxes found, but worry not as...</h4>
+          <figure class="">
+            <blockquote class="blockquote">
+              <p class="mb-0">The wise warrior avoids the battle.</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+              Sun-Tzu, <cite title="Source Title">The Art of War</cite>
+            </figcaption>
+          </figure>
+        </ng-container>
       </div>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

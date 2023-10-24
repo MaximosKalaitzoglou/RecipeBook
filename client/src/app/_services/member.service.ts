@@ -18,6 +18,13 @@ export class MemberService {
     private accountService: AccountService
   ) {}
 
+  searchMembers(query: string) {
+    return this.http.get<Member[]>(
+      this.apiUrl + 'members/search/' + query,
+      getHttpOptions()
+    );
+  }
+
   getMemberUsername(username: string): Observable<Member> {
     const member = this.members.find((m) => m.userName === username);
     if (member) {

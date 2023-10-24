@@ -1,0 +1,64 @@
+<div class="col-md-6">
+  <a
+    type="button"
+    class="btn btn-dark"
+    style="color: #fff; padding: 0.3rem 2.5rem"
+    (click)="onShowModal(template)"
+  >
+    <fa-icon [icon]="faEnvelope"></fa-icon>
+  </a>
+</div>
+
+<ng-template #template>
+  <div class="modal-header bg-dark">
+    <h4 class="modal-title pull-left">New message</h4>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      (click)="modalRef?.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body bg-dark">
+    <form class="d-flex flex-column">
+      <div class="row">
+        <div class="col-md-1">
+          <label
+            for="searchBar me-3"
+            style="color: #fff; font-weight: bold; display: inline-block"
+            >To:
+          </label>
+        </div>
+        <div class="col-md-10">
+          <input
+            style="color: #fff; font-weight: bold; display: inline-block"
+            id="searchBar"
+            class="me-sm-2 ms-2"
+            name="searchBar"
+            type="search"
+            placeholder="Search..."
+            [(ngModel)]="searchQuery"
+            (input)="searchUsers()"
+          />
+        </div>
+      </div>
+      <hr />
+      <p *ngIf="!members || members.length < 1">No members found...</p>
+      <ul class="list-group" *ngIf="members && members.length > 0">
+        <li class="list-group-item" *ngFor="let member of members">
+          <img
+            [src]="member.photo.url"
+            alt=""
+            class="img-responsive rounded-circle"
+            width="40px"
+          />
+          <span>{{ member.userName }} </span>
+        </li>
+      </ul>
+
+      <button type="submit" class="btn btn-info">Chat</button>
+    </form>
+  </div>
+</ng-template>

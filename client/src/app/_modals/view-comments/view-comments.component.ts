@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Recipe } from 'src/app/_models/recipe';
-import { RecipeService } from 'src/app/_services/recipe.service';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';

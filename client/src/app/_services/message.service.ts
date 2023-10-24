@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AccountService } from './account.service';
 import { User } from '../_models/user';
-import { take } from 'rxjs';
+import { take, tap } from 'rxjs';
 import {
   getPaginatedResults,
   getPaginationMessagesHeaders,
@@ -53,5 +53,15 @@ export class MessageService {
       this.apiUrl + 'messages/socket/' + username,
       getHttpOptions()
     );
+  }
+
+  createMessage(messageDto: { receiverUsername: string; content: string }) {
+    return this.http
+      .post<Message>(this.apiUrl + 'messages', messageDto, getHttpOptions())
+      .pipe(
+        tap((response) => {
+          console.log(response);
+        })
+      );
   }
 }
