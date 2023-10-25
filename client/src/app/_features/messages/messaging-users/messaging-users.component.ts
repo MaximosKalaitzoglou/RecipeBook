@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Pagination } from 'src/app/_models/pagination';
 import { PaginationParams } from 'src/app/_models/payloads/pagination-params';
@@ -21,6 +22,8 @@ export class MessagingUsersComponent implements OnInit, OnDestroy {
   messagingUserParams: PaginationParams | undefined;
   pagination: Pagination | undefined;
 
+  usersUpdateSub!: Subscription;
+
   @Output('on-no-chats-found') noChatsFound = new EventEmitter<boolean>();
   constructor(private messageService: MessageService) {
     this.messagingUserParams = this.messageService.getMessageParams();
@@ -28,7 +31,7 @@ export class MessagingUsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadMessagingUsers();
-    this.messageService.updatedMessagingUser.subscribe({
+    this.usersUpdateSub = this.messageService.updatedMessagingUser.subscribe({
       next: (response) => {
         this.messagingUsers?.push(response);
       },
@@ -70,5 +73,6 @@ export class MessagingUsersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.messagingUserParams?.setOffset(0);
+    this.usersUpdateSub.unsubscribe();
   }
 }

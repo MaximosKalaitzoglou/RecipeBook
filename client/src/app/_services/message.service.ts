@@ -38,7 +38,7 @@ export class MessageService {
   }
 
   getMessageParams() {
-    this.messageParams.setItemsPerPage(7);
+    this.messageParams.setItemsPerPage(5);
     return this.messageParams;
   }
 
@@ -50,6 +50,7 @@ export class MessageService {
     const response = this.messagingUsersCache.get(
       Object.values(messagingUserParams).join('-')
     );
+    
 
     if (response) return of(response);
 
