@@ -36,6 +36,10 @@
         style="max-width: 400px; clear: both"
       >
         <table class="table">
+          <span class="badge bg-dark"
+            >{{ message.dateSend | timestamp : true }}
+          </span>
+
           <tbody>
             <tr
               [ngClass]="
@@ -59,11 +63,18 @@
                 </span>
               </td>
 
-              <th scope="row">
-                <span class="badge bg-dark rounded-pill"
-                  >{{ message.dateSend | timestamp }}
-                </span>
-              </th>
+              <th scope="row"></th>
+
+              <td>
+                <div>
+                  <span
+                    *ngIf="!message.dateRead"
+                    class="badge rounded-pill bg-danger"
+                  >
+                    Unread
+                  </span>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>

@@ -53,7 +53,6 @@ export class AddChatComponent implements OnInit {
     };
     this.messageService.createMessage(payload).subscribe({
       next: (response) => {
-        console.log(response);
         this.modalRef?.hide();
       },
     });

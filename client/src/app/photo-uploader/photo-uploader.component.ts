@@ -4,11 +4,11 @@ import { Member } from '../_models/member';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
-import { MemberService } from '../_services/member.service';
 import { take } from 'rxjs';
 import { Photo } from '../_models/photo';
 import { faUpload, faBan, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Recipe } from '../_models/recipe';
+
 @Component({
   selector: 'app-photo-uploader',
   templateUrl: './photo-uploader.component.html',
@@ -40,12 +40,13 @@ export class PhotoUploaderComponent {
   }
 
   initializeUploader() {
-    var url = this.apiUrl;
+    var url = '';
     if (this.isMember(this.item)) {
-      url += 'members/add-photo';
+      url = this.apiUrl + 'members/add-photo';
     } else if (this.isRecipe(this.item)) {
-      url += `recipes/${this.item.id}/add-photo`;
+      url = this.apiUrl + `recipes/${this.item.id}/add-photo`;
     }
+    console.log(url);
 
     this.uploader = new FileUploader({
       url: url,
@@ -64,7 +65,8 @@ export class PhotoUploaderComponent {
       }
       f.withCredentials = false;
     };
-
+    console.log("ok");
+    
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const photo: Photo = JSON.parse(response);

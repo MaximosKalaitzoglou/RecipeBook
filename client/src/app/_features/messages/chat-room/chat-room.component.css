@@ -36,3 +36,7 @@
   color: rgb(14, 151, 74);
 }
 
+
+tbody .custom-table {
+  border-radius: 30%;
+}

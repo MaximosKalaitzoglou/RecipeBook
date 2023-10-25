@@ -46,6 +46,7 @@ import { MessagesComponent } from './_features/messages/messages.component';
 import { ChatRoomComponent } from './_features/messages/chat-room/chat-room.component';
 import { MessagingUsersComponent } from './_features/messages/messaging-users/messaging-users.component';
 import { AddChatComponent } from './_modals/add-chat/add-chat.component';
+import { MessageService } from './_services/message.service';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { AddChatComponent } from './_modals/add-chat/add-chat.component';
     RecipeService,
     MemberService,
     LikeService,
+    MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],

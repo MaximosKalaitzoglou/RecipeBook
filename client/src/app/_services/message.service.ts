@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AccountService } from './account.service';
 import { User } from '../_models/user';
-import { map, of, take, tap } from 'rxjs';
+import { Subject, map, of, switchMap, take, tap } from 'rxjs';
 import {
   getPaginatedResults,
   getPaginationMessagesHeaders,
@@ -21,10 +21,10 @@ export class MessageService {
   messageParams: PaginationParams = new PaginationParams();
   messagingUsersCache = new Map();
   messageChatCache = new Map();
-  
+
   constructor(
     private http: HttpClient,
-    private accountService: AccountService
+    private accountService: AccountService,
   ) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: (user) => {
@@ -43,11 +43,11 @@ export class MessageService {
   }
 
   getMessagingUsers(messagingUserParams: PaginationParams) {
-    const response = this.messagingUsersCache.get(
-      Object.values(messagingUserParams).join('-')
-    );
+    // const response = this.messagingUsersCache.get(
+    //   Object.values(messagingUserParams).join('-')
+    // );
 
-    if (response) return of(response);
+    // if (response) return of(response);
 
     let params = getPaginationMessagesHeaders({
       offset: messagingUserParams.offset,
@@ -69,11 +69,12 @@ export class MessageService {
   }
 
   getMessageSocket(username: string, messageParams: PaginationParams) {
-    const response = this.messagingUsersCache.get(
-      Object.values(messageParams).join('-') + username
-    );
+    // const response = this.messageChatCache.get(
+    //   Object.values(messageParams).join('-') + username
+    // );
+    // console.log(response);
 
-    if (response) return of(response);
+    // if (response) return of(response);
 
     let params = getPaginationMessagesHeaders(messageParams);
 
@@ -83,7 +84,7 @@ export class MessageService {
       this.http
     ).pipe(
       map((response) => {
-        this.messagingUsersCache.set(
+        this.messageChatCache.set(
           Object.values(messageParams).join('-') + username,
           response
         );
@@ -99,6 +100,20 @@ export class MessageService {
   createMessage(messageDto: { receiverUsername: string; content: string }) {
     return this.http
       .post<Message>(this.apiUrl + 'messages', messageDto, getHttpOptions())
-      .pipe(tap((response) => {}));
+      .pipe(
+        switchMap((response) => {
+          // Update the chat cache
+          const username = messageDto.receiverUsername;
+          var chatRoom = this.messageChatCache.get(
+            Object.values(this.messageParams).join('-') + username
+          );
+
+          if (chatRoom) {
+            chatRoom.result = [response, ...chatRoom.result];
+          }
+
+          return of(response);
+        })
+      );
   }
 }
