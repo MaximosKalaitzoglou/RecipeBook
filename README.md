@@ -36,14 +36,16 @@ Follow these instructions to get the project up and running on your local machin
 
 - [Docker](https://www.docker.com/get-started)
 - [Angular CLI](https://angular.io/guide/setup-local) (for the frontend)
-- [Visual Studio](https://visualstudio.microsoft.com/downloads/) or [Visual Studio Code](https://code.visualstudio.com/download) (for the backend)
+- [Visual Studio Code](https://code.visualstudio.com/download)
+- [.NET SDK](https://dotnet.microsoft.com/download/dotnet) - RecipeBook uses the .NET SDK for building and running the backend server. You can download and install it from the official .NET website.
+
 
 ### Installation
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/recipeshare.git
+   git clone https://github.com/yourusername/RecipeBook.git
 
 2. Create and start the Docker container for MariaDB:
    ```bash
