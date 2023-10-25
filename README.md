@@ -82,7 +82,7 @@ Replace "your_cloud_name", "your_api_key", and "your_api_secret" with your actua
 
 ### Don't Have a Cloudinary Account?
 
-If you don't have a Cloudinary account yet, you can easily sign up for one to take full advantage of the photo and media management features in RecipeShare. Cloudinary provides cloud-based media management services, including image and video storage, transformations, and delivery. Here's how to get started:
+If you don't have a Cloudinary account yet, you can easily sign up for one for free. Cloudinary provides cloud-based media management services, including image and video storage, transformations, and delivery. Here's how to get started:
 
 1. **Visit the Cloudinary Website**: Go to the [Cloudinary website](https://cloudinary.com/).
 
@@ -92,23 +92,23 @@ If you don't have a Cloudinary account yet, you can easily sign up for one to ta
    
 4. **Access Your Cloudinary Dashboard**: Once your account is set up and verified, you can log in to your Cloudinary dashboard.
 
-5. **Get Your API Credentials**: In your Cloudinary dashboard, you can find your Cloudinary API key, API secret, and cloud name. You will need these credentials to set up the `appsettings.json` file for the RecipeShare API.
+5. **Get Your API Credentials**: In your Cloudinary dashboard, you can find your Cloudinary API key, API secret, and cloud name. You will need these credentials to set up the `appsettings.json` file for the RecipeBook API.
 
 
 ## Technologies Used
 
 This project uses a variety of technologies and libraries to provide better user experience and functionality:
 
-- **Angular**: RecipeShare's frontend is built using Angular, a popular and robust JavaScript framework that provides a responsive and dynamic user interface.
+- **Angular**: RecipeBook's frontend is built using Angular, a popular and robust JavaScript framework that provides a responsive and dynamic user interface.
 
-- **Bootstrap and Bootswatch**: RecipeShare utilizes Bootstrap, a front-end framework, along with Bootswatch themes to ensure a sleek and visually appealing design. These tools contribute to the platform's overall aesthetics and user-friendly interface.
+- **Bootstrap and Bootswatch**: RecipeBook utilizes Bootstrap, a front-end framework, along with Bootswatch themes to ensure a sleek and visually appealing design. These tools contribute to the platform's overall aesthetics and user-friendly interface.
 
-- **ngx-bootstrap**: ngx-bootstrap is an essential part of the project, offering Angular implementations of Bootstrap components. It helps ensure consistent and interactive UI elements in RecipeShare.
+- **ngx-bootstrap**: ngx-bootstrap is an essential part of the project, offering Angular implementations of Bootstrap components. It helps ensure consistent and interactive UI elements in RecipeBook.
 
 - **ng2-file-upload**: This library simplifies file uploads, including photo uploads for recipes. Users can easily add images to their recipes, enhancing the visual appeal of the platform.
 
-- **Cloudinary**: RecipeShare integrates Cloudinary, a cloud-based media management service, to store, transform, and deliver images and media files. Cloudinary plays a pivotal role in managing photos and media within the application.
+- **Cloudinary**: RecipeBook integrates Cloudinary, a cloud-based media management service, to store, transform, and deliver images and media files. Cloudinary plays a pivotal role in managing photos and media within the application.
 
 - **ngx-infinite-scroll**: ngx-infinite-scroll is used to enable seamless and efficient infinite scrolling for pagination. Users can navigate through extensive lists, like the messaging user list, with ease and efficiency.
 
-These technologies and libraries work in harmony to provide a feature-rich, responsive, and visually appealing platform for recipe sharing and culinary exploration.
+With the help of these technologies you can finally explore the Cook side of you!
