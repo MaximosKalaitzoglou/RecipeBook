@@ -10,6 +10,7 @@ using recipes_app.Data.Repositories;
 using recipes_app.Helpers;
 using recipes_app.Interfaces;
 using recipes_app.Services;
+using recipes_app.SignalR;
 
 namespace recipes_app.Extensions
 {
@@ -45,6 +46,10 @@ namespace recipes_app.Extensions
             services.AddScoped<ILikeRepository, LikeRepository>();
 
             services.AddScoped<IMessageRepository, MessageRepository>();
+
+            services.AddSignalR();
+
+            services.AddSingleton<PresenceTracker>();
 
             return services;
         }

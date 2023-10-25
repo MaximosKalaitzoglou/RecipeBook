@@ -77,12 +77,9 @@ namespace recipes_app.Controllers
         }
 
         [HttpGet("get-users")]
-        public async Task<ActionResult<PaginationFilter<MemberDto>>> GetMessagingUsers([FromQuery] MessageParams userParams)
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetMessagingUsers()
         {
-            var messages = await _messageRepository.GetMessagingUsers(User.GetUsername(), userParams);
-            Response.AddPaginationHeader(
-                new PaginationHeader(messages.Offset,
-                 messages.PageSize, messages.TotalCount, messages.TotalPages));
+            var messages = await _messageRepository.GetMessagingUsers(User.GetUsername());
 
             return Ok(messages);
         }
@@ -105,7 +102,7 @@ namespace recipes_app.Controllers
                 _messageRepository.DeleteMessage(message);
             }
 
-            if( await _memberRepository.SaveAllAsync()) return NoContent();
+            if (await _memberRepository.SaveAllAsync()) return NoContent();
 
             return BadRequest("Something went wrong deleting the message");
         }

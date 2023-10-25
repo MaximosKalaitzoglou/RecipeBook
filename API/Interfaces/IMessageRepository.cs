@@ -17,7 +17,7 @@ namespace recipes_app.Interfaces
 
         Task<Message> GetMessage(int messageId);
 
-        Task<PaginationFilter<MemberDto>> GetMessagingUsers(string currentUserName, MessageParams userParams);
+        Task<IEnumerable<MemberDto>> GetMessagingUsers(string currentUserName);
 
         Task<PaginationFilter<MessageDto>> GetMessagesForUser(MessageParams messageParams);
 
