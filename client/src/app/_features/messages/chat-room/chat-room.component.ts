@@ -8,11 +8,14 @@ import {
 import { AccountService } from '../../../_services/account.service';
 import { MessageService } from '../../../_services/message.service';
 import { Message } from '../../../_models/message';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Pagination } from 'src/app/_models/pagination';
 import { PaginationParams } from 'src/app/_models/payloads/pagination-params';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Member } from 'src/app/_models/member';
+import { MemberService } from 'src/app/_services/member.service';
 
 @Component({
   selector: 'app-chat-room',
@@ -26,20 +29,33 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   messageChatParams: PaginationParams | undefined;
   paramsSub!: Subscription;
   username: string = '';
+  faTrash = faTrash;
+
+  messagingToMember: Member | undefined;
 
   constructor(
     private accountService: AccountService,
     private messageService: MessageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private memberService: MemberService
   ) {}
+
+  private initializeChatRoom(username: string) {
+    this.messageService.resetParams();
+    this.messages = [];
+    this.messageChatParams = this.messageService.getMessageParams();
+    this.memberService.getMemberUsername(username).subscribe({
+      next: (response) => {
+        this.messagingToMember = response;
+      },
+    });
+  }
 
   ngOnInit(): void {
     this.paramsSub = this.route.params.subscribe({
       next: (params) => {
-        this.messageService.resetParams();
-        this.messages = [];
-        this.messageChatParams = this.messageService.getMessageParams();
         this.username = params['username'];
+        this.initializeChatRoom(this.username);
         this.loadMessageSocket(this.username);
       },
     });
@@ -86,6 +102,17 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
       });
   }
 
+  deleteMessage(id: number) {
+    this.messageService.deleteMessage(id).subscribe({
+      next: (_) => {
+        this.messages?.splice(
+          this.messages.findIndex((m) => m.messageId == id),
+          1
+        );
+      },
+    });
+  }
+
   onScroll() {
     if (this.pagination && this.messageChatParams) {
       if (this.messageChatParams?.allItemsLoaded(this.pagination.totalItems)) {
@@ -98,10 +125,10 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   }
 
   get User(): { username: string; url: string } | null {
-    if (this.messages) {
+    if (this.messages && this.messagingToMember) {
       return {
-        username: this.messages[0].senderUsername,
-        url: this.messages[0].senderPhotoUrl,
+        username: this.messagingToMember.userName,
+        url: this.messagingToMember.photo.url,
       };
     }
     return null;

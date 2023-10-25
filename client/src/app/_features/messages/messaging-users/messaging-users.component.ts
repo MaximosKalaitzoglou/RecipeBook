@@ -5,6 +5,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 import { Member } from 'src/app/_models/member';
 import { Pagination } from 'src/app/_models/pagination';
 import { PaginationParams } from 'src/app/_models/payloads/pagination-params';
@@ -27,6 +28,11 @@ export class MessagingUsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadMessagingUsers();
+    this.messageService.updatedMessagingUser.subscribe({
+      next: (response) => {
+        this.messagingUsers?.push(response);
+      },
+    });
   }
   //TODO: Add paginationFilter on messaging Users
 

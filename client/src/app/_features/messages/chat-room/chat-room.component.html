@@ -1,8 +1,8 @@
-<div *ngIf="messages && messages.length > 0">
+<div *ngIf="messages">
   <div
     class="card-footer col-md-12 bg-dark"
     style="width: 99.6%"
-    *ngIf="messages && messages.length > 0"
+    *ngIf="messages && messagingToMember"
   >
     <img
       [src]="User ? User.url : './assets/default-avatar.png'"
@@ -17,7 +17,7 @@
 
   <div
     id="messageBox"
-    *ngIf="messages && messages.length > 0"
+    *ngIf="messages"
     infiniteScroll
     [infiniteScrollDistance]="2"
     [infiniteScrollThrottle]="300"
@@ -74,6 +74,18 @@
                     Unread
                   </span>
                 </div>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn"
+                  (click)="deleteMessage(message.messageId)"
+                >
+                  <fa-icon
+                    [icon]="faTrash"
+                    style="color: rgb(255, 87, 120)"
+                  ></fa-icon>
+                </button>
               </td>
             </tr>
           </tbody>

@@ -5,6 +5,7 @@ import { MemberService } from 'src/app/_services/member.service';
 import { Member } from 'src/app/_models/member';
 import { NgForm } from '@angular/forms';
 import { MessageService } from 'src/app/_services/message.service';
+import { NavigationExtras, Router } from '@angular/router';
 @Component({
   selector: 'app-add-chat',
   templateUrl: './add-chat.component.html',
@@ -22,7 +23,8 @@ export class AddChatComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private memberService: MemberService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   onShowModal(templateRef: TemplateRef<any>) {
@@ -54,6 +56,8 @@ export class AddChatComponent implements OnInit {
     this.messageService.createMessage(payload).subscribe({
       next: (response) => {
         this.modalRef?.hide();
+        const route = ['messages/' + this.selectedMember?.userName];
+        this.router.navigate(route);
       },
     });
   }
