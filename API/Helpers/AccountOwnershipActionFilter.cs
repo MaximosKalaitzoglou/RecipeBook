@@ -28,11 +28,7 @@ namespace recipes_app.Helpers
                     return;
                 }
             }
-            else
-            {
-                context.Result = new BadRequestObjectResult("Something went wrong trying to access username param");
-                return;
-            }
+
 
             await next();
 
