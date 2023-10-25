@@ -56,7 +56,7 @@ namespace recipes_app.Data.Repositories
             return await PaginationFilter<MessageDto>.CreateAsync(messages, messageParams.Offset, messageParams.PageSize);
         }
 
-        public async Task<PaginationFilter<MemberDto>> GetMessagingUsers(string currentUserName, UserParams userParams)
+        public async Task<PaginationFilter<MemberDto>> GetMessagingUsers(string currentUserName, MessageParams userParams)
         {
             var senders = _context.Messages
                 .Where(m => m.ReceiverUsername == currentUserName)
@@ -72,9 +72,9 @@ namespace recipes_app.Data.Repositories
 
             var query = senders.Union(receivers).Distinct();
 
-            var messages = query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider);
+            var users = query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider);
 
-            return await PaginationFilter<MemberDto>.CreateAsync(messages, userParams.Offset, userParams.PageSize);
+            return await PaginationFilter<MemberDto>.CreateAsync(users, userParams.Offset, userParams.PageSize);
 
         }
 
@@ -89,10 +89,11 @@ namespace recipes_app.Data.Repositories
             .ThenInclude(r => r.Photo)
             .Where(
                 m => m.ReceiverUsername == currentUserName &&
+                m.ReceiverDeleted == false && 
                 m.SenderUsername == receiverUserName ||
                 (m.ReceiverUsername == receiverUserName &&
-                m.SenderUsername == currentUserName)
-
+                m.SenderUsername == currentUserName &&
+                m.SenderDeleted == false)
                 )
             .OrderByDescending(m => m.DateSend)
             .AsQueryable();

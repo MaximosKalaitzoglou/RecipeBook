@@ -77,7 +77,7 @@ namespace recipes_app.Controllers
         }
 
         [HttpGet("get-users")]
-        public async Task<ActionResult<PaginationFilter<MemberDto>>> GetMessagingUsers([FromQuery] UserParams userParams)
+        public async Task<ActionResult<PaginationFilter<MemberDto>>> GetMessagingUsers([FromQuery] MessageParams userParams)
         {
             var messages = await _messageRepository.GetMessagingUsers(User.GetUsername(), userParams);
             Response.AddPaginationHeader(
@@ -85,6 +85,29 @@ namespace recipes_app.Controllers
                  messages.PageSize, messages.TotalCount, messages.TotalPages));
 
             return Ok(messages);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteMessage(int id)
+        {
+            var username = User.GetUsername();
+            var message = await _messageRepository.GetMessage(id);
+
+            if (message.SenderUsername != username && message.ReceiverUsername != username)
+                return Unauthorized("You are not authorized to delete this message");
+
+            if (message.SenderUsername == username) message.SenderDeleted = true;
+
+            if (message.ReceiverUsername == username) message.ReceiverDeleted = true;
+
+            if (message.SenderDeleted && message.ReceiverDeleted)
+            {
+                _messageRepository.DeleteMessage(message);
+            }
+
+            if( await _memberRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Something went wrong deleting the message");
         }
 
         [HttpGet("socket/{username}")]

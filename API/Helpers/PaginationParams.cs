@@ -7,7 +7,7 @@ namespace recipes_app.Helpers
 {
     public class PaginationParams
     {
-        private const int MaxPageSize = 5;
+        private const int MaxPageSize = 20;
 
         public int Offset { get; set; } = 0;
 
