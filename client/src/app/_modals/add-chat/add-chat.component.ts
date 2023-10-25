@@ -41,7 +41,6 @@ export class AddChatComponent implements OnInit {
       this.memberService.searchMembers(this.searchQuery).subscribe({
         next: (response) => {
           this.members = response;
-          console.log('Got response');
         },
       });
     }, 300);

@@ -11,6 +11,7 @@ import { Member } from 'src/app/_models/member';
 import { Pagination } from 'src/app/_models/pagination';
 import { PaginationParams } from 'src/app/_models/payloads/pagination-params';
 import { MessageService } from 'src/app/_services/message.service';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
   selector: 'app-messaging-users',
@@ -19,37 +20,22 @@ import { MessageService } from 'src/app/_services/message.service';
 })
 export class MessagingUsersComponent implements OnInit, OnDestroy {
   messagingUsers: Member[] | undefined;
-  messagingUserParams: PaginationParams | undefined;
-  pagination: Pagination | undefined;
-
-  usersUpdateSub!: Subscription;
 
   @Output('on-no-chats-found') noChatsFound = new EventEmitter<boolean>();
-  constructor(private messageService: MessageService) {
-    this.messagingUserParams = this.messageService.getMessageParams();
-  }
+  constructor(
+    private messageService: MessageService,
+    public presenceService: PresenceService
+  ) {}
 
   ngOnInit(): void {
     this.loadMessagingUsers();
-    this.usersUpdateSub = this.messageService.updatedMessagingUser.subscribe({
-      next: (response) => {
-        this.messagingUsers?.push(response);
-      },
-    });
   }
-  //TODO: Add paginationFilter on messaging Users
 
   loadMessagingUsers() {
-    if (!this.messagingUserParams) return;
-
-    this.messageService.getMessagingUsers(this.messagingUserParams).subscribe({
+    this.messageService.getMessagingUsers().subscribe({
       next: (response) => {
-        if (response.result && response.pagination) {
-          this.messagingUsers = [
-            ...(this.messagingUsers || []),
-            ...response.result,
-          ];
-          this.pagination = response.pagination;
+        if (response) {
+          this.messagingUsers = response;
           this.noChatsFound.next(
             !this.messagingUsers || this.messagingUsers.length < 1
           );
@@ -58,21 +44,5 @@ export class MessagingUsersComponent implements OnInit, OnDestroy {
     });
   }
 
-  onScroll() {
-    if (this.pagination && this.messagingUserParams) {
-      if (
-        this.messagingUserParams?.allItemsLoaded(this.pagination.totalItems)
-      ) {
-        return;
-      }
-      this.messagingUserParams?.incrementOffset();
-
-      this.loadMessagingUsers();
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.messagingUserParams?.setOffset(0);
-    this.usersUpdateSub.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 }

@@ -6,13 +6,8 @@
 </div>
 <ul
   class="list-group"
-  style="height: 35vw; overflow-y: auto"
+  style="height: 30vw; overflow-y: auto"
   *ngIf="messagingUsers && messagingUsers.length > 0"
-  infiniteScroll
-  [infiniteScrollDistance]="2"
-  [infiniteScrollThrottle]="300"
-  (scrolled)="onScroll()"
-  [scrollWindow]="false"
 >
   <a
     class="list-group-item"
@@ -29,7 +24,20 @@
       class="me-2 img-responsive rounded-circle img-thumbail img-card-top"
     />
     {{ user.alias }}
-    <span class="ms-3 badge bg-primary rounded-pill">5</span>
+    <span
+      class="ms-3 badge rounded-pill"
+      [class.bg-primary]="
+        (presenceService.onlineUsers$ | async)?.includes(user.userName)
+      "
+      [class.bg-danger]="
+        !(presenceService.onlineUsers$ | async)?.includes(user.userName)
+      "
+    >
+      {{
+        (presenceService.onlineUsers$ | async)?.includes(user.userName)
+          ? "online"
+          : "offline"
+      }}
+    </span>
   </a>
-  
 </ul>

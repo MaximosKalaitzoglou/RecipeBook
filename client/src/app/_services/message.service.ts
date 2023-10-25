@@ -20,15 +20,14 @@ export class MessageService {
   apiUrl = environment.apiUrl;
   user: User | null = null;
   messageParams: PaginationParams = new PaginationParams();
-  messagingUsersCache = new Map();
+  messagingUsersCache: Member[] = [];
   messageChatCache = new Map();
 
   updatedMessagingUser = new Subject<Member>();
 
   constructor(
     private http: HttpClient,
-    private accountService: AccountService,
-    private memberService: MemberService
+    private accountService: AccountService
   ) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: (user) => {
@@ -38,7 +37,7 @@ export class MessageService {
   }
 
   getMessageParams() {
-    this.messageParams.setItemsPerPage(5);
+    this.messageParams.setItemsPerPage(7);
     return this.messageParams;
   }
 
@@ -46,31 +45,17 @@ export class MessageService {
     this.messageParams = messageParams;
   }
 
-  getMessagingUsers(messagingUserParams: PaginationParams) {
-    const response = this.messagingUsersCache.get(
-      Object.values(messagingUserParams).join('-')
-    );
-    
-
-    if (response) return of(response);
-
-    let params = getPaginationMessagesHeaders({
-      offset: messagingUserParams.offset,
-      itemsPerPage: messagingUserParams.itemsPerPage,
-    });
-    return getPaginatedResults<Member[]>(
-      this.apiUrl + 'messages/get-users',
-      params,
-      this.http
-    ).pipe(
-      map((response) => {
-        this.messagingUsersCache.set(
-          Object.values(messagingUserParams).join('-'),
-          response
-        );
-        return response;
-      })
-    );
+  getMessagingUsers() {
+    if (this.messagingUsersCache.length > 0)
+      return of(this.messagingUsersCache);
+    return this.http
+      .get<Member[]>(this.apiUrl + 'messages/get-users', getHttpOptions())
+      .pipe(
+        map((response) => {
+          this.messagingUsersCache = response;
+          return response;
+        })
+      );
   }
 
   getMessageSocket(username: string, messageParams: PaginationParams) {
@@ -114,23 +99,7 @@ export class MessageService {
 
           if (chatRoom) {
             chatRoom.result = [response, ...chatRoom.result];
-            console.log(chatRoom);
-          }
-
-          const userCache = this.messagingUsersCache.get(
-            Object.values(this.messageParams).join('-')
-          );
-          if (userCache) {
-            if (
-              !userCache.result.find((m: Member) => m.userName === username)
-            ) {
-              this.memberService.getMemberUsername(username).subscribe({
-                next: (response) => {
-                  userCache.result.push(response);
-                  this.updatedMessagingUser.next(response);
-                },
-              });
-            }
+            // console.log(chatRoom);
           }
           return of(response);
         })
@@ -139,5 +108,10 @@ export class MessageService {
 
   deleteMessage(id: number) {
     return this.http.delete(this.apiUrl + 'messages/' + id, getHttpOptions());
+  }
+
+  clearCaches() {
+    this.messageChatCache = new Map();
+    this.messagingUsersCache = [];
   }
 }
