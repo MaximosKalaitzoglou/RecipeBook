@@ -75,7 +75,13 @@ namespace recipes_app.Helpers
                 opt => opt.MapFrom(src => src.AppUser.Photo.Url)
             );
 
+            CreateMap<DateTime, DateTime>()
+                .ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
 
+            CreateMap<DateTime?, DateTime?>()
+                .ConvertUsing(d =>
+                 d.HasValue ? DateTime.SpecifyKind(d.Value, DateTimeKind.Utc)
+                            : null);
         }
     }
 }

@@ -15,6 +15,10 @@ namespace recipes_app.Data
         public DbSet<Likes> Likes { get; set; }
         public DbSet<Comments> Comments { get; set; }
 
+        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<Connection> Connections { get; set; }
+
         public DbSet<Message> Messages { get; set; }
         public DbSet<AppUser> Users { get; set; }
 
@@ -26,7 +30,7 @@ namespace recipes_app.Data
                 .HasOne(u => u.Receiver)
                 .WithMany(m => m.MessagesReceived)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             modelBuilder.Entity<Message>()
                 .HasOne(u => u.Sender)
                 .WithMany(m => m.MessagesSend)

@@ -23,6 +23,14 @@ namespace recipes_app.Interfaces
 
         Task<PaginationFilter<MessageDto>> GetMessageSocket(string currentUserName, string receiverUserName, UserParams userParams);
 
+        void AddGroup(Group group);
+
+        void RemoveConnection(Connection connection);
+
+        Task<Connection> GetConnection(string connectionId);
+
+        Task<Group> GetMessageGroup(string groupName);
+
         Task<bool> SaveAllAsync();
     }
 
