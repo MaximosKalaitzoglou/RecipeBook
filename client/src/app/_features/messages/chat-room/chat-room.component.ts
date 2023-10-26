@@ -24,9 +24,6 @@ import { User } from 'src/app/_models/user';
   styleUrls: ['./chat-room.component.css'],
 })
 export class ChatRoomComponent implements OnInit, OnDestroy {
-  messageDictionary = new Map<string, Message[]>();
-
-  messages: Message[] | undefined;
   pagination: Pagination | undefined;
   messageChatParams: PaginationParams | undefined;
   paramsSub!: Subscription;
@@ -56,8 +53,11 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     this.memberService.getMemberUsername(username).subscribe({
       next: (response) => {
         this.messagingToMember = response;
+        if (this.messagingToMember)
+          this.messageService.HasNotChattedWith(this.messagingToMember);
       },
     });
+
     this.paginationSub = this.messageService.pagination$.subscribe({
       next: (pagination) => {
         this.pagination = pagination;
@@ -99,10 +99,13 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   deleteMessage(id: number) {
     this.messageService.deleteMessage(id).subscribe({
       next: (_) => {
-        this.messages?.splice(
-          this.messages.findIndex((m) => m.messageId == id),
-          1
-        );
+        this.messageService.messageSocket$.pipe(take(1)).subscribe({
+          next: (messages) =>
+            messages?.splice(
+              messages.findIndex((m) => m.messageId == id),
+              1
+            ),
+        });
       },
     });
   }

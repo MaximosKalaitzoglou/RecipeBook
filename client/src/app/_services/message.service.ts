@@ -32,6 +32,9 @@ export class MessageService {
   hubUrl = environment.hubUrl;
   private hubConnection?: HubConnection;
   private messageSocketSource = new BehaviorSubject<Message[]>([]);
+  private messagingUsersSource = new BehaviorSubject<Member[]>([]);
+
+  messagingUsers$ = this.messagingUsersSource.asObservable();
 
   pagination$ = new Subject<Pagination>();
 
@@ -39,6 +42,7 @@ export class MessageService {
 
   user: User | null = null;
   messageParams: PaginationParams = new PaginationParams();
+
   messagingUsersCache: Member[] = [];
   messageChatCache = new Map();
 
@@ -70,12 +74,11 @@ export class MessageService {
       this.pagination$.next(paginatedResponse.paginationHeader);
     });
 
-    this.hubConnection.on('NewMessage', (message:Message) => {
+    this.hubConnection.on('NewMessage', (message: Message) => {
       this.messageSocket$.pipe(take(1)).subscribe({
         next: (messages) => {
           this.messageSocketSource.next([message, ...messages]);
           console.log(message.dateSend);
-          
         },
       });
     });
@@ -103,16 +106,22 @@ export class MessageService {
   }
 
   getMessagingUsers() {
-    if (this.messagingUsersCache.length > 0)
-      return of(this.messagingUsersCache);
     return this.http
       .get<Member[]>(this.apiUrl + 'messages/get-users', getHttpOptions())
       .pipe(
         map((response) => {
-          this.messagingUsersCache = response;
+          this.messagingUsersSource.next(response);
           return response;
         })
       );
+  }
+
+  HasNotChattedWith(user: Member) {
+    const users = this.messagingUsersSource.getValue();
+    if (!users.find((u) => u === user)) {
+      const updatedUsers = [...users, user];
+      this.messagingUsersSource.next(updatedUsers);
+    }
   }
 
   getMessageSocket(username: string, messageParams: PaginationParams) {

@@ -23,7 +23,6 @@ export class AddChatComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private memberService: MemberService,
-    private messageService: MessageService,
     private router: Router
   ) {}
 

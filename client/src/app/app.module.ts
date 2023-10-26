@@ -48,6 +48,7 @@ import { MessagingUsersComponent } from './_features/messages/messaging-users/me
 import { AddChatComponent } from './_modals/add-chat/add-chat.component';
 import { MessageService } from './_services/message.service';
 import { TimeAgoPipe } from './_pipes/time-ago.pipe';
+import { MessageInboxComponent } from './_modals/message-inbox/message-inbox.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { TimeAgoPipe } from './_pipes/time-ago.pipe';
     MessagingUsersComponent,
     AddChatComponent,
     TimeAgoPipe,
+    MessageInboxComponent,
   ],
   imports: [
     BrowserModule,

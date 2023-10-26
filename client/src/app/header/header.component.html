@@ -15,11 +15,6 @@
             >Messages</a
           >
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" routerLink="/messages" routerLinkActive="active"
-            >Messages</a
-          >
-        </li> -->
       </ng-container>
     </ul>
 
@@ -42,7 +37,7 @@
         dropdownToggle
         >Welcome {{ user.userName | titlecase }}</a
       >
-      <!-- TODO: Implement components for links -->
+
       <div class="dropdown-menu mt-2" *dropdownMenu>
         <a [routerLink]="'/users/' + currentUser" class="dropdown-item"
           >My Recipes</a

@@ -7,7 +7,7 @@
 <ul
   class="list-group"
   style="height: 30vw; overflow-y: auto"
-  *ngIf="messagingUsers && messagingUsers.length > 0"
+  *ngIf="messageService.messagingUsers$ | async as messagingUsers"
 >
   <a
     class="list-group-item"

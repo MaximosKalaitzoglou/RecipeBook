@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faInbox } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from '../_services/account.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
