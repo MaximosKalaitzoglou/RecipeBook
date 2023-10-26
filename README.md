@@ -24,7 +24,7 @@ RecipeBook is a web-based platform where users can share and discover recipes. I
 
 - **User Messaging**: Send and receive messages to other users, facilitating private conversations and communication.
 
-- **Real-Time Messaging**: Real-time messaging functionality using SignalR providing instant message delivery.
+- **Real-Time Messaging (Coming Soon)**: Real-time messaging functionality using SignalR is currently in development and will be added soon to provide instant message delivery.
 
 ## Getting Started
 
