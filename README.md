@@ -14,7 +14,7 @@
 
 ## Introduction
 
-RecipeBook is a web-based platform where users can share and discover recipes. It is built using Angular for the frontend, .NET Web API for the backend, and MariaDB for the database. The project includes features like user authentication with JWT, recipe management, liking/commenting on recipes, and real-time messaging capabilities through SignalR.(coming-soon)
+RecipeBook is a web-based platform where users can share and discover recipes. It is built using Angular for the frontend, .NET Web API for the backend, and MariaDB for the database. The project includes features like user authentication with JWT, recipe management, liking/commenting on recipes, and real-time messaging capabilities through SignalR.
 
 ## Project Features
 
@@ -26,7 +26,8 @@ RecipeBook is a web-based platform where users can share and discover recipes. I
 
 - **User Messaging**: Send and receive messages to other users, facilitating private conversations and communication.
 
-- **Real-Time Messaging (Coming Soon)**: Real-time messaging functionality using SignalR is currently in development and will be added soon to provide instant message delivery.
+- **Real-Time Messaging**: Real-time messaging functionality using SignalR providing instant message delivery.
+
 
 ## Getting Started
 
