@@ -19,12 +19,16 @@ namespace recipes_app.SignalR
 
         private readonly IMapper _mapper;
 
+        private readonly IHubContext<PresenceHub> _presenceHub;
 
-        public ChatHub(IMessageRepository messageRepository, IMemberRepository memberRepository, IMapper mapper)
+        public ChatHub(IMessageRepository messageRepository,
+         IMemberRepository memberRepository, IMapper mapper,
+         IHubContext<PresenceHub> presenceHub)
         {
             _messageRepository = messageRepository;
             _memberRepository = memberRepository;
             _mapper = mapper;
+            _presenceHub = presenceHub;
         }
 
         public async override Task OnConnectedAsync()
@@ -86,6 +90,16 @@ namespace recipes_app.SignalR
             if (group.Connections.Any(x => x.UserName == receiver.UserName))
             {
                 message.DateRead = DateTime.UtcNow;
+            }
+            else
+            {
+                var connections = await PresenceTracker.GetConnectionsForUser(receiver.UserName);
+                if (connections != null)
+                {
+                    await _presenceHub.Clients.Clients(connections)
+                    .SendAsync("NewMessageReceived",
+                    new { username = sender.UserName, alias = sender.Alias });
+                }
             }
 
             _messageRepository.AddMessage(message);
