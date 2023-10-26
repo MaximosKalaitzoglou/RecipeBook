@@ -1,5 +1,6 @@
 
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using recipes_app.DTOs.Request;
 using recipes_app.DTOs.Response;
@@ -10,6 +11,7 @@ using recipes_app.Models;
 
 namespace recipes_app.SignalR
 {
+    [Authorize]
     public class ChatHub : Hub
     {
         private readonly IMessageRepository _messageRepository;
@@ -33,7 +35,15 @@ namespace recipes_app.SignalR
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
             var messages = await _messageRepository.GetMessageSocket(Context.User.GetUsername(), otherUser, new UserParams());
 
-            await Clients.Group(groupName).SendAsync("ReceiveMessageSocket", messages);
+            var paginationHeader = new PaginationHeader(messages.Offset, messages.PageSize, messages.TotalCount, messages.TotalPages);
+
+            var response = new
+            {
+                Messages = messages,
+                PaginationHeader = paginationHeader
+            };
+
+            await Clients.Group(groupName).SendAsync("ReceiveMessageSocket", response);
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
@@ -71,8 +81,12 @@ namespace recipes_app.SignalR
                 var group = GetGroupName(sender.UserName, receiver.UserName);
                 await Clients.Group(group).SendAsync("NewMessage", _mapper.Map<MessageDto>(message));
             }
+            else
+            {
 
-            throw new HubException("Something went wrong sending the message");
+                throw new HubException("Something went wrong sending the message");
+            }
+
         }
 
         public async Task LoadMoreMessages(string otherUser, int offset, int pageSize)
@@ -87,7 +101,7 @@ namespace recipes_app.SignalR
 
             var messages = await _messageRepository.GetMessageSocket(Context.User.GetUsername(), otherUser, userParams);
 
-            await Clients.Group(groupName).SendAsync("ReceiveMessageSocket", messages);
+            await Clients.Group(groupName).SendAsync("LoadOlderMessages", messages);
         }
 
         private string GetGroupName(string caller, string other)
