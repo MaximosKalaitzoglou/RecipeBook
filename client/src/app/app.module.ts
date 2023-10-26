@@ -47,6 +47,7 @@ import { ChatRoomComponent } from './_features/messages/chat-room/chat-room.comp
 import { MessagingUsersComponent } from './_features/messages/messaging-users/messaging-users.component';
 import { AddChatComponent } from './_modals/add-chat/add-chat.component';
 import { MessageService } from './_services/message.service';
+import { TimeAgoPipe } from './_pipes/time-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { MessageService } from './_services/message.service';
     ChatRoomComponent,
     MessagingUsersComponent,
     AddChatComponent,
+    TimeAgoPipe,
   ],
   imports: [
     BrowserModule,

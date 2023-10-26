@@ -70,10 +70,12 @@ export class MessageService {
       this.pagination$.next(paginatedResponse.paginationHeader);
     });
 
-    this.hubConnection.on('NewMessage', (message) => {
+    this.hubConnection.on('NewMessage', (message:Message) => {
       this.messageSocket$.pipe(take(1)).subscribe({
         next: (messages) => {
           this.messageSocketSource.next([message, ...messages]);
+          console.log(message.dateSend);
+          
         },
       });
     });
