@@ -90,23 +90,13 @@
           <fa-icon [icon]="faClose"></fa-icon>
         </button>
       </a>
-      <div *ngIf="userSelected">
-        <textarea
-          name="message"
-          id="messageText"
-          rows="4"
-          class="form-control bg-dark"
-          placeholder="Message..."
-          ngModel
-          required
-        ></textarea>
-      </div>
+
       <button
         type="submit"
         class="btn btn-info"
         [disabled]="!messageForm.valid || !userSelected"
       >
-        Send Message
+        Chat
       </button>
     </form>
   </div>
