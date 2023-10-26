@@ -52,12 +52,10 @@ export class AddChatComponent implements OnInit {
       receiverUsername: this.selectedMember?.userName,
       content: form.value.message,
     };
-    this.messageService.createMessage(payload).subscribe({
-      next: (response) => {
-        this.modalRef?.hide();
-        const route = ['messages/' + this.selectedMember?.userName];
-        this.router.navigate(route);
-      },
+    this.messageService.createMessage(payload).then(() => {
+      this.modalRef?.hide();
+      const route = ['messages/' + this.selectedMember?.userName];
+      this.router.navigate(route);
     });
   }
 

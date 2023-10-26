@@ -1,8 +1,8 @@
-<div *ngIf="messages">
+<div *ngIf="messageService.messageSocket$ | async as messageSocket">
   <div
     class="card-footer col-md-12 bg-dark"
     style="width: 99.6%"
-    *ngIf="messages && messagingToMember"
+    *ngIf="messagingToMember"
   >
     <img
       [src]="User ? User.url : './assets/default-avatar.png'"
@@ -17,7 +17,7 @@
 
   <div
     id="messageBox"
-    *ngIf="messages"
+    *ngIf="messageSocket"
     infiniteScroll
     [infiniteScrollDistance]="2"
     [infiniteScrollThrottle]="300"
@@ -26,7 +26,7 @@
   >
     <div class="card-body" style="list-style: none">
       <div
-        *ngFor="let message of messages"
+        *ngFor="let message of messageSocket"
         [ngClass]="
           message.senderUsername === currentUser
             ? 'float-end me-3'
