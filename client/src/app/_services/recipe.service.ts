@@ -163,7 +163,10 @@ export class RecipeService {
       )
       .pipe(
         tap((response) => {
-          this.recipes.push(response);
+          const recipes = this.recipesCache.get(
+            Object.values(new PaginationParams()).join('-')
+          );
+          recipes.result = [response, ...recipes.result];
         })
       );
   }

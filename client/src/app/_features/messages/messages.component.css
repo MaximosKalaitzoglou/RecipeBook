@@ -9,11 +9,3 @@
    color: #b0b0b0;
    font-weight: bold;
 }
-
-.messages-container {
-  background-color: #000; /* Black background color */
-  color: #fff; /* Text color to make it readable on a black background */
-  margin: 0; /* Remove margins */
-  padding: 0; /* Remove padding */
-  min-height: 100vh; /* Set the minimum height to cover the entire viewport height */
-}
