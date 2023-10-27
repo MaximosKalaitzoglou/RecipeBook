@@ -45,7 +45,6 @@ export class MessageService {
 
   messagingUsersCache: Member[] = [];
   messageChatCache = new Map();
-
   updatedMessagingUser = new Subject<Member>();
 
   constructor(
@@ -57,6 +56,7 @@ export class MessageService {
         this.user = user;
       },
     });
+
   }
 
   createHubConnection(user: User, otherUsername: string) {
@@ -78,7 +78,6 @@ export class MessageService {
       this.messageSocket$.pipe(take(1)).subscribe({
         next: (messages) => {
           this.messageSocketSource.next([message, ...messages]);
-          console.log(message.dateSend);
         },
       });
     });
@@ -118,7 +117,8 @@ export class MessageService {
 
   HasNotChattedWith(user: Member) {
     const users = this.messagingUsersSource.getValue();
-    if (!users.find((u) => u === user)) {
+
+    if (!users.find((u: Member) => u.userName === user.userName)) {
       const updatedUsers = [...users, user];
       this.messagingUsersSource.next(updatedUsers);
     }

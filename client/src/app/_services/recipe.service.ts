@@ -19,11 +19,6 @@ import { getHttpOptions } from './http-headers-helper';
   providedIn: 'root',
 })
 export class RecipeService {
-  // private recipesSocketSource = new BehaviorSubject<Recipe[]>([]);
-
-  // recipes$ = this.recipesSocketSource.asObservable();
-
-  private recipes: Recipe[] = [];
   recipesCache = new Map();
 
   recipeParams: PaginationParams = new PaginationParams();
@@ -114,11 +109,7 @@ export class RecipeService {
   }
 
   getRecipes(recipeParams: PaginationParams) {
-    const response = this.recipesCache.get(
-      Object.values(recipeParams).join('-')
-    );
-
-    if (response) return of(response);
+ 
     let params = getPaginationRecipesHeaders(recipeParams);
 
     return getPaginatedResults<Recipe[]>(
@@ -135,8 +126,6 @@ export class RecipeService {
 
   //View Recipe
   getRecipeById(id: number) {
-    const recipe = this.findRecipe(id);
-    if (recipe) return of(recipe);
     return this.http.get<Recipe>(
       this.apiUrl + 'recipes/' + id,
       getHttpOptions()
@@ -144,10 +133,7 @@ export class RecipeService {
   }
   //Edit Recipe
   getRecipeByIdToEdit(id: number) {
-    const recipe = this.findRecipe(id);
-    if (recipe) {
-      return of(recipe);
-    }
+
     return this.http.get<Recipe>(
       this.apiUrl + 'recipes/' + id + '/edit',
       getHttpOptions()
@@ -161,45 +147,22 @@ export class RecipeService {
         recipe,
         getHttpOptions()
       )
-      .pipe(
-        tap((response) => {
-          const recipes = this.recipesCache.get(
-            Object.values(new PaginationParams()).join('-')
-          );
-          recipes.result = [response, ...recipes.result];
-        })
-      );
+      .pipe(tap((response) => {}));
   }
 
   updateRecipe(idx: number, recipe: RecipePayload) {
     return this.http
       .put(this.apiUrl + 'recipes/' + idx, recipe, getHttpOptions())
-      .pipe(
-        tap((res) => {
-          this.recipes = this.recipes.map((rec) => {
-            if (rec.id === idx) {
-              rec = { ...rec, ...recipe };
-            }
-            return rec;
-          });
-        })
-      );
+      .pipe(tap((res) => {}));
   }
 
   deleteRecipe(id: number) {
     return this.http
       .delete(this.apiUrl + 'recipes/' + id, getHttpOptions())
-      .pipe(
-        tap((res) => {
-          // console.log(response);
-          this.recipes = this.recipes.filter((rec, i) => rec.id !== id);
-          this.recipesChanged.next(this.recipes.slice());
-        })
-      );
+      .pipe(tap((res) => {}));
   }
 
   clearCachedRecipes() {
-    this.recipes = [];
     this.recipesCache = new Map();
   }
 }

@@ -221,7 +221,7 @@ export class RecipeFormComponent implements OnDestroy {
   }
 
   navigateAway() {
-    this.router.navigate(['..'], { relativeTo: this.route });
+    this.router.navigate(['recipes']);
   }
 
   onCancelForm() {

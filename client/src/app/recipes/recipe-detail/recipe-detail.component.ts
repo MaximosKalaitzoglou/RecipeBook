@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../../_services/recipe.service';
-import { ActivatedRoute, Data, Params, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Data,
+  NavigationExtras,
+  Params,
+  Router,
+} from '@angular/router';
 
 import {
   faBars,
@@ -61,7 +67,7 @@ export class RecipeDetailComponent implements OnInit {
   onDeleteRecipe() {
     this.recipeService.deleteRecipe(this.id).subscribe({
       next: (_) => {
-        this.router.navigate(['..'], { relativeTo: this.route });
+        this.router.navigate(['recipes']);
       },
     });
   }
