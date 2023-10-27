@@ -24,7 +24,11 @@ RecipeBook is a web-based platform where users can share and discover recipes. I
 
 - **User Messaging**: Send and receive messages to other users, facilitating private conversations and communication.
 
+<<<<<<< HEAD
 - **Real-Time Messaging (Coming Soon)**: Real-time messaging functionality using SignalR is currently in development and will be added soon to provide instant message delivery.
+=======
+- **Real-Time Messaging**: Real-time messaging functionality using SignalR providing instant message delivery.
+>>>>>>> 62119e2 (Add LICENSE and README update)
 
 ## Getting Started
 
@@ -109,9 +113,15 @@ If you don't have a Cloudinary account yet, you can easily sign up for one for f
 
 This project uses a variety of technologies and libraries to provide a better user experience and functionality:
 
+<<<<<<< HEAD
 - **Angular (v16.2.10)**: RecipeBook's frontend is built using Angular 16.2.10, a popular and robust JavaScript framework that provides a responsive and dynamic user interface. [Learn more](https://angular.io/)
 
 - **Bootstrap (v5.3.2)** and **Bootswatch**: RecipeBook utilizes Bootstrap 5.3.2, a front-end framework, along with Bootswatch themes to ensure a sleek and visually appealing design.
+=======
+- **Angular (v16.2.10)**: RecipeBook's frontend is built using Angular 12, a popular and robust JavaScript framework that provides a responsive and dynamic user interface. [Learn more](https://angular.io/)
+
+- **Bootstrap (v5.3.2)** and **Bootswatch**: RecipeBook utilizes Bootstrap 5, a front-end framework, along with Bootswatch themes to ensure a sleek and visually appealing design.
+>>>>>>> 62119e2 (Add LICENSE and README update)
 
 - **ngx-bootstrap (v11.0.2)**: ngx-bootstrap is an essential part of the project, offering Angular implementations of Bootstrap components. [Documentation](https://valor-software.com/ngx-bootstrap/)
 
