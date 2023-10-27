@@ -142,5 +142,18 @@ namespace recipes_app.Data.Repositories
             return await _context.Groups.Include(x => x.Connections)
             .FirstOrDefaultAsync(x => x.Name == groupName);
         }
+
+        public async Task<List<string>> GetConnectionsForGroup(string groupName)
+        {
+            var group = await _context.Groups.Include(x => x.Connections)
+            .FirstOrDefaultAsync(x => x.Name == groupName);
+
+            if (group == null) return null;
+            
+            var connectionIds = group.Connections.Select(connection => connection.ConnectionId).ToList();
+
+
+            return connectionIds;
+        }
     }
 }

@@ -31,6 +31,8 @@ namespace recipes_app.Interfaces
 
         Task<Group> GetMessageGroup(string groupName);
 
+        Task<List<string>> GetConnectionsForGroup(string groupName);
+
         Task<bool> SaveAllAsync();
     }
 

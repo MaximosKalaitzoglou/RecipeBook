@@ -44,13 +44,14 @@ namespace recipes_app.SignalR
 
             var paginationHeader = new PaginationHeader(messages.Offset, messages.PageSize, messages.TotalCount, messages.TotalPages);
 
+
             var response = new
             {
                 Messages = messages,
                 PaginationHeader = paginationHeader
             };
 
-            await Clients.Group(groupName).SendAsync("ReceiveMessageSocket", response);
+            await Clients.Caller.SendAsync("ReceiveMessageSocket", response);
         }
 
         public async override Task OnDisconnectedAsync(Exception exception)
@@ -154,9 +155,9 @@ namespace recipes_app.SignalR
 
         private string GetGroupName(string caller, string other)
         {
-            var stringCompare = string.CompareOrdinal(caller, other) < 0;
+            // var stringCompare = string.CompareOrdinal(caller, other) < 0;
 
-            return stringCompare ? $"{caller}-{other}" : $"{other}-{caller}";
+            return $"{caller}-{other}";
         }
     }
 }
