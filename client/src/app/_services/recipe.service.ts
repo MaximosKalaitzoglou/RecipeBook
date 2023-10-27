@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, catchError, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Subject, catchError, map, of, tap } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Recipe } from '../_models/recipe';
@@ -19,6 +19,10 @@ import { getHttpOptions } from './http-headers-helper';
   providedIn: 'root',
 })
 export class RecipeService {
+  // private recipesSocketSource = new BehaviorSubject<Recipe[]>([]);
+
+  // recipes$ = this.recipesSocketSource.asObservable();
+
   private recipes: Recipe[] = [];
   recipesCache = new Map();
 

@@ -1,8 +1,7 @@
-<div class="container">
+<div class="container ">
   <div class="row">
     <div class="col" style="background-color: #333">
       <app-messaging-users (on-no-chats-found)="onNoChatsFound($event)"></app-messaging-users>
-      <!-- <app-add-chat></app-add-chat> -->
     </div>
     <div class="col-md-8">
       <div class="mt-5" *ngIf="noChatsFound" id="quote">
@@ -23,13 +22,4 @@
   </div>
 </div>
 
-<!-- <div class="d-flex justify-content-center" *ngIf="pagination">
-  <div
-    class="search-results"
-    infiniteScroll
-    [infiniteScrollDistance]="2"
-    [infiniteScrollThrottle]="300"
-    (scrolled)="onScroll()"
-    [scrollWindow]="true"
-  ></div>
-</div> -->
+

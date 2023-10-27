@@ -123,4 +123,7 @@ This project uses a variety of technologies and libraries to provide a better us
 
 - **Font Awesome**: Font Awesome is used to enhance the visual appeal of the project through a collection of high-quality icons. [Learn more](https://fontawesome.com/)
 
+- [Random User API](https://randomuser.me/): Used to generate random user data and profile images for the project's users.
+
+
 With the help of these technologies, you can finally explore the Cook side of you!
