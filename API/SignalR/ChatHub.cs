@@ -51,7 +51,7 @@ namespace recipes_app.SignalR
                 PaginationHeader = paginationHeader
             };
 
-            await Clients.Caller.SendAsync("ReceiveMessageSocket", response);
+            await Clients.Group(groupName).SendAsync("ReceiveMessageSocket", response);
         }
 
         public async override Task OnDisconnectedAsync(Exception exception)
@@ -155,9 +155,9 @@ namespace recipes_app.SignalR
 
         private string GetGroupName(string caller, string other)
         {
-            // var stringCompare = string.CompareOrdinal(caller, other) < 0;
+            var stringCompare = string.CompareOrdinal(caller, other) < 0;
 
-            return $"{caller}-{other}";
+            return stringCompare ? $"{caller}-{other}" : $"{other}-{caller}";
         }
     }
 }
