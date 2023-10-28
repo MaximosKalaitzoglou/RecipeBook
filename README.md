@@ -121,6 +121,10 @@ This project uses a variety of technologies and libraries to provide a better us
 
 - **ngx-infinite-scroll (v16.0.0)**: ngx-infinite-scroll is used to enable seamless and efficient infinite scrolling for pagination. [GitHub Repository](https://github.com/orizens/ngx-infinite-scroll)
 
+- **ngx-spinner (v16.0.2)**: ngx-spinner is used for providing loading spinners and indicators. [GitHub Repository](https://github.com/Napster2210/ngx-spinner)
+
+- **ngx-toastr (v17.0.2)**: ngx-toastr is used for displaying toast notifications. [GitHub Repository](https://github.com/scttcper/ngx-toastr)
+
 - **Font Awesome**: Font Awesome is used to enhance the visual appeal of the project through a collection of high-quality icons. [Learn more](https://fontawesome.com/)
 
 - [Random User API](https://randomuser.me/): Used to generate random user data and profile images for the project's users.
