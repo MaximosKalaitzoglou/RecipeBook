@@ -93,14 +93,14 @@ namespace recipes_app.Controllers
             if (message.SenderUsername != username && message.ReceiverUsername != username)
                 return Unauthorized("You are not authorized to delete this message");
 
-            if (message.SenderUsername == username) message.SenderDeleted = true;
+            // if (message.SenderUsername == username) message.SenderDeleted = true;
 
-            if (message.ReceiverUsername == username) message.ReceiverDeleted = true;
+            // if (message.ReceiverUsername == username) message.ReceiverDeleted = true;
 
-            if (message.SenderDeleted && message.ReceiverDeleted)
-            {
-                _messageRepository.DeleteMessage(message);
-            }
+            // if (message.SenderDeleted && message.ReceiverDeleted)
+            // {
+            // }
+            _messageRepository.DeleteMessage(message);
 
             if (await _memberRepository.SaveAllAsync()) return NoContent();
 

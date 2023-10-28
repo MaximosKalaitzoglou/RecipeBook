@@ -51,7 +51,7 @@ namespace recipes_app.SignalR
                 PaginationHeader = paginationHeader
             };
 
-            await Clients.Group(groupName).SendAsync("ReceiveMessageSocket", response);
+            await Clients.Caller.SendAsync("ReceiveMessageSocket", response);
         }
 
         public async override Task OnDisconnectedAsync(Exception exception)
